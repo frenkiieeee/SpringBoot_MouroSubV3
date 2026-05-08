@@ -35,7 +35,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
 
-    public Usuario() {}
+    public Usuario(String carlos, String lópezMartínez, String mail, String s, String number, String string, String id, String s1, LocalDate localDate) {}
 
     public Usuario(String password, String nombre, String apellidos, String email, String dni,
                    String telefono, String direccion, String codPostal,

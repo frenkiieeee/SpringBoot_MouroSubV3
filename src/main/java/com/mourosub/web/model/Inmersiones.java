@@ -2,14 +2,13 @@ package com.mourosub.web.model;
 
 import jakarta.persistence.*;
 
-// convertimos la clase en una entidad de jpa
+
 @Entity
-// la conectamos con su tabla correspondiente
 @Table(name = "inmersiones")
 public class Inmersiones {
 
-    // identificador principal
-    @Id
+
+    @Id // identificador principal
     // autoincremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idInmersion;
@@ -19,8 +18,6 @@ public class Inmersiones {
     private String nombre;
 
     // getters y setters
-
-
     public Long getIdInmersion() {
         return idInmersion;
     }
