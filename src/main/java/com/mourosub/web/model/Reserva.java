@@ -11,14 +11,21 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReserva;
-
+    @Column(nullable = false, length = 50)
     private String tipoServicio;
+    @Column(length = 100)
     private String refServicio;
+    @Column(length = 100)
     private String refServicioId;
+    @Column(nullable = false) 
     private Integer numParticipantes;
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precioTotal;
+    @Column(length = 20)
     private String estado;
+    @Column(nullable = false)
     private LocalDate fechaReserva;
+    @Column(nullable = false)
     private LocalDate fechaActividad;
 
     @ManyToOne

@@ -9,10 +9,13 @@ public class Instructor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_instructor")
     private Long idInstructor;
-
+    @Column(nullable = false, length = 150)
     private String nombre;
+    @Column(length = 20)
     private String dni;
+    @Column(length = 255)
     private String certificaciones;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)

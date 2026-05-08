@@ -11,15 +11,23 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
-
+    @Column(nullable = false, length = 100)
     private String nombre;
+    @Column(nullable = false, length = 150)
     private String apellidos;
+    @Column(length = 255)
     private String email;
+    @Column(length = 20)
     private String dni;
+    @Column(length = 20)
     private String telefono;
+    @Column(length = 255)
     private String direccion;
+    @Column(length = 10)
     private String codPostal;
+    @Column(length = 100)
     private String localidad;
+    @Column
     private LocalDate fechaNacimiento;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
