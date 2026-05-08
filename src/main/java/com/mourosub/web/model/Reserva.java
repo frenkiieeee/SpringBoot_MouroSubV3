@@ -1,6 +1,7 @@
 package com.mourosub.web.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -12,29 +13,58 @@ public class Reserva {
     private Long idReserva;
 
     private String tipoServicio;
-    private LocalDate fechaReserva;
+    private String refServicio;
+    private String refServicioId;
+    private Integer numParticipantes;
+    private BigDecimal precioTotal;
     private String estado;
+    private LocalDate fechaReserva;
+    private LocalDate fechaActividad;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "id_instructor")
+    private Instructor instructor;
+
     public Reserva() {}
 
-    public Reserva(String tipoServicio, String estado, Usuario usuario) {
+    public Reserva(String tipoServicio, String refServicio, String refServicioId,
+                   Integer numParticipantes, BigDecimal precioTotal, String estado,
+                   LocalDate fechaActividad, Usuario usuario, Instructor instructor) {
         this.tipoServicio = tipoServicio;
-        this.fechaReserva = LocalDate.now();
+        this.refServicio = refServicio;
+        this.refServicioId = refServicioId;
+        this.numParticipantes = numParticipantes;
+        this.precioTotal = precioTotal;
         this.estado = estado;
+        this.fechaReserva = LocalDate.now();
+        this.fechaActividad = fechaActividad;
         this.usuario = usuario;
+        this.instructor = instructor;
     }
 
-    // Getters y Setters
     public Long getIdReserva() { return idReserva; }
     public String getTipoServicio() { return tipoServicio; }
     public void setTipoServicio(String tipoServicio) { this.tipoServicio = tipoServicio; }
-    public LocalDate getFechaReserva() { return fechaReserva; }
+    public String getRefServicio() { return refServicio; }
+    public void setRefServicio(String refServicio) { this.refServicio = refServicio; }
+    public String getRefServicioId() { return refServicioId; }
+    public void setRefServicioId(String refServicioId) { this.refServicioId = refServicioId; }
+    public Integer getNumParticipantes() { return numParticipantes; }
+    public void setNumParticipantes(Integer numParticipantes) { this.numParticipantes = numParticipantes; }
+    public BigDecimal getPrecioTotal() { return precioTotal; }
+    public void setPrecioTotal(BigDecimal precioTotal) { this.precioTotal = precioTotal; }
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
+    public LocalDate getFechaReserva() { return fechaReserva; }
+    public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
+    public LocalDate getFechaActividad() { return fechaActividad; }
+    public void setFechaActividad(LocalDate fechaActividad) { this.fechaActividad = fechaActividad; }
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public Instructor getInstructor() { return instructor; }
+    public void setInstructor(Instructor instructor) { this.instructor = instructor; }
 }
