@@ -6,6 +6,7 @@ import com.mourosub.web.model.Usuario;
 import com.mourosub.web.repository.InstructorRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
+@ConditionalOnProperty(prefix = "app.seed", name = "enabled", havingValue = "true")
 public class DataLoader implements CommandLineRunner {
 
     private final UsuarioRepository usuarioRepo;
