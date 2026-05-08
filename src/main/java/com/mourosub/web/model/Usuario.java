@@ -49,6 +49,9 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getPassword() { return password;  }
+    public void setPassword(String password) {this.password = password;}
+    public void setIdUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
     public Long getIdUsuario() { return idUsuario; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
