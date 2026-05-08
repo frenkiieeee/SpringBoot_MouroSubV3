@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 // la conectamos con su tabla correspondiente
 @Table(name = "inmersiones")
-public class Inmersion {
+public class Inmersiones {
 
     // identificador principal
     @Id
