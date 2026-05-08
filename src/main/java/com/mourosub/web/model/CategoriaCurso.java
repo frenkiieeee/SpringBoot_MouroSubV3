@@ -2,15 +2,14 @@ package com.mourosub.web.model;
 
 import jakarta.persistence.*;
 
-// mapeamos la clase contra la base de datos
+
 @Entity
-// nombre real de la tabla en sql
+
 @Table(name = "categoria_cursos")
 public class CategoriaCurso {
 
-    // clave principal
-    @Id
-    // se genera de forma automatica
+
+    @Id // clave principal
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
 
@@ -23,7 +22,6 @@ public class CategoriaCurso {
     private String descripcion;
 
     // getters y setters
-
 
     public Long getIdCategoria() {
         return idCategoria;

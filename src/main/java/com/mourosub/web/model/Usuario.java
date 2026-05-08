@@ -11,6 +11,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
+    @Column(nullable = false)
+    private String password;
     @Column(nullable = false, length = 100)
     private String nombre;
     @Column(nullable = false, length = 150)
@@ -33,11 +35,12 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
 
-    public Usuario() {}
+    public Usuario(String carlos, String lópezMartínez, String mail, String s, String number, String string, String id, String s1, LocalDate localDate) {}
 
-    public Usuario(String nombre, String apellidos, String email, String dni,
+    public Usuario(String password, String nombre, String apellidos, String email, String dni,
                    String telefono, String direccion, String codPostal,
                    String localidad, LocalDate fechaNacimiento) {
+        this.password = password;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
@@ -49,6 +52,9 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getPassword() { return password;  }
+    public void setPassword(String password) {this.password = password;}
+    public void setIdUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
     public Long getIdUsuario() { return idUsuario; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

@@ -26,7 +26,7 @@ public class UsuarioController {
     // GET /usuarios/nuevo → formulario
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuario", new Usuario("Carlos", "López Martínez", "carlos@email.com", "87654321B", "612345678", "Calle Mayor 10", "12540", "Vila-real", LocalDate.of(1990, 5, 15)));
         return "usuarios/formulario";
     }
 

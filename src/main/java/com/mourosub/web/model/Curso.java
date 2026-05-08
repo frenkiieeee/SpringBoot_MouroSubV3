@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 @Table(name = "cursos")
 public class Curso {
 
-    // id del curso
+
     @Id
     // autoincremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCurso;
 
-    // esta es la magia para crear una clave foranea muchos a uno
+    // fk muchos a uno
     @ManyToOne
-    // le indicamos que columna fisica guarda el id de la categoria
+    // le indicamos que columna guarda el id de la categoria
     @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaCurso categoria;
 
@@ -34,9 +34,10 @@ public class Curso {
     private String nivelRequerido = "ninguno";
 
     // horas totales del curso
+    @Column
     private Integer duracionHoras;
 
-    // en buceo los grupos suelen ser pequeños por defecto 6
+    // los grupos por defecto 6
     @Column(nullable = false)
     private Integer plazasMax = 6;
 
@@ -49,7 +50,6 @@ public class Curso {
     private Boolean activo = true;
 
     // getters y setters
-
 
     public Long getIdCurso() {
         return idCurso;

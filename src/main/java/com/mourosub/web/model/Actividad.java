@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 @Table(name = "actividades")
 public class Actividad {
 
-    // marcamos este campo como la clave primaria
-    @Id
-    // esto es el equivalente al serial o auto increment
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idActividad;
+
+    @Id   // marcamos este campo como la clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // esto es el equivalente al auto increment
+    private Long idActividad; // long es un INT con mas limite
 
     // es una columna obligatoria y de maximo 150 caracteres
     @Column(nullable = false, length = 150)
@@ -47,7 +46,6 @@ public class Actividad {
     private Boolean activo = true;
 
     // getter y setters
-
 
     public Long getIdActividad() {
         return idActividad;
