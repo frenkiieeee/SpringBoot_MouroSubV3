@@ -22,14 +22,24 @@ public class Alquileres {
 
     @Column (nullable = false)
     private Boolean disponible = true;
+     // RELACIÓN CON MATERIAL
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_material")
+    private Material material;
 
-    public Long getIdAlquiler() {
-        return idAlquiler;
-    }
+    // RELACIÓN CON SEGURO
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_seguro")
+    private Seguros seguro;
 
-    public void setIdAlquiler(Long idAlquiler) {
-        this.idAlquiler = idAlquiler;
-    }
+    // RELACIÓN CON USUARIO
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    //Getters y setters
+    public Long getIdAlquiler() {return idAlquiler;}
+    public void setIdAlquiler(Long idAlquiler) {this.idAlquiler = idAlquiler;}
 
     public Double getPrecioTotal() {
         return precioTotal;
@@ -62,4 +72,12 @@ public class Alquileres {
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
+    public Material getMaterial() { return material; }
+    public void setMaterial(Material material) { this.material = material; }
+
+    public Seguros getSeguro() { return seguro; }
+    public void setSeguro(Seguros seguro) { this.seguro = seguro; }
+
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 }
