@@ -1,9 +1,10 @@
 package com.mourosub.web.model;
-import java.util.*;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,8 +13,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "supabase_user_id", unique = true, nullable = false)
+    private UUID supabaseUserId;
     @Column(nullable = false, length = 100)
     private String nombre;
     @Column(nullable = false, length = 150)
@@ -35,26 +36,15 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
-    @OneToMany(mappedBy = "id_Alquiler", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Alquileres> alquileres = new ArrayList<>();
-    
-    public Usuario() {
-        this.password = password;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.codPostal = codPostal;
-        this.localidad = localidad;
-        this.fechaNacimiento = fechaNacimiento;
-    }
 
-    public String getPassword() { return password;  }
-    public void setPassword(String password) {this.password = password;}
+    public Usuario() {}
+
     public void setIdUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
     public Long getIdUsuario() { return idUsuario; }
+    public UUID getSupabaseUserId() { return supabaseUserId; }
+    public void setSupabaseUserId(UUID supabaseUserId) { this.supabaseUserId = supabaseUserId; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getApellidos() { return apellidos; }
@@ -75,4 +65,6 @@ public class Usuario {
     public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     public List<Reserva> getReservas() { return reservas; }
     public void setReservas(List<Reserva> reservas) { this.reservas = reservas; }
+    public List<Alquileres> getAlquileres() { return alquileres; }
+    public void setAlquileres(List<Alquileres> alquileres) { this.alquileres = alquileres; }
 }
