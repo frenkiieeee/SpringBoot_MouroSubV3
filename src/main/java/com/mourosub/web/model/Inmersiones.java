@@ -5,32 +5,18 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "inmersiones")
+@PrimaryKeyJoinColumn(name = "id_actividad") // Comparte PK con Actividad y agrega campos propios de inmersiones.
 public class Inmersiones extends Actividad {
 
+    @Column(length = 50)
+    // Nivel requerido para la inmersion, si aplica.
+    private String nivelReq;
 
-    @Id // identificador principal
-    // autoincremental
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idInmersion;
-
-    // el nombre del punto de buceo es obligatorio
-    @Column(nullable = false, length = 150)
-    private String nombre;
-
-    // getters y setters
-    public Long getIdInmersion() {
-        return idInmersion;
+    public String getNivelReq() {
+        return nivelReq;
     }
 
-    public void setIdInmersion(Long idInmersion) {
-        this.idInmersion = idInmersion;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNivelReq(String nivelReq) {
+        this.nivelReq = nivelReq;
     }
 }

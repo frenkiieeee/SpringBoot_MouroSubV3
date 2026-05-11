@@ -1,62 +1,27 @@
 package com.mourosub.web.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
-// creamos la entidad curso
+/**
+ * Clase que representa un curso en el sistema, el cual es un tipo de actividad.
+ * Los cursos comparten la clave primaria con la entidad Actividad y añaden
+ * campos específicos como categoría, nivel requerido y duración en horas.
+ */
 @Entity
-// vinculamos con la tabla cursos
 @Table(name = "cursos")
+@PrimaryKeyJoinColumn(name = "id_actividad")
+// Comparte PK con Actividad (JOINED) y agrega campos propios del curso.
 public class Curso extends Actividad {
 
-
-    @Id
-    // autoincremental
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCurso;
-
-    // fk muchos a uno
     @ManyToOne
-    // le indicamos que columna guarda el id de la categoria
     @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaCurso categoria;
-    // nombre obligatorio del curso
-    @Column(nullable = false, length = 150)
-    private String nombre;
 
-    // texto largo para la explicacion
-    @Column(columnDefinition = "TEXT")
-    private String descripcion;
-
-    // nivel base por defecto
     @Column(nullable = false, length = 50)
     private String nivelRequerido = "ninguno";
 
-    // horas totales del curso
     @Column
     private Integer duracionHoras;
-
-    // los grupos por defecto 6
-    @Column(nullable = false)
-    private Integer plazasMax = 6;
-
-    // precio con soporte para decimales
-    @Column(nullable = false)
-    private BigDecimal precioBase;
-
-    // estado del curso activo o inactivo
-    @Column(nullable = false)
-    private Boolean activo = true;
-
-    // getters y setters
-
-    public Long getIdCurso() {
-        return idCurso;
-    }
-
-    public void setIdCurso(Long idCurso) {
-        this.idCurso = idCurso;
-    }
 
     public CategoriaCurso getCategoria() {
         return categoria;
@@ -67,19 +32,23 @@ public class Curso extends Actividad {
     }
 
     public String getNombre() {
-        return nombre;
+        // Delegamos al campo privado definido en Actividad.
+        return super.getNombre();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        // Delegamos al setter de Actividad para evitar acceso directo al campo.
+        super.setNombre(nombre);
     }
 
     public String getDescripcion() {
-        return descripcion;
+        // Delegamos al campo privado definido en Actividad.
+        return super.getDescripcion();
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        // Delegamos al setter de Actividad para evitar acceso directo al campo.
+        super.setDescripcion(descripcion);
     }
 
     public String getNivelRequerido() {
@@ -96,29 +65,5 @@ public class Curso extends Actividad {
 
     public void setDuracionHoras(Integer duracionHoras) {
         this.duracionHoras = duracionHoras;
-    }
-
-    public Integer getPlazasMax() {
-        return plazasMax;
-    }
-
-    public void setPlazasMax(Integer plazasMax) {
-        this.plazasMax = plazasMax;
-    }
-
-    public BigDecimal getPrecioBase() {
-        return precioBase;
-    }
-
-    public void setPrecioBase(BigDecimal precioBase) {
-        this.precioBase = precioBase;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
     }
 }

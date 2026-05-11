@@ -1,13 +1,15 @@
 package com.mourosub.web.model;
-import java.util.*;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 // le decimos a spring que esta clase es una tabla de la base de datos
 @Entity
-// indicamos el nombre exacto de la tabla en postgres
 @Table(name = "actividades")
 @Inheritance(strategy = InheritanceType.JOINED)
+// Estrategia JOINED: cada subclase tiene su tabla y comparte la PK con actividades.
 public class Actividad {
 
 
@@ -45,24 +47,9 @@ public class Actividad {
     // sirve para dar de baja la actividad sin borrarla del todo
     @Column(nullable = false)
     private Boolean activo = true;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "id_Curso", nullable = false)
-    private Curso curso;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_Categoria", nullable = false)
-    private CategoriaCurso categoriaCurso;
-
     @OneToMany(mappedBy = "actividad")
+    // Relacion 1:N con reservas; la FK vive en Reserva.
     private List<Reserva> reservas = new ArrayList<>();
-    
-    //Getter y Setter de las relaciones entre tablas
-    public Curso getCurso (){return curso;}
-    public void setCurso (Curso curso){this.curso = curso;}
-
-    public CategoriaCurso getCategoriaCurso () {return categoriaCurso;}
-    public void setCategoriaCurso (CategoriaCurso categoriaCurso) {this.categoriaCurso = categoriaCurso;}
 
     // getter y setters
 
@@ -137,6 +124,4 @@ public class Actividad {
     public void setActivo(Boolean activo) {
         this.activo = activo;
     }
-
-
 }
