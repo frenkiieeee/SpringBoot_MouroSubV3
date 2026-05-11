@@ -37,12 +37,7 @@ public class DataLoader implements CommandLineRunner {
         instructorRepo.save(instructor);
 
         // 2. Crear usuario
-        Usuario usuario = new Usuario(
-            UUID.fromString("11111111-1111-1111-1111-111111111111"),
-            "Carlos", "López Martínez", "carlos@email.com",
-            "87654321B", "612345678", "Calle Mayor 10",
-            "12540", "Vila-real", LocalDate.of(1990, 5, 15)
-        );
+        Usuario usuario = new Usuario();
         usuarioRepo.save(usuario);
 
         // 3. Crear reservas

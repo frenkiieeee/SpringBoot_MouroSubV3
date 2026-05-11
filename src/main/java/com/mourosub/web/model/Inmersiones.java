@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "inmersiones")
-public class Inmersiones {
+public class Inmersiones extends Actividad {
 
 
     @Id // identificador principal

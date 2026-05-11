@@ -1,9 +1,9 @@
 package com.mourosub.web.model;
-
+import java.util.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,8 +12,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
-    @Column(name = "supabase_user_id", nullable = false, unique = true)
-    private UUID supabaseUserId;
+    @Column(nullable = false)
+    private String password;
     @Column(nullable = false, length = 100)
     private String nombre;
     @Column(nullable = false, length = 150)
@@ -35,13 +35,11 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
-
-    public Usuario() {}
-
-    public Usuario(UUID supabaseUserId, String nombre, String apellidos, String email, String dni,
-                   String telefono, String direccion, String codPostal,
-                   String localidad, LocalDate fechaNacimiento) {
-        this.supabaseUserId = supabaseUserId;
+    @OneToMany(mappedBy = "id_Alquiler", fetch = FetchType.LAZY)
+    private List<Alquileres> alquileres = new ArrayList<>();
+    
+    public Usuario() {
+        this.password = password;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
@@ -53,8 +51,8 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public UUID getSupabaseUserId() { return supabaseUserId;  }
-    public void setSupabaseUserId(UUID supabaseUserId) {this.supabaseUserId = supabaseUserId;}
+    public String getPassword() { return password;  }
+    public void setPassword(String password) {this.password = password;}
     public void setIdUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
     public Long getIdUsuario() { return idUsuario; }
     public String getNombre() { return nombre; }

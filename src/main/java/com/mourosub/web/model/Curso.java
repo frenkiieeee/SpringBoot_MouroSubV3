@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Entity
 // vinculamos con la tabla cursos
 @Table(name = "cursos")
-public class Curso {
+public class Curso extends Actividad {
 
 
     @Id
@@ -20,7 +20,6 @@ public class Curso {
     // le indicamos que columna guarda el id de la categoria
     @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaCurso categoria;
-
     // nombre obligatorio del curso
     @Column(nullable = false, length = 150)
     private String nombre;
