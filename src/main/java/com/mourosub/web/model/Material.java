@@ -28,59 +28,25 @@ public class Material {
     @Column (nullable = false, length = 50)
     private String marca;
 
-    public Long getIdMaterial() {
-        return idMaterial;
-    }
+    //Getter y Setter
+    public Long getIdMaterial() { return idMaterial;}
+    public void setIdMaterial(Long idMaterial) {this.idMaterial = idMaterial;}
 
-    public void setIdMaterial(Long idMaterial) {
-        this.idMaterial = idMaterial;
-    }
+    public String getNombre() {return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getCategoria() {return categoria;}
+    public void setCategoria(String categoria) {this.categoria = categoria;}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getModelo() {return modelo;}
+    public void setModelo(String modelo) {this.modelo = modelo;}
 
-    public String getCategoria() {
-        return categoria;
-    }
+    public String getEstadoConservacion() {return estadoConservacion;}
+    public void setEstadoConservacion(String estadoConservacion) {this.estadoConservacion = estadoConservacion;}
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
+    public String getNumSerie() {return numSerie;}
+    public void setNumSerie(String numSerie) {this.numSerie = numSerie;}
 
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getEstadoConservacion() {
-        return estadoConservacion;
-    }
-
-    public void setEstadoConservacion(String estadoConservacion) {
-        this.estadoConservacion = estadoConservacion;
-    }
-
-    public String getNumSerie() {
-        return numSerie;
-    }
-
-    public void setNumSerie(String numSerie) {
-        this.numSerie = numSerie;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
+    public String getMarca() {return marca;}
+    public void setMarca(String marca) {this.marca = marca;}
 }

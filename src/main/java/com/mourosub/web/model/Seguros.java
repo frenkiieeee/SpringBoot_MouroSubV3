@@ -27,52 +27,22 @@ public class Seguros {
     private String descripcion;
 
 
-    public Long getIdSeguro() {
-        return idSeguro;
-    }
+    public Long getIdSeguro() {return idSeguro;}
+    public void setIdSeguro(Long idSeguro) {this.idSeguro = idSeguro;}
 
-    public void setIdSeguro(Long idSeguro) {
-        this.idSeguro = idSeguro;
-    }
+    public Boolean getActivo() {return activo;}
+    public void setActivo(Boolean activo) { this.activo = activo;}
 
-    public Boolean getActivo() {
-        return activo;
-    }
+    public String getNombre() { return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
+    public String getCompania() { return compania;}
+    public void setCompania(String compania) {this.compania = compania;}
 
-    public String getNombre() {
-        return nombre;
-    }
+    public Double getCoberturaGastos() {return coberturaGastos;}
+    public void setCoberturaGastos(Double coberturaGastos) {this.coberturaGastos = coberturaGastos;}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCompania() {
-        return compania;
-    }
-
-    public void setCompania(String compania) {
-        this.compania = compania;
-    }
-
-    public Double getCoberturaGastos() {
-        return coberturaGastos;
-    }
-
-    public void setCoberturaGastos(Double coberturaGastos) {
-        this.coberturaGastos = coberturaGastos;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    public String getDescripcion() {return descripcion;}
+    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 }
 

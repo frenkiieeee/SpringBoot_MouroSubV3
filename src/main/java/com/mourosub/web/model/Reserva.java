@@ -36,6 +36,10 @@ public class Reserva {
     @JoinColumn(name = "id_instructor")
     private Instructor instructor;
 
+    @ManyToOne
+    @JoinColumn(name = "id_actividad")
+    private Actividad actividad;
+
     public Reserva() {}
 
     public Reserva(String tipoServicio, String refServicio, String refServicioId,

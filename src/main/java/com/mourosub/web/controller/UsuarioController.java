@@ -4,8 +4,8 @@ import com.mourosub.web.model.Usuario;
 import com.mourosub.web.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/usuarios")
