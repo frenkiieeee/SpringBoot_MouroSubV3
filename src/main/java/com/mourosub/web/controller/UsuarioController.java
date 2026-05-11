@@ -4,7 +4,6 @@ import com.mourosub.web.model.Usuario;
 import com.mourosub.web.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import java.time.LocalDate;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -46,11 +45,7 @@ public class UsuarioController {
     solo prepara los datos necesario para el formulario
     */
     public String nuevo(Model model) {
-        //Model, guarda los datos para que mas tarde thymealeaf lo suse en el HTML
-        //new Usuario, aparece con datos pero solo es temporal para probar con datos de ejemplo y que no aparezca vacio
-        //
-        model.addAttribute("usuario", new Usuario("Carlos", "López Martínez", "carlos@email.com", "87654321B", "612345678", "Calle Mayor 10", "12540", "Vila-real", LocalDate.of(1990, 5, 15)));
-        //Esto le dice a spring que renderize la plnatilla templates/usuarios/formularios.html, es decir, el HTML recibira el objeto usuairo y mostrara el formulario
+        model.addAttribute("usuario", new Usuario());
         return "usuarios/formulario";
     }
 

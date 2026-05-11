@@ -4,9 +4,8 @@ Proyecto Spring Boot para gestionar la base de datos de MouroSub.
 
 ## Stack
 - Java 21
-- Spring Boot 3
+- Spring Boot 4
 - Spring Data JPA
-- Flyway
 - PostgreSQL
 - Docker / Docker Compose
 
@@ -25,14 +24,9 @@ Variables opcionales:
 
 Usa `.env.example` como referencia y crea tu `.env` local para ejecucion en Docker/Coolify.
 
-## Migraciones
-Flyway aplica automaticamente las migraciones al arrancar.
-
-Ruta de scripts:
-- `src/main/resources/db/migration`
-
-Script inicial:
-- `V1__init_schema.sql`
+## Esquema de base de datos
+La aplicacion usa `spring.jpa.hibernate.ddl-auto=update`.
+En primer despliegue crea/ajusta tablas automaticamente en el schema configurado.
 
 ## Ejecucion local
 Ejemplo:

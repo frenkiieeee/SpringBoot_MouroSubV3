@@ -2,37 +2,69 @@ package com.mourosub.web.controller;
 
 import com.mourosub.web.model.Usuario;
 import com.mourosub.web.repository.UsuarioRepository;
-import com.mourosub.web.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// indicamos que es un controlador que devuelve texto o json directamente
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
 @RestController
-// la ruta raiz para entrar aqui sera /auth
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    // creamos un endpoint post en /auth/login
+    // Endpoint puente: Supabase autentica y este endpoint solo resuelve el usuario de dominio.
     @PostMapping("/login")
-    public String login(@RequestBody Usuario credenciales) {
+    public ResponseEntity<?> login(@RequestBody LoginBridgeRequest request) {
+        Optional<Usuario> usuario;
 
-        // buscamos al usuario en la base de datos usando el email que nos manda
-        Usuario usuario = usuarioRepository.findByEmail(credenciales.getEmail());
-
-        // comprobamos si el usuario existe y si su clave coincide con la que nos envia
-        // nota en el mundo real las claves van encriptadas pero de momento lo hacemos en texto plano
-        if (usuario != null && usuario.getPassword().equals(credenciales.getPassword())) {
-            // si la clave es correcta le generamos su llave virtual y se la damos
-            return jwtUtil.generarToken(credenciales.getEmail());
+        if (request.getSupabaseUserId() != null && !request.getSupabaseUserId().isBlank()) {
+            try {
+                UUID id = UUID.fromString(request.getSupabaseUserId());
+                usuario = usuarioRepository.findBySupabaseUserId(id);
+            } catch (IllegalArgumentException ex) {
+                return ResponseEntity.badRequest().body(Map.of("error", "supabaseUserId invalido"));
+            }
+        } else {
+            usuario = usuarioRepository.findByEmail(request.getEmail());
         }
 
-        // si el email no existe o la clave esta mal devolvemos un error
-        return "error credenciales incorrectas";
+        if (usuario.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("error", "usuario no encontrado en dominio"));
+        }
+
+        Usuario u = usuario.get();
+        return ResponseEntity.ok(Map.of(
+                "idUsuario", u.getIdUsuario(),
+                "supabaseUserId", u.getSupabaseUserId().toString(),
+                "email", u.getEmail(),
+                "nombre", u.getNombre(),
+                "apellidos", u.getApellidos()
+        ));
+    }
+
+    public static class LoginBridgeRequest {
+        private String email;
+        private String supabaseUserId;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getSupabaseUserId() {
+            return supabaseUserId;
+        }
+
+        public void setSupabaseUserId(String supabaseUserId) {
+            this.supabaseUserId = supabaseUserId;
+        }
     }
 }

@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="StableRun" type="Application" factoryName="Application">
+    <envs>
+      <env name="APP_SEED_ENABLED" value="false" />
+      <env name="DB_PASS" value="KSbzz1YGpR5aYH7GMAwRTbD8XfQ7KjlLt1UPHfBrHEHNE7c9iotcRAPWN1jVBARP" />
+      <env name="DB_URL" value="jdbc:postgresql://192.168.35.99:5433/postgres" />
+      <env name="DB_USER" value="postgres" />
+      <env name="SERVER_PORT" value="8080" />
+      <env name="SPRING_JPA_SHOW_SQL" value="false" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.mourosub.web.WebApplication" />
+    <module name="web" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
