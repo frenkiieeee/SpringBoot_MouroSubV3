@@ -28,16 +28,6 @@ Usa `.env.example` como referencia y crea tu `.env` local para ejecucion en Dock
 La aplicacion usa `spring.jpa.hibernate.ddl-auto=update`.
 En primer despliegue crea/ajusta tablas automaticamente en el schema configurado.
 
-## Ejecucion local
-Ejemplo:
-
-```bash
-export DB_URL=jdbc:postgresql://localhost:5432/mourosub
-export DB_USER=postgres
-export DB_PASS=postgres
-./mvnw spring-boot:run
-```
-
 ## Ejecucion con Docker Compose
 1. Crear `.env` a partir de `.env.example`.
 2. Ajustar `DB_URL`, `DB_USER` y `DB_PASS` con tu PostgreSQL externo.
@@ -46,9 +36,6 @@ export DB_PASS=postgres
 ```bash
 docker compose up --build
 ```
-
-Health endpoint:
-- `http://localhost:${SERVER_PORT}/actuator/health`
 
 ## Despliegue en Coolify (DB externa)
 - Este repo despliega solo la app Spring Boot.
