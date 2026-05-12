@@ -31,9 +31,8 @@ public class Reserva {
     @ManyToMany(mappedBy = "reservas")
     private List<Usuario> usuarios;
 
-    @ManyToOne
-    @JoinColumn(name = "id_instructor")
-    private Instructor instructor;
+    @ManyToMany(mappedBy = "reservas")
+    private List<Instructor> instructores;
 
     @ManyToOne
     @JoinColumn(name = "id_actividad")
@@ -52,7 +51,7 @@ public class Reserva {
         this.estado = estado;
         this.fechaReserva = LocalDate.now();
         this.fechaActividad = fechaActividad;
-        this.instructor = instructor;
+        
     }
 
     public Long getIdReserva() { return idReserva; }
@@ -72,8 +71,8 @@ public class Reserva {
     public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
     public LocalDate getFechaActividad() { return fechaActividad; }
     public void setFechaActividad(LocalDate fechaActividad) { this.fechaActividad = fechaActividad; }
-    public Instructor getInstructor() { return instructor; }
-    public void setInstructor(Instructor instructor) { this.instructor = instructor; }
     public List<Usuario> getUsuarios (){return usuarios;}
     public void setUsuario (List<Usuario> usuarios) {this.usuarios = usuarios;}
+    public List<Instructor> getInstructores () {return instructores;}
+    public void setInstructor (List<Instructor> instructores){this.instructores = instructores;} 
 }
