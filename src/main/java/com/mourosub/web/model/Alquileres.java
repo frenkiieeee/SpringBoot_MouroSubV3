@@ -27,11 +27,6 @@ public class Alquileres {
     @JoinColumn(name = "id_material")
     private Material material;
 
-    // RELACIÓN CON SEGURO
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_seguro")
-    private Seguros seguro;
-
     // RELACIÓN CON USUARIO
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
@@ -74,9 +69,6 @@ public class Alquileres {
     }
     public Material getMaterial() { return material; }
     public void setMaterial(Material material) { this.material = material; }
-
-    public Seguros getSeguro() { return seguro; }
-    public void setSeguro(Seguros seguro) { this.seguro = seguro; }
 
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
