@@ -1,5 +1,5 @@
 /* Colores y valores reutilizables en toda la pagina*/
-body {
+:root {
   --ocean:       #0a4a6e;
   --ocean-mid:   #0e6fa8;
   --ocean-light: #e8f4fc;
@@ -14,7 +14,7 @@ header {
   padding: 14px 54px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 19px;
   background: transparent;
 }
 
@@ -23,13 +23,12 @@ header {
 .header-pill {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 9px;
   flex: 1;                                  /* ocupa todo el espacio disponible */
   background: #ffffff;
-  border: 1px solid rgba(10, 74, 110, 0.12);
-  border-radius: 999px;
-  padding: 6px 8px;
-  box-shadow: 0 2px 12px rgba(10, 74, 110, 0.08);
+  border: 2px solid var(--ocean-mid);
+  border-radius: 90px;
+  padding: 4px 6px;
 }
 
 
@@ -41,15 +40,10 @@ header {
   text-decoration: none;
 }
 
-.header-logo:hover {
-   width: 100px;
-  height: 500px;
-}
-
 
 .header-logo img {
   height: 100px;
-  width: 100%;
+  width: auto;
 }
 
 
@@ -59,7 +53,7 @@ header {
 .header-sep {
   width: 1px;
   height: 24px;
-  background: rgba(10, 74, 110, 0.12);
+  background: rgba(10, 74, 110, 100);
   margin: 0 4px;
   flex-shrink: 0;
 }
@@ -115,20 +109,21 @@ header {
 .btn-reservar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 80px;
   background: var(--ocean);
   color: #fff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
-  padding: 10px 22px;
-  border-radius: 999px;
+  padding: 40px 22px;
+  border-radius: 10px;
   border: none;
   box-shadow: 0 2px 12px rgba(10, 74, 110, 0.22);
   white-space: nowrap;
   flex-shrink: 0;
+  
+  
 }
 
 .btn-reservar:hover {
