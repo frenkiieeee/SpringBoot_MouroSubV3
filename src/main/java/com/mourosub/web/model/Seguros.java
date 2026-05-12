@@ -25,6 +25,11 @@ public class Seguros {
     @Column (name = "cobertura_gastos", nullable = false)
     private Double coberturaGastos;
 
+    // RELACIÓN CON USUARIO
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     @Column (columnDefinition = "TEXT")
     private String descripcion;
     //FetchType.LAZY, cachea la informacion que no se esta solicitando en el momento, por lo que no muestra todo al instante, esto ayuda al redimiento de la BD
