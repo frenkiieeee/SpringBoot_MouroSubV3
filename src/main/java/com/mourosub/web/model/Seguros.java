@@ -1,4 +1,6 @@
 package com.mourosub.web.model;
+import java.util.*;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 
@@ -25,6 +27,12 @@ public class Seguros {
 
     @Column (columnDefinition = "TEXT")
     private String descripcion;
+    //FetchType.LAZY, cachea la informacion que no se esta solicitando en el momento, por lo que no muestra todo al instante, esto ayuda al redimiento de la BD
+    @OneToMany(mappedBy = "seguro", fetch = FetchType.LAZY)
+    private List<Alquileres> alquileres = new ArrayList<>();
+
+    public List<Alquileres> getAlquileres() { return alquileres; }
+    public void setAlquileres(List<Alquileres> alquileres) { this.alquileres = alquileres; }
 
 
     public Long getIdSeguro() {return idSeguro;}

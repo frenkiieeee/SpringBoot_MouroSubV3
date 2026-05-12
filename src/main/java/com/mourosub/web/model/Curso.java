@@ -13,23 +13,12 @@ import jakarta.persistence.*;
 // Comparte PK con Actividad (JOINED) y agrega campos propios del curso.
 public class Curso extends Actividad {
 
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
-    private CategoriaCurso categoria;
-
     @Column(nullable = false, length = 50)
     private String nivelRequerido = "ninguno";
 
     @Column
     private Integer duracionHoras;
 
-    public CategoriaCurso getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(CategoriaCurso categoria) {
-        this.categoria = categoria;
-    }
 
     public String getNombre() {
         // Delegamos al campo privado definido en Actividad.
