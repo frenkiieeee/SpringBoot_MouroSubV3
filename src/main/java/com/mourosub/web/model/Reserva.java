@@ -1,5 +1,5 @@
 package com.mourosub.web.model;
-
+import java.util.*;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,9 +28,8 @@ public class Reserva {
     @Column(nullable = false)
     private LocalDate fechaActividad;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    @ManyToMany(mappedBy = "reservas")
+    private List<Usuario> usuarios;
 
     @ManyToOne
     @JoinColumn(name = "id_instructor")
@@ -53,7 +52,6 @@ public class Reserva {
         this.estado = estado;
         this.fechaReserva = LocalDate.now();
         this.fechaActividad = fechaActividad;
-        this.usuario = usuario;
         this.instructor = instructor;
     }
 
@@ -74,8 +72,8 @@ public class Reserva {
     public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
     public LocalDate getFechaActividad() { return fechaActividad; }
     public void setFechaActividad(LocalDate fechaActividad) { this.fechaActividad = fechaActividad; }
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public Instructor getInstructor() { return instructor; }
     public void setInstructor(Instructor instructor) { this.instructor = instructor; }
+    public List<Usuario> getUsuarios (){return usuarios;}
+    public void setUsuario (List<Usuario> usuarios) {this.usuarios = usuarios;}
 }
