@@ -1,5 +1,5 @@
 package com.mourosub.web.model;
-
+import java.util.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,8 +8,15 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
 
+public class Usuario {
+    @ManyToMany
+    @JoinTable(
+        name = "usuario_reserva",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_reserva")
+    )
+    private List<Reserva> reservas = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
@@ -34,8 +41,7 @@ public class Usuario {
     @Column
     private LocalDate fechaNacimiento;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Reserva> reservas;
+    
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Alquileres> alquileres = new ArrayList<>();
 
