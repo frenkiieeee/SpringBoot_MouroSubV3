@@ -1,4 +1,6 @@
 package com.mourosub.web.model;
+import java.util.*;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 
@@ -27,6 +29,12 @@ public class Material {
 
     @Column (nullable = false, length = 50)
     private String marca;
+    @OneToMany(mappedBy = "material", fetch = FetchType.LAZY)
+    private List<Alquileres> alquileres = new ArrayList<>();
+
+    public List<Alquileres> getAlquileres() { return alquileres; }
+    public void setAlquileres(List<Alquileres> alquileres) { this.alquileres = alquileres; }
+
 
     //Getter y Setter
     public Long getIdMaterial() { return idMaterial;}
