@@ -1,4 +1,4 @@
-/* Colores y valores reutilizables en toda la pagina*/
+/* Colores y valores reutilizables en toda la pagina */
 :root {
   --ocean:       #0a4a6e;
   --ocean-mid:   #0e6fa8;
@@ -7,100 +7,185 @@
   --text:        #1a2530;
   --text-muted:  #5a7080;
 }
-
-
-/* HEADER: Grid de 3 columnas para alinear perfectamente los 3 bloques */
+ 
+ 
+/* HEADER */
 header {
-  padding: 16px 32px;
+  padding: 8px 30px;       
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: center;         
   background: transparent;
 }
-
-/* LOGO: A la izquierda del todo y muy grande */
+ 
+ 
+/* LOGO */
 .header-logo {
-  justify-self: start; 
+  justify-self: start;
   text-decoration: none;
-  margin-left: -15px; /* Lo empuja aún más a la izquierda para compensar los bordes invisibles de la foto */
+  margin-left: -15px;           /* Compensa el espacio transparente de la imagen */
 }
-
+ 
 .header-logo img {
-  height: 140px; /* Subido de 90 a 140px para matar el espacio transparente */
+  height: 140px;
   width: auto;
   display: block;
-  /* transform: scale(1.2); <- Descomenta esta línea si con 140px sigue sin ser lo suficientemente grande */
 }
-
-/* BURBUJA: Fina, minimalista y centrada en la columna 2 */
+ 
+ 
+/* BURBUJA - pegada abajo con margin-bottom pequeño */
 .header-pill {
   grid-column: 2;
-  display: inline-flex;
   align-items: center;
   background: #ffffff;
   border: 1px solid var(--ocean-mid);
   border-radius: 999px;
-  padding: 4px 8px; /* Padding reducido al mínimo */
+  padding: 4px 8px;
   box-shadow: 0 2px 10px rgba(10, 74, 110, 0.05);
 }
-
-/* LINKS: Agrupados de forma compacta */
+ 
+ 
+/* Links dentro de la burbuja */
 .header-links {
   display: flex;
   align-items: center;
-  gap: 4px; 
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
+ 
 .header-links a {
   display: block;
   text-decoration: none;
-  font-size: 15px; 
+  font-size: 15px;
   font-weight: 500;
   color: var(--text-muted);
-  padding: 6px 16px; 
+  padding: 6px 16px;
   border-radius: 999px;
   white-space: nowrap;
-  transition: background 0.15s, color 0.15s;
 }
-
+ 
 .header-links a:hover {
   background: var(--ocean-light);
   color: var(--ocean);
 }
-
+ 
 .header-links a.active {
   background: var(--ocean);
   color: #ffffff;
 }
-
-/* BOTÓN RESERVAR: Mucho más grande y a la derecha del todo */
+ 
+ 
+/* Lado derecho: agrupa RESERVAR y hamburguesa */
+.header-right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+ 
+ 
+/* Boton RESERVAR (escritorio) */
 .btn-reservar {
-  grid-column: 3; /* Se coloca en la última columna */
-  justify-self: end; /* Lo empuja contra el margen derecho */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: var(--ocean);
   color: #fff;
   text-decoration: none;
-  font-size: 18px; /* Letra bastante más grande */
-  font-weight: 700; /* Letra más gruesa */
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 16px 48px; /* Botón mucho más ancho y alto */
-  border-radius: 12px; 
+  padding: 16px 48px;
+  border-radius: 12px;
   border: none;
   box-shadow: 0 4px 15px rgba(10, 74, 110, 0.2);
   white-space: nowrap;
   transition: background 0.15s, box-shadow 0.15s, transform 0.12s;
 }
-
+ 
 .btn-reservar:hover {
   background: var(--ocean-mid);
   box-shadow: 0 6px 20px rgba(10, 74, 110, 0.3);
   transform: translateY(-2px);
+  color: #fff;
+}
+ 
+ 
+/* Hamburguesa de Bootstrap (solo movil) */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+ 
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+ 
+ 
+/* Menu movil desplegable */
+.menu-movil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px 20px;
+  background: #0d1b2a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+ 
+.menu-movil ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+ 
+.menu-movil ul a {
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-align: center;
+  transition: background 0.15s, color 0.15s;
+}
+ 
+.menu-movil ul a:hover {
+  background: var(--ocean-light);
+  color: var(--ocean);
+}
+ 
+.menu-movil ul a.active {
+  background: var(--ocean);
+  color: #fff;
+}
+ 
+/* Boton RESERVAR dentro del menu movil */
+.btn-reservar-movil {
+  display: inline-block;
+  margin-top: 8px;
+  background: var(--ocean);
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 36px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+ 
+.btn-reservar-movil:hover {
+  background: var(--ocean-mid);
   color: #fff;
 }

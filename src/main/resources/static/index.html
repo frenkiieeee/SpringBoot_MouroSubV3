@@ -25,39 +25,59 @@
 
 <body>
 
-    <header>
-        <!-- Logo -->
-        <a href="index.html" class="header-logo">
-            <img src="img/Logo/logo nuevo.png">
-        </a>
-
-        <!-- Burbuja -->
-        <div class="header-pill">
-            <ul class="header-links">
-                <li><a href="#actividades" class="active">Actividades</a></li>
-                <li><a href="#inmersiones">Inmersiones</a></li>
-                <li><a href="#cursos">Cursos</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-            </ul>
-        </div>
-
-        <!-- Boton Reservar -->
-        <a href="#reservar" class="btn-reservar">
-            Reservar
-        </a>
-    </header>
-
-
-
-
+      <header>
+ 
+     <!-- Logo -->
+    <a href="index.html" class="header-logo">
+      <img src="img/Logo/logopromax.png">
+    </a>
+ 
+    <!-- Burbuja con links: visible solo en escritorio -->
+    <div class="header-pill d-none d-md-inline-flex">
+      <ul class="header-links">
+        <li><a href="#actividades" class="active">Actividades</a></li>
+        <li><a href="#inmersiones">Inmersiones</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+      </ul>
+    </div>
+ 
+    <!-- Lado derecho: RESERVAR y hamburguesa -->
+    <div class="header-right">
+ 
+      <!-- Boton Reservar: visible solo en escritorio -->
+      <a href="#reservar" class="btn-reservar d-none d-md-inline-flex">
+        Reservar
+      </a>
+ 
+      <!-- Boton hamburguesa: visible solo en movil -->
+      <button class="navbar-toggler d-md-none" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#menuMovil"
+              aria-controls="menuMovil"
+              aria-expanded="false"
+              aria-label="Abrir menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+ 
+    </div>
+ 
+  </header>
+ 
+  <!-- Menu desplegable movil (Bootstrap collapse) -->
+  <div class="collapse d-md-none" id="menuMovil">
+    <nav class="menu-movil">
+      <ul>
+        <li><a href="#actividades" class="active">Actividades</a></li>
+        <li><a href="#inmersiones">Inmersiones</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+      </ul>
+      <a href="#reservar" class="btn-reservar-movil">Reservar</a>
+    </nav>
+  </div>
+ 
+ 
 </body>
-
-
-
-
-
-
-
-
-
+ 
 </html>
