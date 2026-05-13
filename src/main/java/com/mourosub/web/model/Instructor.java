@@ -34,7 +34,8 @@ public class Instructor {
         this.certificaciones = certificaciones;
     }
 
-    public Long getIdInstructor() { return idInstructor; }
+    public Long getidInstructor() { return idInstructor; }
+    public void setidInstructor(Long idInstructor){this.idInstructor = idInstructor;}
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDni() { return dni; }

@@ -46,9 +46,8 @@ public class Usuario {
     private List<Alquileres> alquileres = new ArrayList<>();
 
     public Usuario() {}
-
-    public void setIdUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
-    public Long getIdUsuario() { return idUsuario; }
+    public Long getidUsuario() { return idUsuario; }
+    public void setidUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
     public UUID getSupabaseUserId() { return supabaseUserId; }
     public void setSupabaseUserId(UUID supabaseUserId) { this.supabaseUserId = supabaseUserId; }
     public String getNombre() { return nombre; }
