@@ -21,48 +21,48 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <title>Mourosub</title>
+
 </head>
 
 <body>
 
-      <header>
+<div class="fondaco">   
+    <header>
  
-     <!-- Logo -->
-    <a href="index.html" class="header-logo">
-      <img src="img/Logo/logopromax.png">
-    </a>
- 
-    <!-- Burbuja con links: visible solo en escritorio -->
-    <div class="header-pill d-none d-md-inline-flex">
-      <ul class="header-links">
-        <li><a href="#actividades" class="active">Actividades</a></li>
-        <li><a href="#inmersiones">Inmersiones</a></li>
-        <li><a href="#cursos">Cursos</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-      </ul>
-    </div>
- 
-    <!-- Lado derecho: RESERVAR y hamburguesa -->
-    <div class="header-right">
- 
-      <!-- Boton Reservar: visible solo en escritorio -->
-      <a href="#reservar" class="btn-reservar d-none d-md-inline-flex">
-        Reservar
-      </a>
- 
-      <!-- Boton hamburguesa: visible solo en movil -->
-      <button class="navbar-toggler d-md-none" type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#menuMovil"
-              aria-controls="menuMovil"
-              aria-expanded="false"
-              aria-label="Abrir menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
- 
-    </div>
- 
-  </header>
+        <!-- Logo -->
+        <a href="index.html" class="header-logo">
+            <img src="img/Logo/logopromax.png">
+        </a>
+    
+        <!-- Burbuja con links: visible solo en escritorio -->
+        <div class="header-pill d-none d-md-inline-flex">
+            <ul class="header-links">
+                <li><a href="#actividades" class="active">Actividades</a></li>
+                <li><a href="#inmersiones">Inmersiones</a></li>
+                <li><a href="#cursos">Cursos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+            </ul>
+        </div>
+    
+        <!-- Lado derecho: RESERVAR y hamburguesa -->
+        <div class="header-right">
+    
+            <!-- Boton Reservar: visible solo en escritorio -->
+            <a href="#reservar" class="btn-reservar d-none d-md-inline-flex">
+                Reservar
+            </a>
+        
+            <!-- Boton hamburguesa: visible solo en movil -->
+            <button class="navbar-toggler d-md-none" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuMovil"
+                    aria-controls="menuMovil"
+                    aria-expanded="false"
+                    aria-label="Abrir menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </header>
  
   <!-- Menu desplegable movil (Bootstrap collapse) -->
   <div class="collapse d-md-none" id="menuMovil">
@@ -77,6 +77,39 @@
     </nav>
   </div>
  
+
+
+
+  <!-- HERO  -->
+    <section class="hero-section d-flex align-items-center justify-content-center text-center">
+        <div class="container px-4">
+            
+            <!-- subtitulo -->
+            <p class="hero-kicker">encima del subtitulo</p>
+            
+            <!-- titulo principal -->
+            <h1 class="hero-title fw-bold mb-4">
+                TITULO
+            </h1>
+            
+            <!-- descripcion -->
+            <p class="hero-desc mx-auto mb-5">
+               descripcion
+            </p>
+            
+            <!-- botones -->
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#explorar" class="btn-hero btn-hero-light">
+                    BOTON 1
+                </a>
+                <a href="#video" class="btn-hero btn-hero-dark">
+                    BOTON 2
+                </a>
+            </div>
+
+        </div>
+    </section>
+</div>    
  
 </body>
  
