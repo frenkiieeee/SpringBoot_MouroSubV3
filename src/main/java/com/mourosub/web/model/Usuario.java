@@ -1,5 +1,4 @@
 package com.mourosub.web.model;
-import java.util.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class Usuario {
     private List<Reserva> reservas = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Long IdUsuario;
     @Column(name = "supabase_user_id", unique = true, nullable = false)
     private UUID supabaseUserId;
     @Column(nullable = false, length = 100)
@@ -46,8 +45,8 @@ public class Usuario {
     private List<Alquileres> alquileres = new ArrayList<>();
 
     public Usuario() {}
-    public Long getidUsuario() { return idUsuario; }
-    public void setidUsuario(Long idUsuario) {this.idUsuario = idUsuario; }
+    public Long getidUsuario() { return IdUsuario; }
+    public void setidUsuario(Long IdUsuario) {this.IdUsuario = IdUsuario; }
     public UUID getSupabaseUserId() { return supabaseUserId; }
     public void setSupabaseUserId(UUID supabaseUserId) { this.supabaseUserId = supabaseUserId; }
     public String getNombre() { return nombre; }

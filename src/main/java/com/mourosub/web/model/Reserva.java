@@ -29,10 +29,10 @@ public class Reserva {
     private LocalDate fechaActividad;
 
     @ManyToMany(mappedBy = "reservas")
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
 
     @ManyToMany(mappedBy = "reservas")
-    private List<Instructor> instructores;
+    private List<Instructor> instructores = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "id_actividad")
@@ -51,7 +51,7 @@ public class Reserva {
         this.estado = estado;
         this.fechaReserva = LocalDate.now();
         this.fechaActividad = fechaActividad;
-        
+
     }
 
     public Long getIdReserva() { return idReserva; }

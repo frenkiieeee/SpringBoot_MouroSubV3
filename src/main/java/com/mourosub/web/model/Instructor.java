@@ -16,7 +16,7 @@ public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_instructor")
-    private Long idInstructor;
+    private Long IdInstructor;
     @Column(nullable = false, length = 150)
     private String nombre;
     @Column(length = 20)
@@ -34,8 +34,8 @@ public class Instructor {
         this.certificaciones = certificaciones;
     }
 
-    public Long getidInstructor() { return idInstructor; }
-    public void setidInstructor(Long idInstructor){this.idInstructor = idInstructor;}
+    public Long getidInstructor() { return IdInstructor; }
+    public void setidInstructor(Long IdInstructor){this.IdInstructor = IdInstructor;}
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDni() { return dni; }

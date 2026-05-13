@@ -39,7 +39,7 @@ public class AuthController {
 
         Usuario u = usuario.get();
         return ResponseEntity.ok(Map.of(
-                "idUsuario", u.getIdUsuario(),
+                "idUsuario", u.getidUsuario(),
                 "supabaseUserId", u.getSupabaseUserId().toString(),
                 "email", u.getEmail(),
                 "nombre", u.getNombre(),
