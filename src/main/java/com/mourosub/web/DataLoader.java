@@ -57,12 +57,12 @@ public class DataLoader implements CommandLineRunner {
         // 4. Verificar en consola
         System.out.println("=== INSTRUCTORES EN BD ===");
         instructorRepo.findAll().forEach(i ->
-            System.out.println("► " + i.getIdInstructor() + " - " + i.getNombre())
+            System.out.println("► " + i.getidInstructor() + " - " + i.getNombre())
         );
 
         System.out.println("=== USUARIOS EN BD ===");
         usuarioRepo.findAll().forEach(u ->
-            System.out.println("► " + u.getIdUsuario() + " - " + u.getNombre() + " " + u.getApellidos())
+            System.out.println("► " + u.getidUsuario() + " - " + u.getNombre() + " " + u.getApellidos())
         );
 
         System.out.println("=== RESERVAS EN BD ===");
@@ -70,8 +70,8 @@ public class DataLoader implements CommandLineRunner {
             System.out.println("► Reserva " + r.getIdReserva()
                 + " | Tipo: " + r.getTipoServicio()
                 + " | Precio: " + r.getPrecioTotal() + "€"
-                + " | Instructor: " + r.getInstructor().getNombre()
-                + " | Usuario: " + r.getUsuario().getNombre())
+                + " | Instructor: " + r.getInstructores().get(0).getNombre()
+                + " | Usuario: " + r.getUsuarios().get(0).getNombre())
         );
     }
 }
