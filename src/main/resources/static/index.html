@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="es" class="h-100" data-bs-theme="dark">
+<html lang="es" class="h-100" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+    
 
 <head>
   <meta charset="UTF-8">
@@ -85,7 +86,7 @@
 
 
   <!-- HERO  -->
-    <section class="hero-section d-flex align-items-center justify-content-center text-center">
+    <section class="hero-section d-flex align-items-start justify-content-center text-center">
         <div class="container px-4">
             
             <!-- subtitulo -->
@@ -115,65 +116,52 @@
 
         </div>
     </section>
+</div>
+    <!--Cards-->
+
 <div class="container py-4">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="row g-4">
 
         <!-- CARD 1 -->
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="img/jamon.jpg" alt="Croqueta de Jamón Ibérico">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="fw-bold mb-0">Croqueta de Jamón Ibérico</h3>
-                    </div>
-                    <p class="text-muted">
-                        La reina indiscutible de las croquetas españolas.
-                        Elaborada con jamón ibérico de bellota, su bechamel
-                        adquiere un sabor intenso y salado que la convierte
-                        en la favorita en bares y hogares de todo el país.
-                    </p>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card-foto">
+                <img src="img/jamon.jpg" alt="Inmersiones">
+                <div class="card-foto-body">
+                    <h3>Inmersiones</h3>
+                    <p>Explora los mejores puntos de buceo de la Isla de Mouro y alrededores.</p>
+                    <a href="#">RESERVAR →</a>
                 </div>
             </div>
         </div>
 
         <!-- CARD 2 -->
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="img/bacalao.jpg" alt="Croqueta de Bacalao">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="fw-bold mb-0">Croqueta de Bacalao</h3>
-                    </div>
-                    <p class="text-muted">
-                        Típica del norte de España, especialmente del País Vasco.
-                        El bacalao desmenuzado se mezcla con la bechamel creando
-                        una combinación suave y sabrosa con un toque marino
-                        inconfundible.
-                    </p>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card-foto">
+                <img src="img/bacalao.jpg" alt="Actividades">
+                <div class="card-foto-body">
+                    <h3>Actividades</h3>
+                    <p>Paseos en barco, snorkel y eventos privados en el mar.</p>
+                    <a href="#">VER MÁS →</a>
                 </div>
             </div>
         </div>
 
         <!-- CARD 3 -->
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="img/pollo.jpg" alt="Croqueta de Pollo Asado">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="fw-bold mb-0">Croqueta de Pollo Asado</h3>
-                    </div>
-                    <p class="text-muted">
-                        Perfecta para aprovechar los restos del pollo del domingo.
-                        El pollo asado desmenuzado aporta un sabor casero y reconfortante,
-                        haciendo de esta croqueta una de las más populares
-                        en los hogares españoles.
-                    </p>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card-foto">
+                <img src="img/pollo.jpg" alt="Servicio Técnico">
+                <div class="card-foto-body">
+                    <h3>Servicio Técnico</h3>
+                    <p>Reparación y mantenimiento de reguladores, chalecos y equipos de buceo.</p>
+                    <a href="#">CONTACTAR →</a>
                 </div>
             </div>
         </div>
 
-    </div> <!-- Cierre row -->
-</div> <!-- Cierre container -->
+    </div>
+</div>
+
+<!--Footer-->
  
 <footer class="site-footer">
   <div class="footer-top">

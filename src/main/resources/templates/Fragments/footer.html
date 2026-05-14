@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <footer th:fragment="footer" class="site-footer">
+    <div class="footer-top">
+
+      <div class="footer-col">
+        <h5>Servicio al consumidor</h5>
+        <ul>
+          <li><a th:href="@{/condiciones}">Condiciones de venta</a></li>
+          <li><a th:href="@{/devoluciones}">Devoluciones</a></li>
+          <li><a th:href="@{/aviso-legal}">Aviso legal</a></li>
+          <li><a th:href="@{/privacidad}">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contacta con nosotros</h5>
+        <div class="contact-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <p>Escuela de Buceo Mourosub<br>Bajos Edificio Capitanía<br>Avda. de la Tornada, s/n<br>39600 Maliaño · Cantabria · ES</p>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-whatsapp"></i>
+          <p>621 330 839</p>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:info@mourosub.com">info@mourosub.com</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Redes sociales</h5>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Vimeo"><i class="bi bi-vimeo"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2024 · Mourosub. Todos los derechos reservados.</p>
+      <nav>
+        <a th:href="@{/aviso-legal}">Aviso legal</a>
+        <a th:href="@{/privacidad}">Privacidad</a>
+        <a th:href="@{/cookies}">Cookies</a>
+      </nav>
+    </div>
+  </footer>
+
+</html>
