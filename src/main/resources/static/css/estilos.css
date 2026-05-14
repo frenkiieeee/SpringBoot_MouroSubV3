@@ -424,3 +424,4 @@ header {
   .footer-top { grid-template-columns: 1fr; padding: 32px 24px; }
   .footer-bottom { flex-direction: column; text-align: center; }
 }
+
