@@ -75,4 +75,6 @@ public class Reserva {
     public void setUsuario (List<Usuario> usuarios) {this.usuarios = usuarios;}
     public List<Instructor> getInstructores () {return instructores;}
     public void setInstructor (List<Instructor> instructores){this.instructores = instructores;} 
+    public Actividad getActividad () {return actividad;}
+    public void setActividad (Actividad actividad) {this.actividad = actividad;}
 }

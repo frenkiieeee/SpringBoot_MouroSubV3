@@ -1,11 +1,8 @@
 package com.mourosub.web.service;
-import  com.mourosub.web.model.Actividad;
-import com.mourosub.web.model.Reserva;
-import com.mourosub.web.repository.ActividadRepository;
-import com.mourosub.web.repository.InstructorRepository;
-import com.mourosub.web.repository.ReservaRepository;
-import com.mourosub.web.repository.UsuarioRepository;
-
+import com.mourosub.web.model.*;
+import com.mourosub.web.repository.*;
+import java.math.BigDecimal;
+import java.util.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -34,10 +31,44 @@ public class ReservaService {
         //Obtener actividad
         Actividad actividad = actividadRepo.findById(reserva.getActividad().getIdActividad())
         .orElseThrow(()-> new RuntimeException("Actividad no encontrada"));
-    }
+        
+        //Comprobar usuarios de la reserva
+        if (!comprobarDisponibilidad(actividad, reserva.getNumParticipantes())){
+            throw new RuntimeException("No hay plazas disponibles");
+        }
+        
+        //Asignar instructores disponibles
+        Instructor instructor = asignarInstructorDisponible();
+        reserva.getInstructores().add(instructor);
+        
+
 
      return reservaRepo.save(reserva);
+    }
+    
+    
+    //Metodos
 
+    //Metodo de comprobar disponibilidad
+    public boolean comprobarDisponibilidad (Actividad actividad, int participantes){
+        return actividad.getPlazasMax() >= participantes;
+    }
 
+    //Metodo para asginar instructores
+
+    public Instructor asignarInstructorDisponible(){
+        List<Instructor> instructores = instructorRepo.findAll();
+        
+        if(instructores.isEmpty()){
+            throw new RuntimeException ("No hay instructores disponibles");
+        }
+        
+        return instructores.get(0);
+    }
+
+    //Metodo para calcular el precio
+    public BigDecimal calcularPrecio(Actividad actividad, int participantes){
+        return actividad.getPrecio().multiply(BigDecimal.valueOf(participantes));
+    }
 
 }
