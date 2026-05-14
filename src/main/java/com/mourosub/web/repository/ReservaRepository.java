@@ -9,5 +9,5 @@ import java.util.List;
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     // Busca todas las reservas de un usuario por su ID
-    List<Reserva> findByUsuario_IdUsuario(Long idUsuario);
+    List<Reserva> findByUsuarios_IdUsuario(Long idUsuario);
 }

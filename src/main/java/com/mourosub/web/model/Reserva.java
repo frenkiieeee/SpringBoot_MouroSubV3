@@ -28,10 +28,20 @@ public class Reserva {
     @Column(nullable = false)
     private LocalDate fechaActividad;
 
-    @ManyToMany(mappedBy = "reservas")
+    @ManyToMany
+    @JoinTable(
+        name = "usuario_reserva",
+        joinColumns = @JoinColumn(name = "id_reserva"),
+        inverseJoinColumns = @JoinColumn(name = "id_usuario")
+    )
     private List<Usuario> usuarios = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "reservas")
+    @ManyToMany
+    @JoinTable(
+        name = "instructor_reserva",
+        joinColumns = @JoinColumn(name = "id_reserva"),
+        inverseJoinColumns = @JoinColumn(name = "id_instructor")
+    )
     private List<Instructor> instructores = new ArrayList<>();
 
     @ManyToOne

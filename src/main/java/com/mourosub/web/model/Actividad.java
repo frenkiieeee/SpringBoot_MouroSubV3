@@ -2,6 +2,7 @@ package com.mourosub.web.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +37,13 @@ public class Actividad {
     @Column(nullable = false)
     private Integer plazasMax = 10;
 
+    @Column(nullable = false)
+    private int plazasOcupadas;
     // bigdecimal es la mejor clase de java para manejar dinero
     @Column(nullable = false)
     private BigDecimal precio;
-
+    @Column(nullable = false)
+    private LocalDate fechaActividad;
     // un booleano para el true o false de si exige nivel
     @Column(nullable = false)
     private Boolean requiereNivel = false;
@@ -124,4 +128,10 @@ public class Actividad {
     public void setActivo(Boolean activo) {
         this.activo = activo;
     }
+
+    public int getplazasOcupadas () {return plazasOcupadas;}
+    public void setplazasOcupadas (int plazasOcupadas){this.plazasOcupadas = plazasOcupadas;}
+
+    public LocalDate getFechaActividad () {return fechaActividad;}
+    public void setFechaActividad (LocalDate fechaActividad){this.fechaActividad = fechaActividad;}       
 }

@@ -6,13 +6,9 @@ import java.util.List;
 @Entity
 @Table(name = "instructores")
 public class Instructor {
-    @ManyToMany
-    @JoinTable(
-        name = "instructor_reserva",
-        joinColumns = @JoinColumn(name = "id_instructor"),
-        inverseJoinColumns = @JoinColumn(name = "id_reserva")
-    )
+    @ManyToMany(mappedBy = "instructores")
     private List<Reserva> reservas = new ArrayList <>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_instructor")
