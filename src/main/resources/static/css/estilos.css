@@ -334,6 +334,41 @@ header {
   text-decoration: underline;
 }
 
+
+/* CARRUSEL  */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-250px * 6)); } 
+}
+
+.slide-track {
+  animation: scroll 90s linear infinite;
+  display: flex;
+  /* 12 logos en total (6 originales + 6 duplicados) */
+  width: calc(250px * 12); 
+}
+
+.slide {
+  height: 100px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: all 0.5s ease-in-out; 
+}
+
+.slide img:hover {
+  transform: scale(1.2); 
+}
+
+
 /* footer */
 .site-footer {
   background: #0d1b2a;
