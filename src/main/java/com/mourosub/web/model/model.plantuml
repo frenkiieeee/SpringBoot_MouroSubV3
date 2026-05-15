@@ -1,0 +1,285 @@
+@startuml
+
+title __MODEL's Class Diagram__\n
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Actividad {
+          - activo : Boolean
+          - descripcion : String
+          - duracionMinutos : Integer
+          - idActividad : Long
+          - nombre : String
+          - plazasMax : Integer
+          - precio : BigDecimal
+          - requiereNivel : Boolean
+          - reservas : List<Reserva>
+          - tipo : String
+          + getActivo()
+          + getDescripcion()
+          + getDuracionMinutos()
+          + getIdActividad()
+          + getNombre()
+          + getPlazasMax()
+          + getPrecio()
+          + getRequiereNivel()
+          + getTipo()
+          + setActivo()
+          + setDescripcion()
+          + setDuracionMinutos()
+          + setIdActividad()
+          + setNombre()
+          + setPlazasMax()
+          + setPrecio()
+          + setRequiereNivel()
+          + setTipo()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Alquileres {
+          - disponible : Boolean
+          - fechaAlquiler : LocalDate
+          - fechaDevolucion : LocalDate
+          - idAlquiler : Long
+          - precioTotal : Double
+          + getDisponible()
+          + getFechaAlquiler()
+          + getFechaDevolucion()
+          + getIdAlquiler()
+          + getMaterial()
+          + getPrecioTotal()
+          + getUsuario()
+          + setDisponible()
+          + setFechaAlquiler()
+          + setFechaDevolucion()
+          + setIdAlquiler()
+          + setMaterial()
+          + setPrecioTotal()
+          + setUsuario()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Curso {
+          - duracionHoras : Integer
+          - nivelRequerido : String
+          + getDescripcion()
+          + getDuracionHoras()
+          + getNivelRequerido()
+          + getNombre()
+          + setDescripcion()
+          + setDuracionHoras()
+          + setNivelRequerido()
+          + setNombre()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Inmersiones {
+          - nivelReq : String
+          + getNivelReq()
+          + setNivelReq()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Instructor {
+          - IdInstructor : Long
+          - certificaciones : String
+          - dni : String
+          - nombre : String
+          - reservas : List<Reserva>
+          + Instructor()
+          + Instructor()
+          + getCertificaciones()
+          + getDni()
+          + getNombre()
+          + getReservas()
+          + getidInstructor()
+          + setCertificaciones()
+          + setDni()
+          + setNombre()
+          + setReservas()
+          + setidInstructor()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Material {
+          - alquileres : List<Alquileres>
+          - categoria : String
+          - estadoConservacion : String
+          - idMaterial : Long
+          - marca : String
+          - modelo : String
+          - nombre : String
+          - numSerie : String
+          + getAlquileres()
+          + getCategoria()
+          + getEstadoConservacion()
+          + getIdMaterial()
+          + getMarca()
+          + getModelo()
+          + getNombre()
+          + getNumSerie()
+          + setAlquileres()
+          + setCategoria()
+          + setEstadoConservacion()
+          + setIdMaterial()
+          + setMarca()
+          + setModelo()
+          + setNombre()
+          + setNumSerie()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Reserva {
+          - estado : String
+          - fechaActividad : LocalDate
+          - fechaReserva : LocalDate
+          - idReserva : Long
+          - instructores : List<Instructor>
+          - numParticipantes : Integer
+          - precioTotal : BigDecimal
+          - refServicio : String
+          - refServicioId : String
+          - tipoServicio : String
+          - usuarios : List<Usuario>
+          + Reserva()
+          + Reserva()
+          + getEstado()
+          + getFechaActividad()
+          + getFechaReserva()
+          + getIdReserva()
+          + getInstructores()
+          + getNumParticipantes()
+          + getPrecioTotal()
+          + getRefServicio()
+          + getRefServicioId()
+          + getTipoServicio()
+          + getUsuarios()
+          + setEstado()
+          + setFechaActividad()
+          + setFechaReserva()
+          + setInstructor()
+          + setNumParticipantes()
+          + setPrecioTotal()
+          + setRefServicio()
+          + setRefServicioId()
+          + setTipoServicio()
+          + setUsuario()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Seguros {
+          - activo : Boolean
+          - coberturaGastos : Double
+          - compania : String
+          - descripcion : String
+          - idSeguro : Long
+          - nombre : String
+          + getActivo()
+          + getCoberturaGastos()
+          + getCompania()
+          + getDescripcion()
+          + getIdSeguro()
+          + getNombre()
+          + setActivo()
+          + setCoberturaGastos()
+          + setCompania()
+          + setDescripcion()
+          + setIdSeguro()
+          + setNombre()
+      }
+    }
+  }
+  
+
+  namespace com.mourosub.web {
+    namespace model {
+      class com.mourosub.web.model.Usuario {
+          - IdUsuario : Long
+          - alquileres : List<Alquileres>
+          - apellidos : String
+          - codPostal : String
+          - direccion : String
+          - dni : String
+          - email : String
+          - fechaNacimiento : LocalDate
+          - localidad : String
+          - nombre : String
+          - reservas : List<Reserva>
+          - supabaseUserId : UUID
+          - telefono : String
+          + Usuario()
+          + getAlquileres()
+          + getApellidos()
+          + getCodPostal()
+          + getDireccion()
+          + getDni()
+          + getEmail()
+          + getFechaNacimiento()
+          + getLocalidad()
+          + getNombre()
+          + getReservas()
+          + getSupabaseUserId()
+          + getTelefono()
+          + getidUsuario()
+          + setAlquileres()
+          + setApellidos()
+          + setCodPostal()
+          + setDireccion()
+          + setDni()
+          + setEmail()
+          + setFechaNacimiento()
+          + setLocalidad()
+          + setNombre()
+          + setReservas()
+          + setSupabaseUserId()
+          + setTelefono()
+          + setidUsuario()
+      }
+    }
+  }
+  
+
+  com.mourosub.web.model.Alquileres o-- com.mourosub.web.model.Material : material
+  com.mourosub.web.model.Alquileres o-- com.mourosub.web.model.Usuario : usuario
+  com.mourosub.web.model.Curso -up-|> com.mourosub.web.model.Actividad
+  com.mourosub.web.model.Inmersiones -up-|> com.mourosub.web.model.Actividad
+  com.mourosub.web.model.Reserva o-- com.mourosub.web.model.Actividad : actividad
+  com.mourosub.web.model.Seguros o-- com.mourosub.web.model.Usuario : usuario
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
