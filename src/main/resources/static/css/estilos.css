@@ -190,8 +190,9 @@ header {
 }
 
 /* hero section */
+/* hero section con difuminado hacia el azul oscuro de las tarjetas */
 .hero-section {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.377)), url('/src/main/resources/static/img/imagenindex.png');
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(13, 27, 42, 0.4) 60%, #0d1b2a 100%), url('/src/main/resources/static/img/imagenindex.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -199,6 +200,7 @@ header {
   width: 100%;
   padding-top: 100px; 
 }
+
 
 .hero-kicker {
   color: #6fb2d2; 
@@ -267,6 +269,9 @@ header {
 }
 
 /* tarjetas */
+.fondoazul {
+  background: rgba(13, 27, 42, 0.98);
+}
 .card-foto {
   position: relative;
   border-radius: 16px;
@@ -291,7 +296,7 @@ header {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.527) 40%, transparent 100%);
   border-radius: 16px;
 }
 
