@@ -1,6 +1,5 @@
 package com.mourosub.web.controller;
 import java.util.*;
-import com.mourosub.web.forms.ReservaForm;
 import com.mourosub.web.model.Actividad;
 import com.mourosub.web.model.Reserva;
 import com.mourosub.web.repository.ActividadRepository;
@@ -35,7 +34,7 @@ public class ReservaController {
 
     @GetMapping("/nueva")
     public String nueva (Model model){
-    model.addAttribute("reservaForm", new ReservaForm());
+    model.addAttribute("reserva", new Reserva());
     model.addAttribute("actividades", actividadRepository.findAll());
     model.addAttribute("usuario", usuarioRepository.findAll());
 

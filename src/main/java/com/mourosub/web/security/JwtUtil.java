@@ -25,7 +25,6 @@ public class JwtUtil {
 
     //getters y setters
 
-
     public Key getKey() {
         return key;
     }
