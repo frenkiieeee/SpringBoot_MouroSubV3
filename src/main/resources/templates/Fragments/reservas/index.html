@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!--Hacer thymeleaf de reservas y corregir posibles errores-->
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva reserva</title>
+</head>
+
+<body>
+    <h1>Nuevareserva</h1>
+    <form th:action="@{/reservas/guardar}" th:object="${reserva}" method="post">
+        
+        <label>Tipo de servicio</label>
+        <input type="text" th:field="{tipoServicio}">
+        <br>
+
+        <label>Referencia de servicio</label>
+        <input type="text" th:field="{refServicio}">
+        <br>
+
+        <label>Referencia de servicio ID</label>
+        <input type="text" th:field="{refServicioId}">
+        <br>
+
+        
+    </form>
+</body>
