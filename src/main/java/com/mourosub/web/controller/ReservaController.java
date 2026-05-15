@@ -1,5 +1,5 @@
 package com.mourosub.web.controller;
-
+import java.util.*;
 import com.mourosub.web.forms.ReservaForm;
 import com.mourosub.web.model.Actividad;
 import com.mourosub.web.model.Reserva;
@@ -43,28 +43,23 @@ public class ReservaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar (@ModelAttribute ReservaForm reservaForm){
-        Reserva reserva = new Reserva();
-
-        reserva.setTipoServicio(reservaForm.getTipoServicio());
-        reserva.setRefServicio(reservaForm.getRefServicio());
-        reserva.setRefServicioId(reservaForm.getRefServicioId());
-        reserva.setNumParticipantes(reservaForm.getNumParticipantes());
-        reserva.setFechaActividad(reservaForm.getFechaActividad());
-
-
+    public String guardar (
+        @ModelAttribute Reserva reserva,
+        @RequestParam Long idActividad,
+        @RequestParam List<Long> usuarioIds
+    )  { 
+    
         Actividad actividad = new Actividad();
-
-        actividad.setIdActividad (reservaForm.getIdActividad());
+        actividad.setIdActividad (idActividad);
         reserva.setActividad(actividad);
         
-        reservaService.crearReserva(reserva, reservaForm.getUsuarioIds());
+        reservaService.crearReserva(reserva, usuarioIds);
         
-        return "redirect:/reservas/mis-reservas/" + reservaForm.getUsuarioIds().get(0);
+        return "redirect:/reservas/mis-reservas/" + usuarioIds.get(0);
     }
     //Quitar el usuario de la reserva
     @GetMapping("/cancelar/{idUsuario}")
-    public String misReservas(@PathVariable long idUsuario, Model model){
+    public String misReservas(@PathVariable Long idUsuario, Model model){
         model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(idUsuario));
 
         return "reservas/mis-reservas";

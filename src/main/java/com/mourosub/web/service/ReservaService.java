@@ -35,8 +35,10 @@ public class ReservaService {
 
         //Obtener actividad
         Actividad actividad = actividadRepo.findById(reserva.getActividad().getIdActividad())
-        .orElseThrow(()-> new RuntimeException("Actividad no encontrada"));
-        
+            .orElseThrow(()-> new RuntimeException("Actividad no encontrada"));
+        //Le asginamos la actividad a la reserva
+            reserva.setActividad(actividad);
+
         //Comprobar usuarios de la reserva
         if (!comprobarDisponibilidad(actividad, reserva.getNumParticipantes())){
             throw new RuntimeException("No hay plazas disponibles");
