@@ -1,5 +1,8 @@
 package com.mourosub.web.controller;
 import java.util.*;
+import java.util.UUID;
+import com.mourosub.web.model.*;
+import com.mourosub.web.dto.ReservaFormDTO;
 import com.mourosub.web.model.Actividad;
 import com.mourosub.web.model.Reserva;
 import com.mourosub.web.repository.ActividadRepository;
@@ -32,32 +35,63 @@ public class ReservaController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @GetMapping("/nueva")
-    public String nueva (Model model){
-    model.addAttribute("reserva", new Reserva());
-    model.addAttribute("actividades", actividadRepository.findAll());
-    model.addAttribute("usuario", usuarioRepository.findAll());
+    @GetMapping
+    public String index(Model model){
+        model.addAttribute("seccion","inicio");
+        return "Fragments/reservas/index";
+    }
 
-    return "reservas/formulario";
+    @GetMapping("/cursos")
+    public String cursos(Model model){
+        model.addAttribute("seccion","formulario");
+        model.addAttribute("titulo", "Bautismo y cursos");
+        model.addAttribute("reservaForm", new ReservaFormDTO());
+        model.addAttribute("actividades",actividadRepository.findByTipoIn(List.of("BAUTISMO", "CURSO")));
+        model.addAttribute("usuarios", usuarioRepository.findAll());
+
+        return "Fragments/reservas/index";
+    }
+
+    @GetMapping("/actividades")
+    public String actividades(Model model){
+        model.addAttribute("seccion","formulario");
+        model.addAttribute("titulo", "Actividades");
+        model.addAttribute("reservaForm", new ReservaFormDTO());
+        model.addAttribute("actividades", actividadRepository.findByTipoIn(List.of("INMERSION", "SNORKEL", "PASEO_BARCO")));
+        model.addAttribute("usuarios", usuarioRepository.findAll());
+
+        return "Fragments/reservas/index";
     }
 
     @PostMapping("/guardar")
-    public String guardar (
-        @ModelAttribute Reserva reserva,
-        @RequestParam Long idActividad,
-        @RequestParam List<Long> usuarioIds
-    )  { 
+    public String guardar(@ModelAttribute ReservaFormDTO reservaForm) {
+    Usuario usuario = new Usuario();
+    usuario.setSupabaseUserId(UUID.randomUUID());
+    usuario.setNombre(reservaForm.getNombre());
+    usuario.setApellidos(reservaForm.getApellidos());
+    usuario.setEmail(reservaForm.getEmail());
+    usuario.setDni(reservaForm.getDni());
+    usuario.setTelefono(reservaForm.getTelefono());
+    usuario.setDireccion(reservaForm.getDireccion());
+    usuario.setCodPostal(reservaForm.getCodPostal());
+    usuario.setLocalidad(reservaForm.getLocalidad());
+    usuario.setFechaNacimiento(reservaForm.getFechaNacimiento());
+
+    usuarioRepository.save(usuario);
+
+    Reserva reserva = new Reserva();
+    reserva.setNumParticipantes(reservaForm.getNumParticipantes());
     
         Actividad actividad = new Actividad();
-        actividad.setIdActividad (idActividad);
+        actividad.setIdActividad (reservaForm.getIdActividad());
         reserva.setActividad(actividad);
         
-        reservaService.crearReserva(reserva, usuarioIds);
+        reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
         
-        return "redirect:/reservas/mis-reservas/" + usuarioIds.get(0);
+        return "redirect:/reservas" + usuario.getidUsuario();
     }
     //Quitar el usuario de la reserva
-    @GetMapping("/cancelar/{idUsuario}")
+    @GetMapping("/mis-reservas/{idUsuario}")
     public String misReservas(@PathVariable Long idUsuario, Model model){
         model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(idUsuario));
 
@@ -68,6 +102,6 @@ public class ReservaController {
     public String cancelar (@PathVariable Long idReserva){
         reservaService.cancelarReserva(idReserva);
 
-        return "redirect:/reservas/nueva";
+        return "redirect:/reservas";
     }
 }

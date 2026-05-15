@@ -38,6 +38,10 @@ public class ReservaService {
             .orElseThrow(()-> new RuntimeException("Actividad no encontrada"));
         //Le asginamos la actividad a la reserva
             reserva.setActividad(actividad);
+            reserva.setTipoServicio(actividad.getTipo());
+            reserva.setRefServicio(actividad.getNombre());
+            reserva.setRefServicioId(String.valueOf(actividad.getIdActividad()));
+            reserva.setFechaActividad(actividad.getFechaActividad());
 
         //Comprobar usuarios de la reserva
         if (!comprobarDisponibilidad(actividad, reserva.getNumParticipantes())){

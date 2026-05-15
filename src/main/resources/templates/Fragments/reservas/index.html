@@ -4,25 +4,58 @@
 <!--Hacer thymeleaf de reservas y corregir posibles errores-->
 <head>
     <meta charset="UTF-8">
-    <title>Nueva reserva</title>
+    <title>Reservas</title>
 </head>
 
 <body>
-    <h1>Nuevareserva</h1>
-    <form th:action="@{/reservas/guardar}" th:object="${reserva}" method="post">
-        
-        <label>Tipo de servicio</label>
-        <input type="text" th:field="{tipoServicio}">
-        <br>
+<h1>Reservas</h1>
+    <section th:if="${seccion == 'inicio'}">
+        <article>
+            <h2>Bautismos y Cursos</h2>
+            <p>Reserva bautimos o cursos para mejorar tu nivel de buzeo</p>
+            <a th:href="@{/reservas/cursos}">Reservar curso</a>
+        </article>
 
-        <label>Referencia de servicio</label>
-        <input type="text" th:field="{refServicio}">
-        <br>
+        <article>
+            <h2>Actividades</h2>
+            <p>Reserva de inmersiones, snorkel y muchas mas por descubrir</p>
+            <a th:href ="@{/reservas/actividades}">Reserva actividad</a>
+        </article>
+    </section>
 
-        <label>Referencia de servicio ID</label>
-        <input type="text" th:field="{refServicioId}">
-        <br>
+    <section th:if="${seccion == 'formulario'}">
+        <h2 th:text="${titulo}">Nueva reserva</h2>
+        <form th:action="@{/reservas/guardar}" th:object="${reservaForm}" method="post">
 
-        
-    </form>
+                <label for="idActividad" th:text="${titulo}">Actividades</label>
+                <select id="idActividad" th:field="*{idActividad}" required>
+                    <option value="">Seleccione una opcion</option>
+                    <option th:each="actividad : ${actividades}"
+                            th:value="${actividad.idActividad}"
+                            th:text="${actividad.nombre + ' - ' + actividad.tipo + ' - ' + actividad.precio + ' €'">
+
+                    </option>
+                </select>
+                <br>
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" th:field="*{nombre}" required>
+
+                <label for="apellidos">Apellidos</label>
+                <input id="apellidos" type="text" th:field="*{apellidos}" required>
+
+                <label for="email">Email</label>
+                <input id="email" type="email" th:field="*{email}" required>
+
+                <label for="telefono">Telefono</label>
+                <input id="telefono" type="text" th:field="*{telefono}" required>
+
+                <label for="dni">DNI</label>
+                <input id="dni" type="text" th:field="*{dni}">
+                <label for="numParticipantes">Indique el numero de participantes</label>
+                <input id="numParticipantes" type="number" th:field="*{numParticipantes}" min="1" required>
+                <button type="submit">Guardar reserva</button>
+        </form>
+            <a th:href="@{/reservas}">Volver</a>
+    </section>
 </body>
+</html>
