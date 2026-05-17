@@ -1,4 +1,5 @@
 package com.mourosub.web.model;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -26,6 +27,12 @@ public class Material {
 
     @Column (name = "num_serie", nullable = false, length = 50)
     private String numSerie;
+
+    @Column(nullable = false)
+    private BigDecimal precioBase;
+
+    @Column(nullable = false)
+    private BigDecimal precioPorDia;
 
     @Column (nullable = false, length = 50)
     private String marca;
@@ -57,4 +64,20 @@ public class Material {
 
     public String getMarca() {return marca;}
     public void setMarca(String marca) {this.marca = marca;}
+
+    public BigDecimal getPrecioBase() {
+        return precioBase;
+    }
+
+    public void setPrecioBase(BigDecimal precioBase) {
+        this.precioBase = precioBase;
+    }
+
+    public BigDecimal getPrecioPorDia() {
+        return precioPorDia;
+    }
+
+    public void setPrecioPorDia(BigDecimal precioPorDia) {
+        this.precioPorDia = precioPorDia;
+    }
 }

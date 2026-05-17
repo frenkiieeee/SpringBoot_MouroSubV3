@@ -1,5 +1,6 @@
 package com.mourosub.web.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 
@@ -14,7 +15,7 @@ public class Alquileres {
     private Long idAlquiler;
 
     @Column (nullable = false)
-    private Double precioTotal;
+    private BigDecimal precioTotal;
 
     @Column (nullable = false)
     private LocalDate fechaAlquiler;
@@ -36,11 +37,11 @@ public class Alquileres {
     public Long getIdAlquiler() {return idAlquiler;}
     public void setIdAlquiler(Long idAlquiler) {this.idAlquiler = idAlquiler;}
 
-    public Double getPrecioTotal() {
+    public BigDecimal getPrecioTotal() {
         return precioTotal;
     }
 
-    public void setPrecioTotal(Double precioTotal) {
+    public void setPrecioTotal(BigDecimal precioTotal) {
         this.precioTotal = precioTotal;
     }
 
@@ -63,10 +64,10 @@ public class Alquileres {
     public Boolean getDisponible() {
         return disponible;
     }
-
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
+
     public Material getMaterial() { return material; }
     public void setMaterial(Material material) { this.material = material; }
 
