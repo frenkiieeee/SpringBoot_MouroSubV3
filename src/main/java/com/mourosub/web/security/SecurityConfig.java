@@ -23,6 +23,7 @@ public class SecurityConfig {
                     "/css/**", "/js/**", "/images/**", "/favicon.ico"
                 ).permitAll()
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/api/config").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                 .anyRequest().permitAll()
             );

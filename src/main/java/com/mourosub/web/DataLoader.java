@@ -6,22 +6,28 @@ import com.mourosub.web.model.Usuario;
 import com.mourosub.web.repository.InstructorRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
+// Clase que inserta datos de prueba en la base de datos al arrancar la aplicacion.
+// @Component: Spring la detecta y la gestiona como un bean.
 @Component
+// @ConditionalOnProperty: esta clase SOLO se activa si en la configuracion app.seed.enabled = true.
+// Asi los datos de prueba no se insertan cuando no queremos (por ejemplo en produccion).
 @ConditionalOnProperty(prefix = "app.seed", name = "enabled", havingValue = "true")
 public class DataLoader implements CommandLineRunner {
+    // implements CommandLineRunner: su metodo run() se ejecuta una sola vez, justo al arrancar la app.
 
+    // Repositorios que necesitamos para guardar los datos de prueba.
     private final UsuarioRepository usuarioRepo;
     private final ReservaRepository reservaRepo;
     private final InstructorRepository instructorRepo;
 
+    // Spring inyecta los repositorios por el constructor.
     public DataLoader(UsuarioRepository usuarioRepo, ReservaRepository reservaRepo,
                       InstructorRepository instructorRepo) {
         this.usuarioRepo = usuarioRepo;
@@ -29,18 +35,19 @@ public class DataLoader implements CommandLineRunner {
         this.instructorRepo = instructorRepo;
     }
 
+    // Este metodo se ejecuta automaticamente al arrancar la app (si el seed esta activado).
     @Override
     public void run(String... args) throws Exception {
-
         // 1. Crear instructor
         Instructor instructor = new Instructor("María García", "12345678A", "PADI Divemaster, SSI Level 3");
         instructorRepo.save(instructor);
 
-        // 2. Crear usuario
+        // 2. Crear usuario de prueba
         Usuario usuario = new Usuario();
         usuarioRepo.save(usuario);
 
         // 3. Crear reservas
+        // Dos reservas de ejemplo, asociadas al usuario y al instructor creados arriba.
         Reserva r1 = new Reserva(
             "inmersion", "bautismo", "SRV-001",
             2, new BigDecimal("120.00"), "confirmada",
@@ -54,24 +61,7 @@ public class DataLoader implements CommandLineRunner {
         reservaRepo.save(r1);
         reservaRepo.save(r2);
 
-        // 4. Verificar en consola
-        System.out.println("=== INSTRUCTORES EN BD ===");
-        instructorRepo.findAll().forEach(i ->
-            System.out.println("► " + i.getidInstructor() + " - " + i.getNombre())
-        );
-
-        System.out.println("=== USUARIOS EN BD ===");
-        usuarioRepo.findAll().forEach(u ->
-            System.out.println("► " + u.getidUsuario() + " - " + u.getNombre() + " " + u.getApellidos())
-        );
-
-        System.out.println("=== RESERVAS EN BD ===");
-        reservaRepo.findAll().forEach(r ->
-            System.out.println("► Reserva " + r.getIdReserva()
-                + " | Tipo: " + r.getTipoServicio()
-                + " | Precio: " + r.getPrecioTotal() + "€"
-                + " | Instructor: " + r.getInstructores().get(0).getNombre()
-                + " | Usuario: " + r.getUsuarios().get(0).getNombre())
-        );
+        // Mensaje en consola para confirmar que los datos se insertaron.
+        System.out.println("=== DATOS DE PRUEBA INSERTADOS ===");
     }
 }
