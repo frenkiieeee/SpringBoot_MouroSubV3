@@ -192,7 +192,7 @@ header {
 /* hero section */
 /* hero section con difuminado hacia el azul oscuro de las tarjetas */
 .hero-section {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(13, 27, 42, 0.4) 60%, #0d1b2a 100%), url('/src/main/resources/static/img/imagenindex.png');
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(13, 27, 42, 0.4) 60%, #0d1b2a 100%), url('../img/imagenindex.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -470,6 +470,38 @@ header {
 }
 
 .footer-bottom nav a:hover { color: rgba(255, 255, 255, 0.75); }
+
+/* ================================================================
+   LAYOUT GLOBAL
+   #siteHeader replica la altura del header fijo como espaciador,
+   evitando que el contenido quede oculto detrás del header.
+   body flex-column garantiza que el footer siempre quede al fondo.
+   ================================================================ */
+
+#siteHeader {
+  height: 94px;        /* iguala padding(20) + logo(50) + padding(20) + border(2) */
+  flex-shrink: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+  padding-top: 2rem !important; /* sobrescribe los padding-top: 120px inline de cada pagina */
+}
+
+#siteFooter {
+  flex-shrink: 0;
+}
+
+/* el hero ya no necesita compensar el header: el espaciador lo hace */
+.hero-section {
+  padding-top: 20px;
+}
 
 /* ajustes para movil */
 @media (max-width: 768px) {
