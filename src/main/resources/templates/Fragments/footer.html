@@ -1,19 +1,25 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-  <footer th:fragment="footer" class="site-footer">
+<!-- ================================================================
+     FRAGMENTO: pie de pagina (footer).
+     th:fragment="footer" le da nombre para poder insertarlo desde
+     cualquier pagina con th:insert. Una sola copia para toda la web.
+     ================================================================ -->
+<footer th:fragment="footer" class="site-footer">
     <div class="footer-top">
 
+      <!-- Columna 1: enlaces de atencion al cliente -->
       <div class="footer-col">
         <h5>Servicio al consumidor</h5>
         <ul>
-          <li><a th:href="@{/condiciones}">Condiciones de venta</a></li>
-          <li><a th:href="@{/devoluciones}">Devoluciones</a></li>
-          <li><a th:href="@{/aviso-legal}">Aviso legal</a></li>
-          <li><a th:href="@{/privacidad}">Política de privacidad</a></li>
+          <!-- th:href="@{/...}" genera la URL con la raiz correcta del sitio.
+               El href normal sirve de respaldo si no se procesa Thymeleaf. -->
+          <li><a href="/condiciones" th:href="@{/condiciones}">Condiciones de venta</a></li>
+          <li><a href="/devoluciones" th:href="@{/devoluciones}">Devoluciones</a></li>
+          <li><a href="/aviso-legal" th:href="@{/aviso-legal}">Aviso legal</a></li>
+          <li><a href="/privacidad" th:href="@{/privacidad}">Política de privacidad</a></li>
         </ul>
       </div>
 
+      <!-- Columna 2: datos de contacto -->
       <div class="footer-col">
         <h5>Contacta con nosotros</h5>
         <div class="contact-item">
@@ -30,6 +36,7 @@
         </div>
       </div>
 
+      <!-- Columna 3: redes sociales -->
       <div class="footer-col">
         <h5>Redes sociales</h5>
         <div class="footer-socials">
@@ -37,21 +44,19 @@
           <a href="#" class="social-btn" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
           <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
           <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-btn" aria-label="Vimeo"><i class="bi bi-vimeo"></i></a>
           <a href="#" class="social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
         </div>
       </div>
 
     </div>
 
+    <!-- Franja inferior: copyright y enlaces legales -->
     <div class="footer-bottom">
-      <p>© 2024 · Mourosub. Todos los derechos reservados.</p>
+      <p>© 2026 · Mourosub. Todos los derechos reservados.</p>
       <nav>
-        <a th:href="@{/aviso-legal}">Aviso legal</a>
-        <a th:href="@{/privacidad}">Privacidad</a>
-        <a th:href="@{/cookies}">Cookies</a>
+        <a href="/aviso-legal" th:href="@{/aviso-legal}">Aviso legal</a>
+        <a href="/privacidad" th:href="@{/privacidad}">Privacidad</a>
+        <a href="/cookies" th:href="@{/cookies}">Cookies</a>
       </nav>
     </div>
   </footer>
-
-</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<!-- xmlns:th declara el namespace de Thymeleaf: habilita los atributos th:* -->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Estilos: Bootstrap, iconos de Bootstrap y nuestra hoja de estilos propia -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- th:href="@{/css/estilos.css}" -> Thymeleaf calcula la ruta correcta del CSS -->
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <title>Mi cuenta</title>
+</head>
+<body>
+
+<!-- th:insert mete el fragmento 'siteHeader' DENTRO de este div.
+     Se conserva el div #siteHeader, que el CSS usa como espaciador del header fijo. -->
+<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+
+<main class="container" style="padding-top: 120px; max-width: 620px;">
+  <h1 class="fw-bold mb-3">Mi cuenta</h1>
+  <p class="text-muted">Datos basicos de la sesion actual.</p>
+
+  <!-- Tarjeta con los datos de la sesion; el JavaScript de abajo la rellena -->
+  <div id="accountInfo" class="card">
+    <div class="card-body">
+      <p class="mb-2"><strong>Email:</strong> <span id="accountEmail">-</span></p>
+      <p class="mb-2"><strong>Estado:</strong> <span id="accountStatus">Desconocido</span></p>
+      <p class="mb-0"><strong>Rol:</strong> <span id="accountRole">Usuario</span></p>
+    </div>
+  </div>
+
+  <!-- Aviso que aparece (se le quita d-none) solo si no hay sesion iniciada -->
+  <div id="accountWarning" class="alert alert-warning mt-3 d-none">
+    Necesitas iniciar sesion para ver tu cuenta.
+  </div>
+
+  <!-- Boton al panel admin: empieza oculto (d-none); el JS lo muestra solo si el usuario es admin -->
+  <a id="adminPanelBtn" href="/admin" class="btn btn-primary mt-3 d-none">
+    <i class="bi bi-shield-lock"></i> Ir al panel admin
+  </a>
+</main>
+
+<!-- Igual que el header: inserta el fragmento 'footer' dentro de este div -->
+<div id="siteFooter" th:insert="~{fragments/footer :: footer}"></div>
+
+<!-- Bootstrap (para el menu desplegable) y header.js (estado de sesion en el header) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>
+  // Activamos el estado de sesion en el header (icono de cuenta vs boton de login).
+  if (window.initHeaderSession) window.initHeaderSession();
+
+  // Leemos los datos que el login guardo en el navegador (localStorage).
+  const email = localStorage.getItem("supabaseUserEmail");
+  const userId = localStorage.getItem("supabaseUserId");
+  // Referencias a los elementos de la pagina que vamos a rellenar.
+  const accountEmail = document.getElementById("accountEmail");
+  const accountStatus = document.getElementById("accountStatus");
+  const accountRole = document.getElementById("accountRole");
+  const accountWarning = document.getElementById("accountWarning");
+  const adminPanelBtn = document.getElementById("adminPanelBtn");
+  // El login guarda "true"/"false" como texto; lo comparamos con "true".
+  const isAdmin = localStorage.getItem("supabaseIsAdmin") === "true";
+
+  // Si hay email o id, hay sesion: mostramos los datos.
+  if (email || userId) {
+    accountEmail.textContent = email || "Sin email";
+    accountStatus.textContent = "Sesion activa";
+    accountRole.textContent = isAdmin ? "Admin" : "Usuario";
+    // Si es admin, mostramos el boton del panel admin (le quitamos d-none).
+    if (isAdmin) adminPanelBtn.classList.remove("d-none");
+  } else {
+    // Sin sesion: mostramos el aviso y dejamos los datos en blanco.
+    accountWarning.classList.remove("d-none");
+    accountStatus.textContent = "Sin sesion";
+    accountRole.textContent = "Usuario";
+  }
+</script>
+</body>
+</html>
