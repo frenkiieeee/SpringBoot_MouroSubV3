@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Admin - Tickets servicio tecnico</title>
+</head>
+<body>
+<main class="container" style="padding-top: 40px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="fw-bold">Tickets servicio tecnico</h1>
+    <a class="btn btn-link" th:href="@{/admin}">Volver al admin</a>
+  </div>
+
+  <!-- Formulario de filtro: al enviarlo (GET) recarga la pagina con ?estado=... -->
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+      <select class="form-select" name="estado">
+        <option value="">Todos</option>
+        <!-- Una opcion por cada estado posible de la lista ${estados} -->
+        <option th:each="estadoOpt : ${estados}"
+                th:value="${estadoOpt}"
+                th:selected="${estadoOpt == estado}"
+                th:text="${estadoOpt}">NUEVO</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-primary" type="submit">Filtrar</button>
+    </div>
+  </form>
+
+  <!-- Tabla con los tickets (todos, o los del estado filtrado) -->
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Categoria</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th class="text-end">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Una fila por cada ticket de la lista ${tickets} -->
+      <tr th:each="ticket : ${tickets}">
+        <td th:text="${ticket.idTicket}">1</td>
+        <td th:text="${ticket.nombre}">Nombre</td>
+        <td th:text="${ticket.email}">Email</td>
+        <td th:text="${ticket.categoria}">Categoria</td>
+        <td th:text="${ticket.estado}">NUEVO</td>
+        <!-- #temporals.format es una utilidad de Thymeleaf para dar formato a fechas -->
+        <td th:text="${#temporals.format(ticket.fechaCreacion, 'yyyy-MM-dd HH:mm')}">Fecha</td>
+        <td class="text-end">
+          <!-- Enlace al detalle del ticket; metemos su id en la URL -->
+          <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/tickets/servicio-tecnico/{id}(id=${ticket.idTicket})}">Ver</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

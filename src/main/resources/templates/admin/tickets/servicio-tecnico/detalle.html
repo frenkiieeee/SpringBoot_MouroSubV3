@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Admin - Ticket detalle</title>
+</head>
+<body>
+<main class="container" style="padding-top: 40px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="fw-bold">Ticket detalle</h1>
+    <a class="btn btn-link" th:href="@{/admin/tickets/servicio-tecnico}">Volver</a>
+  </div>
+
+  <!-- Tarjeta con todos los datos del ticket; cada th:text muestra un campo del objeto ${ticket} -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title" th:text="${ticket.nombre}">Nombre</h5>
+      <p class="card-text"><strong>Email:</strong> <span th:text="${ticket.email}">email</span></p>
+      <p class="card-text"><strong>Telefono:</strong> <span th:text="${ticket.telefono}">telefono</span></p>
+      <p class="card-text"><strong>Categoria:</strong> <span th:text="${ticket.categoria}">categoria</span></p>
+      <p class="card-text"><strong>Equipo:</strong> <span th:text="${ticket.equipo}">equipo</span></p>
+      <p class="card-text"><strong>Marca:</strong> <span th:text="${ticket.marca}">marca</span></p>
+      <p class="card-text"><strong>Modelo:</strong> <span th:text="${ticket.modelo}">modelo</span></p>
+      <p class="card-text"><strong>Numero de serie:</strong> <span th:text="${ticket.numeroSerie}">serie</span></p>
+      <p class="card-text"><strong>Descripcion:</strong></p>
+      <p class="card-text" th:text="${ticket.descripcionProblema}">descripcion</p>
+      <p class="card-text"><strong>Estado:</strong> <span th:text="${ticket.estado}">estado</span></p>
+      <!-- #temporals.format da formato legible a la fecha de creacion -->
+      <p class="card-text"><strong>Fecha:</strong> <span th:text="${#temporals.format(ticket.fechaCreacion, 'yyyy-MM-dd HH:mm')}">fecha</span></p>
+    </div>
+  </div>
+
+  <!-- Formulario para cambiar el estado del ticket. El id va dentro de la URL de th:action. -->
+  <form th:action="@{/admin/tickets/servicio-tecnico/{id}/estado(id=${ticket.idTicket})}" method="post" class="row g-2">
+    <div class="col-auto">
+      <select class="form-select" name="estado">
+        <!-- Una opcion por cada estado; th:selected marca el estado actual del ticket -->
+        <option th:each="estadoOpt : ${estados}"
+                th:value="${estadoOpt}"
+                th:selected="${estadoOpt == ticket.estado}"
+                th:text="${estadoOpt}">NUEVO</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" type="submit">Actualizar estado</button>
+    </div>
+  </form>
+</main>
+</body>
+</html>

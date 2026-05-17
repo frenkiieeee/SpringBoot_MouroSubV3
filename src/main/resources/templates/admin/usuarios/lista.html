@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Admin - Gestor de usuarios</title>
+</head>
+<body>
+<main class="container" style="padding-top: 40px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="fw-bold">Gestor de usuarios</h1>
+    <a class="btn btn-link" th:href="@{/admin}">Volver al admin</a>
+  </div>
+
+  <!-- Tabla con todos los usuarios registrados -->
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>DNI</th>
+        <th>Telefono</th>
+        <th>Localidad</th>
+        <th>Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Una fila por cada usuario de la lista ${usuarios} -->
+      <tr th:each="usuario : ${usuarios}">
+        <!-- Llamamos al metodo getidUsuario() directamente porque su nombre no es estandar
+             y Thymeleaf no lo encuentra como propiedad 'idUsuario'. -->
+        <td th:text="${usuario.getidUsuario()}">1</td>
+        <td th:text="${usuario.nombre}">Nombre</td>
+        <td th:text="${usuario.apellidos}">Apellidos</td>
+        <td th:text="${usuario.email}">Email</td>
+        <td th:text="${usuario.dni}">DNI</td>
+        <td th:text="${usuario.telefono}">Telefono</td>
+        <td th:text="${usuario.localidad}">Localidad</td>
+        <td>
+          <!-- th:if muestra el badge si es admin; th:unless lo muestra si NO lo es -->
+          <span th:if="${usuario.admin}" class="badge text-bg-success">Admin</span>
+          <span th:unless="${usuario.admin}" class="badge text-bg-secondary">Usuario</span>
+        </td>
+      </tr>
+      <!-- Fila que aparece solo si no hay ningun usuario -->
+      <tr th:if="${#lists.isEmpty(usuarios)}">
+        <td colspan="8" class="text-muted">No hay usuarios registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
