@@ -1,4 +1,182 @@
 services:
+
+  # ─── Base de datos PostgreSQL (Supabase) ───────────────────────────────────
+  supabase-db:
+    image: supabase/postgres:15.8.1.085
+    container_name: supabase-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXP: ${JWT_EXPIRY:-3600}
+    volumes:
+      - supabase-db-data:/var/lib/postgresql/data
+      - ./docker/supabase/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mourosub-net
+
+  # ─── Autenticacion (GoTrue) ────────────────────────────────────────────────
+  supabase-auth:
+    image: supabase/gotrue:v2.186.0
+    container_name: supabase-auth
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: ${SUPABASE_PUBLIC_URL}
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}?search_path=auth
+      GOTRUE_SITE_URL: ${SITE_URL}
+      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS:-}
+      GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP:-false}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: ${JWT_EXPIRY:-3600}
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: ${ENABLE_EMAIL_SIGNUP:-true}
+      GOTRUE_MAILER_AUTOCONFIRM: ${ENABLE_EMAIL_AUTOCONFIRM:-true}
+      GOTRUE_SMTP_ADMIN_EMAIL: ${SMTP_ADMIN_EMAIL:-no-reply@example.com}
+      GOTRUE_SMTP_HOST: ${SMTP_HOST:-mailhog}
+      GOTRUE_SMTP_PORT: ${SMTP_PORT:-1025}
+      GOTRUE_SMTP_USER: ${SMTP_USER:-}
+      GOTRUE_SMTP_PASS: ${SMTP_PASS:-}
+      GOTRUE_SMTP_SENDER_NAME: ${SMTP_SENDER_NAME:-Mourosub}
+    networks:
+      - mourosub-net
+
+  # ─── API REST (PostgREST) — necesario para que Studio muestre datos ─────────
+  supabase-rest:
+    image: postgrest/postgrest:v14.8
+    container_name: supabase-rest
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS:-public}
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_EXTRA_SEARCH_PATH: public
+    networks:
+      - mourosub-net
+
+  # ─── Storage ───────────────────────────────────────────────────────────────
+  supabase-storage:
+    image: supabase/storage-api:v1.48.26
+    container_name: supabase-storage
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-rest:
+        condition: service_started
+    environment:
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      AUTH_JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      POSTGREST_URL: http://supabase-rest:3000
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      STORAGE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+    volumes:
+      - supabase-storage-data:/var/lib/storage
+    networks:
+      - mourosub-net
+
+  # ─── Metadata (postgres-meta) — necesario para Studio ─────────────────────
+  supabase-meta:
+    image: supabase/postgres-meta:v0.96.3
+    container_name: supabase-meta
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: supabase-db
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: ${POSTGRES_DB:-postgres}
+      PG_META_DB_USER: ${POSTGRES_USER:-postgres}
+      PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - mourosub-net
+
+  # ─── Supabase Studio (panel admin) ─────────────────────────────────────────
+  supabase-studio:
+    image: supabase/studio:2026.04.27-sha-5f60601
+    container_name: supabase-studio
+    restart: unless-stopped
+    depends_on:
+      supabase-meta:
+        condition: service_started
+    environment:
+      HOSTNAME: 0.0.0.0
+      STUDIO_PG_META_URL: http://supabase-meta:8080
+      POSTGRES_HOST: supabase-db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SUPABASE_URL: http://supabase-gateway:8000
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
+    networks:
+      - mourosub-net
+
+  # ─── Studio Proxy (Basic Auth — protege Supabase Studio) ───────────────────
+  studio-proxy:
+    image: nginx:1.27-alpine
+    container_name: studio-proxy
+    restart: unless-stopped
+    depends_on:
+      supabase-studio:
+        condition: service_started
+    environment:
+      STUDIO_USER: ${STUDIO_USER:-admin}
+      STUDIO_PASSWORD: ${STUDIO_PASSWORD:-changeme}
+    command: >
+      sh -c "apk add --no-cache apache2-utils &&
+             htpasswd -bc /etc/nginx/.htpasswd $$STUDIO_USER $$STUDIO_PASSWORD &&
+             nginx -g 'daemon off;'"
+    volumes:
+      - ./docker/studio-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "${SUPABASE_STUDIO_PORT:-3000}:3000"
+    networks:
+      - mourosub-net
+
+  # ─── Gateway Nginx (punto de entrada Supabase API) ─────────────────────────
+  supabase-gateway:
+    image: nginx:1.27-alpine
+    container_name: supabase-gateway
+    restart: unless-stopped
+    depends_on:
+      supabase-auth:
+        condition: service_started
+      supabase-rest:
+        condition: service_started
+      supabase-storage:
+        condition: service_started
+    ports:
+      - "${SUPABASE_GATEWAY_PORT:-8000}:8000"
+    volumes:
+      - ./docker/supabase/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - mourosub-net
+
+  # ─── Aplicacion Spring Boot ────────────────────────────────────────────────
   springboot-app:
     build:
       context: .
@@ -8,25 +186,41 @@ services:
     env_file:
       - .env
     environment:
-      DB_URL: ${DB_URL}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
+      DB_URL: jdbc:postgresql://supabase-db:5432/${POSTGRES_DB:-postgres}
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASS: ${POSTGRES_PASSWORD}
       SERVER_PORT: ${SERVER_PORT:-8080}
-      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mourosub.com}
       APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
+      # Sirve el front desde los volumenes montados: los cambios se ven sin reconstruir.
+      STATIC_LOCATIONS: file:/app/static/
+      THYMELEAF_PREFIX: file:/app/templates/
+    volumes:
+      - ./src/main/resources/static:/app/static
+      - ./src/main/resources/templates:/app/templates
     ports:
       - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
     depends_on:
       supabase-db:
         condition: service_healthy
+      supabase-auth:
+        condition: service_started
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:${SERVER_PORT:-8080}/actuator/health | grep -q '\"status\":\"UP\"'"]
       interval: 30s
-      timeout: 5s
+      timeout: 10s
       retries: 5
-      start_period: 40s
+      start_period: 60s
     networks:
       - mourosub-net
+
+volumes:
+  supabase-db-data:
+  supabase-storage-data:
 
 networks:
   mourosub-net:

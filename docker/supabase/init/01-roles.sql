@@ -1,5 +1,6 @@
 do $$
 begin
+  -- Roles requeridos por Supabase Auth y PostgREST
   if not exists (select 1 from pg_roles where rolname = 'anon') then
     create role anon noinherit;
   end if;
@@ -11,6 +12,7 @@ begin
   if not exists (select 1 from pg_roles where rolname = 'service_role') then
     create role service_role noinherit;
   end if;
+
 end$$;
 
 create schema if not exists auth;
