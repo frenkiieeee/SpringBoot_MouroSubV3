@@ -9,21 +9,17 @@
     <!-- Barra superior con logo, navegacion y acciones -->
     <header>
         <!-- Logo principal -->
-        <a href="index.html" class="header-logo">
-            <img src="img/Logo/letrasylogo2.png" alt="Mourosub">
+        <a href="index.html" th:href="@{/index.html}" class="header-logo">
+            <img src="img/Logo/letrasylogo2.png" th:src="@{/img/Logo/letrasylogo2.png}" alt="Mourosub">
         </a>
 
         <!-- Navegacion escritorio (solo visible en desktop) -->
         <div class="header-pill d-none d-md-inline-flex">
             <ul class="header-links">
-
-                <!-- Enlaces ancla dentro de la misma pagina -->
-                <li><a href="page/actividades/index.html">Actividades</a></li>
-                <li><a href="page/inmersiones/index.html">Inmersiones</a></li>
-                <li><a href="page/Cursos/Cursos.html">Cursos</a></li>
-
-                <!-- Enlace a la seccion de servicios tecnico -->
-                <li><a href="page/servicios/index.html">Servicios</a></li>
+                <li><a href="page/actividades/index.html" th:href="@{/page/actividades/index.html}">Actividades</a></li>
+                <li><a href="page/inmersiones/index.html" th:href="@{/page/inmersiones/index.html}">Inmersiones</a></li>
+                <li><a href="page/Cursos/Cursos.html" th:href="@{/page/Cursos/Cursos.html}">Cursos</a></li>
+                <li><a href="page/servicios/index.html" th:href="@{/page/servicios/index.html}">Servicios</a></li>
             </ul>
         </div>
 
@@ -31,7 +27,7 @@
         <div class="header-right">
 
             <!-- Login: visible cuando NO hay sesion. header.js lo oculta si hay sesion. -->
-            <a id="loginLink" href="login.html" class="btn-reservar d-none d-md-inline-flex">Iniciar sesion / Registrarse</a>
+            <a id="loginLink" href="login.html" th:href="@{/login.html}" class="btn-reservar d-none d-md-inline-flex">Iniciar sesion / Registrarse</a>
 
             <!-- Menu de usuario: oculto por defecto (d-none); header.js lo muestra si hay sesion -->
             <div id="userMenu" class="dropdown d-none">
@@ -67,22 +63,11 @@
         <!-- Navegacion movil con enlaces y acciones -->
         <nav class="menu-movil">
             <ul>
-
-                <!-- Enlaces ancla dentro de la misma pagina -->
-                <li><a href="page/actividades/index.html">Actividades</a></li>
-                <li><a href="page/inmersiones/index.html">Inmersiones</a></li>
-                <li><a href="page/Cursos/Cursos.html">Cursos</a></li>
-
-                <!-- Enlace a la seccion de servicios tecnico -->
-                <li><a href="page/servicios/index.html">Servicios</a></li>
-
-                <!-- Login en movil -->
-                <li><a id="loginLinkMobile" href="login.html">Iniciar sesion / Registrarse</a></li>
-
-                <!-- Opciones visibles solo con sesion (header.js quita el 'hidden' al iniciar sesion) -->
-                <li><a id="accountLinkMobile" href="/cuenta" hidden>Ver mi cuenta</a></li>
-                <li><a id="adminLinkMobile" href="/admin" hidden>Panel admin</a></li>
-                <li><a id="logoutBtnMobile" href="#" hidden>Cerrar sesion</a></li>
+                <li><a href="page/actividades/index.html" th:href="@{/page/actividades/index.html}">Actividades</a></li>
+                <li><a href="page/inmersiones/index.html" th:href="@{/page/inmersiones/index.html}">Inmersiones</a></li>
+                <li><a href="page/Cursos/Cursos.html" th:href="@{/page/Cursos/Cursos.html}">Cursos</a></li>
+                <li><a href="page/servicios/index.html" th:href="@{/page/servicios/index.html}">Servicios</a></li>
+                <li><a id="loginLinkMobile" href="login.html" th:href="@{/login.html}">Iniciar sesion / Registrarse</a></li>
             </ul>
         </nav>
     </div>
