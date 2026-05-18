@@ -1,6 +1,6 @@
 package com.mourosub.web.controller;
 
-import java.util.List;
+import com.mourosub.web.dto.SegurosFormDTO;
 import com.mourosub.web.model.Seguros;
 import com.mourosub.web.repository.SegurosRepository;
 import com.mourosub.web.service.SegurosService;
@@ -13,28 +13,26 @@ import org.springframework.web.bind.annotation.*;
 public class SegurosController {
 
     private final SegurosService segurosService;
-    private final SegurosRepository segurosRepository;
 
     public SegurosController(
             SegurosService segurosService,
             SegurosRepository segurosRepository
     ) {
         this.segurosService = segurosService;
-        this.segurosRepository = segurosRepository;
     }
 
     // cargar la lista de todos los seguros
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("seguros", segurosRepository.findAll());
-        return "seguros/lista";
+        model.addAttribute("seguros", segurosService.listarTodos());
+        return "fragments/seguros/lista";
     }
 
     // cargar el formulario vacio para crear un seguro nuevo
     @GetMapping("/nuevo")
-    public String nuevo(Model model) {
-        model.addAttribute("seguro", new Seguros());
-        return "seguros/formulario";
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("segurosForm", new SegurosFormDTO());
+        return "fragments/seguros/formulario";
     }
 
     // procesar el formulario y guardarlo
