@@ -35,16 +35,12 @@ public class ServicioTecnico {
     @Column(nullable = false)
     private Integer orden = 0;
 
-    // RELACIÓN CON USUARIO
-    // @ManyToOne: muchos servicios pueden apuntar a un mismo registro. fetch=LAZY: no se carga
-    // de la BD hasta que se usa. @JoinColumn: la columna 'id_usuario' guarda esa referencia.
-    // Nota: el campo se llama 'usuario' pero su tipo es TicketServicioTecnico; conviene revisarlo.
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
-    private TicketServicioTecnico usuario;
-
-    // @OneToMany: un servicio tecnico puede tener muchos tickets asociados.
-    // mappedBy="servicioTecnico": el lado "dueño" de la relacion esta en TicketServicioTecnico.
+    // RELACION CON LOS TICKETS (uno a muchos).
+    // Un servicio tecnico puede tener muchos tickets asociados. mappedBy="servicioTecnico"
+    // indica que la clave foranea (columna id_servicio_tecnico) vive en TicketServicioTecnico:
+    // es ESE lado el dueño de la relacion. Aqui solo navegamos la lista; NO se crea ninguna
+    // columna nueva en servicio_tecnico, asi la referencia va en un unico sentido:
+    // ticket -> servicio (el ticket apunta al servicio, no al reves).
     @OneToMany(mappedBy = "servicioTecnico", fetch = FetchType.LAZY)
     private List<TicketServicioTecnico> tickets = new ArrayList<>();
 

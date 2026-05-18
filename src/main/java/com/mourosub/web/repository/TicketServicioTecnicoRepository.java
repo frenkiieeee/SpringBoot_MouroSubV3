@@ -14,4 +14,6 @@ public interface TicketServicioTecnicoRepository extends JpaRepository<TicketSer
     // Solo los tickets de un estado concreto, tambien ordenados del mas nuevo al mas antiguo.
     // Spring deriva la consulta del nombre: "ByEstado" -> WHERE estado = ?
     List<TicketServicioTecnico> findByEstadoOrderByFechaCreacionDesc(String estado);
+
 }
+

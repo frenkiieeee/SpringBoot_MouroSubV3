@@ -1,12 +1,15 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="StableRun" type="Application" factoryName="Application">
     <envs>
+      <env name="ANON_KEY" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzc4ODY5NDUxLCJleHAiOjE5MzY1NDk0NTF9.H3K27CC-tIkOrvgNg1QLyDFhThJoLOCU9nXlukcl0sw" />
       <env name="APP_SEED_ENABLED" value="false" />
-      <env name="DB_PASS" value="KSbzz1YGpR5aYH7GMAwRTbD8XfQ7KjlLt1UPHfBrHEHNE7c9iotcRAPWN1jVBARP" />
-      <env name="DB_URL" value="jdbc:postgresql://192.168.35.99:5433/postgres" />
+      <env name="DB_PASS" value="admin_123" />
+      <env name="DB_URL" value="jdbc:postgresql://localhost:5432/postgres" />
       <env name="DB_USER" value="postgres" />
+      <env name="JWT_SECRET" value="OTy8RVc93Ji9BduZk3KEw8REaygavd7vDWZF1hIrZ-g" />
       <env name="SERVER_PORT" value="8080" />
       <env name="SPRING_JPA_SHOW_SQL" value="false" />
+      <env name="SUPABASE_PUBLIC_URL" value="http://localhost:8019" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.mourosub.web.WebApplication" />
     <module name="web" />

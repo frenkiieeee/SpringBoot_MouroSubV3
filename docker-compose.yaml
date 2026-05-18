@@ -14,6 +14,9 @@ services:
     volumes:
       - supabase-db-data:/var/lib/postgresql/data
       - ./docker/supabase/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      # Exponemos la BD al host para poder ejecutar Spring Boot desde el IDE (IntelliJ).
+      - "5432:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}", "-h", "localhost"]
       interval: 5s
