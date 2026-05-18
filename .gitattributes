@@ -1,0 +1,4 @@
+# Forzar fin de linea LF en los scripts shell.
+# En Windows, git puede convertirlos a CRLF al clonar y eso rompe los scripts
+# que se ejecutan dentro de los contenedores Docker (p. ej. 00-supabase-admin.sh).
+*.sh text eol=lf
