@@ -1,7 +1,7 @@
 package com.mourosub.web.controller;
 
 import com.mourosub.web.model.Actividad;
-import com.mourosub.web.repository.ActividadRepository;
+import com.mourosub.web.service.ServicioActividades;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,52 +10,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/actividades")
 public class ActividadesController {
 
-    private final ActividadRepository actividadRepository;
+    private final ServicioActividades servicioActividades;
 
-    public ActividadesController(ActividadRepository actividadRepository) {
-        this.actividadRepository = actividadRepository;
+    public ActividadesController(ServicioActividades servicioActividades) {
+        this.servicioActividades = servicioActividades;
     }
 
-    // GET /actividades -> listar todas las actividades
+    // GET /actividades -> lista todas las actividades
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("actividades", actividadRepository.findAll());
+        model.addAttribute("actividades", servicioActividades.listarTodos());
         return "actividades/lista";
     }
 
-    // GET /actividades/nueva -> mostrar formulario para crear actividad
+    // GET /actividades/nueva -> muestra formulario de nueva actividad
     @GetMapping("/nueva")
     public String nueva(Model model) {
         model.addAttribute("actividad", new Actividad());
         return "actividades/formulario";
     }
 
-    // POST /actividades/guardar -> guardar actividad nueva o editada
+    // POST /actividades/guardar -> guarda actividad nueva o editada
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Actividad actividad) {
-        actividadRepository.save(actividad);
+        servicioActividades.guardar(actividad);
         return "redirect:/actividades";
     }
 
-    // GET /actividades/editar/{id} -> cargar actividad en formulario
+    // GET /actividades/editar/{id} -> carga actividad para editar
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
-        Actividad actividad = actividadRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Actividad no encontrada con id: " + id));
-
-        model.addAttribute("actividad", actividad);
+        model.addAttribute("actividad", servicioActividades.buscarPorId(id));
         return "actividades/formulario";
     }
 
     // GET /actividades/eliminar/{id} -> baja logica de actividad
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
-        Actividad actividad = actividadRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Actividad no encontrada con id: " + id));
-
-        actividad.setActivo(false);
-        actividadRepository.save(actividad);
-
+        servicioActividades.eliminar(id);
         return "redirect:/actividades";
     }
 }
