@@ -1,0 +1,62 @@
+<!-- ================================================================
+     FRAGMENTO: pie de pagina (footer).
+     th:fragment="footer" le da nombre para poder insertarlo desde
+     cualquier pagina con th:insert. Una sola copia para toda la web.
+     ================================================================ -->
+<footer th:fragment="footer" class="site-footer-negro">
+    <div class="footer-top">
+
+      <!-- Columna 1: enlaces de atencion al cliente -->
+      <div class="footer-col">
+        <h5>Servicio al consumidor</h5>
+        <ul>
+          <!-- th:href="@{/...}" genera la URL con la raiz correcta del sitio.
+               El href normal sirve de respaldo si no se procesa Thymeleaf. -->
+          <li><a href="/condiciones" th:href="@{/condiciones}">Condiciones de venta</a></li>
+          <li><a href="/devoluciones" th:href="@{/devoluciones}">Devoluciones</a></li>
+          <li><a href="/aviso-legal" th:href="@{/aviso-legal}">Aviso legal</a></li>
+          <li><a href="/privacidad" th:href="@{/privacidad}">Política de privacidad</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 2: datos de contacto -->
+      <div class="footer-col">
+        <h5>Contacta</h5>
+        <div class="contact-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <p>Escuela de Buceo Mourosub<br>Bajos Edificio Capitanía<br>Avda. de la Tornada, s/n<br>39600 Maliaño · Cantabria · ES</p>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-whatsapp"></i>
+          <p>621 330 839</p>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:info@mourosub.com">info@mourosub.com</a>
+        </div>
+      </div>
+
+      <!-- Columna 3: redes sociales -->
+      <div class="footer-col">
+        <h5>Redes sociales</h5>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Franja inferior: copyright y enlaces legales -->
+    <div class="footer-bottom">
+      <p>© 2026 · Mourosub. Todos los derechos reservados.</p>
+      <nav>
+        <a href="/aviso-legal" th:href="@{/aviso-legal}">Aviso legal</a>
+        <a href="/privacidad" th:href="@{/privacidad}">Privacidad</a>
+        <a href="/cookies" th:href="@{/cookies}">Cookies</a>
+      </nav>
+    </div>
+  </footer>

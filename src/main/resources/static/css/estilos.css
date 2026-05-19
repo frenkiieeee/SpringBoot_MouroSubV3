@@ -2,12 +2,8 @@
 :root {
   --ocean:       #0a4a6e;
   --ocean-mid:   #0e6fa8;
-  --ocean-light: #e8f4fc;
-  --sand:        #f5f0e8;
-  --text:        #1a2530;
-  --text-muted:  #5a7080;
+  --ocean-light: #d1e5f0;
 }
-
 
 /* header fijo y logo */
 header {
@@ -189,8 +185,7 @@ header {
   color: #ffffff;
 }
 
-/* hero section */
-/* hero section con difuminado hacia el azul oscuro de las tarjetas */
+/* HERO */
 .hero-section {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(13, 27, 42, 0.4) 60%, #0d1b2a 100%), url('../img/imagenindex.png');
   background-size: cover;
@@ -200,7 +195,6 @@ header {
   width: 100%;
   padding-top: 100px; 
 }
-
 
 .hero-kicker {
   color: #6fb2d2; 
@@ -217,7 +211,6 @@ header {
   letter-spacing: -0.02em;
 }
 
-/* imagen responsive dentro del titulo */
 .hero-title img {
   max-width: 100%;
   height: auto;
@@ -268,10 +261,11 @@ header {
   transform: translateY(-2px);
 }
 
-/* tarjetas */
+/* CARDS */
 .fondoazul {
   background: rgba(13, 27, 42, 0.98);
 }
+
 .card-foto {
   position: relative;
   border-radius: 16px;
@@ -334,8 +328,19 @@ header {
   text-decoration: underline;
 }
 
+/* Degradado para que se vean los sponsors */
+.DegradadinAzulin {
+  background: linear-gradient(
+    to bottom, 
+    rgba(13, 27, 42, 0.98) 0%, 
+    rgb(8, 18, 27) 100%
+  );
+  padding: 60px 0;
+}
 
-/* CARRUSEL  */
+
+
+/* CARRUSEL */
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(calc(-250px * 6)); } 
@@ -344,7 +349,6 @@ header {
 .slide-track {
   animation: scroll 90s linear infinite;
   display: flex;
-  /* 12 logos en total (6 originales + 6 duplicados) */
   width: calc(250px * 12); 
 }
 
@@ -362,16 +366,21 @@ header {
   max-height: 100%;
   object-fit: contain;
   transition: all 0.5s ease-in-out; 
+ filter: brightness(0) invert(1);
 }
 
 .slide img:hover {
   transform: scale(1.2); 
 }
 
-
-/* footer */
+/* FOOTER */
 .site-footer {
   background: #0d1b2a;
+  color: #fff;
+}
+
+.site-footer-negro {
+  background: #010204; 
   color: #fff;
 }
 
@@ -533,15 +542,9 @@ header {
 
 .footer-bottom nav a:hover { color: rgba(255, 255, 255, 0.75); }
 
-/* ================================================================
-   LAYOUT GLOBAL
-   #siteHeader replica la altura del header fijo como espaciador,
-   evitando que el contenido quede oculto detrás del header.
-   body flex-column garantiza que el footer siempre quede al fondo.
-   ================================================================ */
-
+/* LAYOUT GLOBAL */
 #siteHeader {
-  height: 94px;        /* iguala padding(20) + logo(50) + padding(20) + border(2) */
+  height: 94px; 
   flex-shrink: 0;
 }
 
@@ -553,14 +556,13 @@ body {
 
 main {
   flex: 1 0 auto;
-  padding-top: 2rem !important; /* sobrescribe los padding-top: 120px inline de cada pagina */
+  padding-top: 2rem !important; 
 }
 
 #siteFooter {
   flex-shrink: 0;
 }
 
-/* el hero ya no necesita compensar el header: el espaciador lo hace */
 .hero-section {
   padding-top: 20px;
 }
