@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis reservas</title>
+</head>
+<body>
+    <h1>Mis reservas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Actividad</th>
+                <th>Tipo</th>
+                <th>Fecha actividad</th>
+                <th>Participantes</th>
+                <th>Precio total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reserva : ${reservas}">
+                <td th:text="${reserva.refServicio}">Actividad</td>
+                <td th:text="${reserva.tipoServicio}">Tipo</td>
+                <td th:text="${reserva.fechaActividad}">Fecha</td>
+                <td th:text="${reserva.numParticipantes}">1</td>
+                <td th:text="${reserva.precioTotal}">0.00</td>
+                <td th:text="${reserva.estado}">Activa</td>
+                <td>
+                    <a th:href="@{/reservas/cancelar/{id}(id=${reserva.idReserva})}">
+                        Cancelar
+                    </a>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(reservas)}">
+                <td colspan="7">No tienes reservas todavía.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/reservas}">Volver</a>
+</body>
+</html>

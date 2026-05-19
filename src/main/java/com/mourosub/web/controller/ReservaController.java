@@ -1,12 +1,8 @@
 package com.mourosub.web.controller;
 import java.util.*;
-import java.util.UUID;
 
-import com.mourosub.web.exception.exceptions;
 import com.mourosub.web.model.*;
 import com.mourosub.web.dto.ReservaFormDTO;
-import com.mourosub.web.model.Actividad;
-import com.mourosub.web.model.Reserva;
 import com.mourosub.web.repository.ActividadRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
@@ -48,6 +44,25 @@ public class ReservaController {
         model.addAttribute("seccion","inicio");
         return "fragments/reservas/index";
     }
+
+    @GetMapping("/nueva")
+    public String nueva(@RequestParam Long idActividad, Model model) {
+        Actividad actividad = actividadRepository.findById(idActividad)
+            .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+
+        ReservaFormDTO reservaForm = new ReservaFormDTO();
+        reservaForm.setIdActividad(idActividad);
+
+        model.addAttribute("seccion", "formulario");
+        model.addAttribute("titulo", "Reserva de " + actividad.getNombre());
+        model.addAttribute("reservaForm", reservaForm);
+        model.addAttribute("actividades", List.of(actividad));
+        model.addAttribute("usuarios", usuarioRepository.findAll());
+
+        return "fragments/reservas/index";
+    }
+    
+
 
     // GET /reservas/cursos -> formulario de reserva para bautismos y cursos.
     @GetMapping("/cursos")
@@ -103,8 +118,8 @@ public class ReservaController {
     reserva.setNumParticipantes(reservaForm.getNumParticipantes());
 
         // 3) Asociamos la actividad elegida (solo necesitamos su id; el servicio cargara el resto).
-        Actividad actividad = actividadRepository.findById(reservaForm.getIdActividad())
-                .orElseThrow(() -> new exceptions.ActividadNotFoundException("Actividad no encontrada"));
+        Actividad actividad = new Actividad();
+        actividad.setIdActividad (reservaForm.getIdActividad());
         reserva.setActividad(actividad);
 
         // 4) El servicio crea la reserva (comprueba plazas, asigna instructor, calcula precio...).
@@ -120,7 +135,7 @@ public class ReservaController {
         // Buscamos en la base de datos todas las reservas en las que aparece ese usuario.
         model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(idUsuario));
 
-        return "reservas/mis-reservas";
+        return "Fragments/reservas/mis-reservas";
     }
     //Cancelar reserva
     // GET /reservas/cancelar/{idReserva} -> cancela la reserva indicada.
@@ -131,4 +146,5 @@ public class ReservaController {
 
         return "redirect:/reservas";
     }
+
 }
