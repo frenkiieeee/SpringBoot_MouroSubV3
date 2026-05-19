@@ -23,39 +23,72 @@
         </article>
     </section>
 
-    <section th:if="${seccion == 'formulario'}">
-        <h2 th:text="${titulo}">Nueva reserva</h2>
-        <form th:action="@{/reservas/guardar}" th:object="${reservaForm}" method="post">
+        <section th:if="${seccion == 'formulario'}">
+            <h2 th:text="${titulo}">Nueva reserva - Actividad</h2>
+            <form th:action="@{/reservas/guardar}" th:object="${reservaForm}" method="post">
 
-                <label for="idActividad" th:text="${titulo}">Actividades</label>
-                <select id="idActividad" th:field="*{idActividad}" required>
+                    <label for="idActividad" th:text="${titulo}">Actividades</label>
+                    <select id="idActividad" th:field="*{idActividad}" required>
+                        <option value="">Seleccione una opcion</option>
+                        <option th:each="actividad : ${actividades}"
+                                th:value="${actividad.idActividad}"
+                                th:text="${actividad.nombre + ' - ' + actividad.tipo + ' - ' + actividad.precio + ' €'">
+
+                        </option>
+                    </select>
+                    <br>
+                    <label for="Act-nombre">Nombre</label>
+                    <input id="Act-nombre" type="text" th:field="*{nombre}" required>
+
+                    <label for="Act-apellidos">Apellidos</label>
+                    <input id="Act-apellidos" type="text" th:field="*{apellidos}" required>
+
+                    <label for="Act-email">Email</label>
+                    <input id="Act-email" type="email" th:field="*{email}" required>
+
+                    <label for="Act-telefono">Telefono</label>
+                    <input id="Act-telefono" type="text" th:field="*{telefono}" required>
+
+                    <label for="Act-dni">DNI</label>
+                    <input id="Act-dni" type="text" th:field="*{dni}">
+                    <label for="Act-numParticipantes">Indique el numero de participantes</label>
+                    <input id="Act-numParticipantes" type="number" th:field="*{numParticipantes}" min="1" required>
+                    <button type="submit">Guardar reserva</button>
+            </form>
+                <a th:href="@{/reservas}">Volver</a>
+        </section>
+
+        <section th:if="${seccion == 'formulario'}">
+            <h2 th:text="${titulo}">Nueva reserva - Curso</h2>
+            <form th:action="@{/reservas/guardar}" th:object="${reservaForm}" method="post">
+
+                <label for="idCurso" th:text="${titulo}">Cursos</label>
+                <select id="idCurso" th:field="*{idCurso}" required>
                     <option value="">Seleccione una opcion</option>
-                    <option th:each="actividad : ${actividades}"
-                            th:value="${actividad.idActividad}"
-                            th:text="${actividad.nombre + ' - ' + actividad.tipo + ' - ' + actividad.precio + ' €'">
+                    <option th:each="curso : ${cursos}"
+                            th:value="${curso.idCurso}"
+                            th:text="${curso.nombre + ' - ' + curso.tipo + ' - ' + curso.precio + ' €'">
 
                     </option>
                 </select>
                 <br>
-                <label for="nombre">Nombre</label>
-                <input id="nombre" type="text" th:field="*{nombre}" required>
+                <label for="cur-nombre">Nombre</label>
+                <input id="cur-nombre" type="text" th:field="*{nombre}" required>
 
-                <label for="apellidos">Apellidos</label>
-                <input id="apellidos" type="text" th:field="*{apellidos}" required>
+                <label for="cur-apellidos">Apellidos</label>
+                <input id="cur-apellidos" type="text" th:field="*{apellidos}" required>
 
-                <label for="email">Email</label>
-                <input id="email" type="email" th:field="*{email}" required>
+                <label for="cur-email">Email</label>
+                <input id="cur-email" type="email" th:field="*{email}" required>
 
-                <label for="telefono">Telefono</label>
-                <input id="telefono" type="text" th:field="*{telefono}" required>
+                <label for="cur-telefono">Telefono</label>
+                <input id="cur-telefono" type="text" th:field="*{telefono}" required>
 
-                <label for="dni">DNI</label>
-                <input id="dni" type="text" th:field="*{dni}">
-                <label for="numParticipantes">Indique el numero de participantes</label>
-                <input id="numParticipantes" type="number" th:field="*{numParticipantes}" min="1" required>
+                <label for="cur-dni">DNI</label>
+                <input id="cur-dni" type="text" th:field="*{dni}">Act-
                 <button type="submit">Guardar reserva</button>
-        </form>
+            </form>
             <a th:href="@{/reservas}">Volver</a>
-    </section>
-</body>
+        </section>
+    </body>
 </html>

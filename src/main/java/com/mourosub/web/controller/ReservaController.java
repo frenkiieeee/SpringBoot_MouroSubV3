@@ -1,6 +1,8 @@
 package com.mourosub.web.controller;
 import java.util.*;
 import java.util.UUID;
+
+import com.mourosub.web.exception.exceptions;
 import com.mourosub.web.model.*;
 import com.mourosub.web.dto.ReservaFormDTO;
 import com.mourosub.web.model.Actividad;
@@ -101,15 +103,15 @@ public class ReservaController {
     reserva.setNumParticipantes(reservaForm.getNumParticipantes());
 
         // 3) Asociamos la actividad elegida (solo necesitamos su id; el servicio cargara el resto).
-        Actividad actividad = new Actividad();
-        actividad.setIdActividad (reservaForm.getIdActividad());
+        Actividad actividad = actividadRepository.findById(reservaForm.getIdActividad())
+                .orElseThrow(() -> new exceptions.ActividadNotFoundException("Actividad no encontrada"));
         reserva.setActividad(actividad);
 
         // 4) El servicio crea la reserva (comprueba plazas, asigna instructor, calcula precio...).
         reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
 
         // Redirige a la pagina de reservas anyadiendo el id del usuario al final.
-        return "redirect:/reservas" + usuario.getidUsuario();
+        return "redirect:/reservas/mis-reservas/" + usuario.getidUsuario();
     }
     //Quitar el usuario de la reserva
     // GET /reservas/mis-reservas/{idUsuario} -> lista las reservas de un usuario concreto.
