@@ -426,6 +426,33 @@ header {
   margin-top: 2px;
 }
 
+/*REquisitos de Alquiler */
+.requirement-card {
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.requirement-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 18px 50px rgba(1, 19, 42, 0.25);
+}
+
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .requirement-card {
+    text-align: left;
+  }
+}
+
 .contact-item p,
 .contact-item a {
   font-size: 13px;

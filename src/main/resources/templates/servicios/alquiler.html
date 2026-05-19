@@ -8,22 +8,136 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
-<body>
+<body style="background: linear-gradient(180deg, #08121f 0%, #0b2138 100%);">
 <!-- Inserta el fragmento del header dentro del div #siteHeader (espaciador del header fijo) -->
-<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
 <main class="container py-5" style="padding-top: 120px;">
-  <h1 class="fw-bold mb-3">Alquiler</h1>
-  <p class="text-muted">Base Thymeleaf inicial de alquiler.</p>
+  <h1 class="fw-bold mb-3 text-white">Alquileres Y Seguros</h1>
+  <p class="text-white">Equipamiento de alta gama y maxima proteccion para el buceo en Cantabria. Nosotros nos encargamos de su seguridad para que tu solo se preocupe en disfrutar.</p>
+
+  <section class="mt-4">
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <div class="card h-100 overflow-hidden shadow-sm">
+          <img th:src="@{/img/Inicio/imagen-material.jpg}" alt="Material" class="card-img-top" style="height:240px; object-fit:cover;">
+          <div class="card-body bg-dark text-white">
+            <span class="badge bg-primary mb-2">Premium Gear</span>
+            <h3 class="card-title h5 text-white">Alquiler de Material</h3>
+            <p class="text-white-50">Disponemos de equipos completos de las mejores marcas (Aqualung, Mares, Cressi) revisados periódicamente por técnicos certificados.</p>
+            <ul class="list-unstyled mb-3">
+              <li><i class="bi bi-check2-circle text-primary me-2"></i>Reguladores</li>
+              <li><i class="bi bi-check2-circle text-primary me-2"></i>Chalecos (BCD)</li>
+              <li><i class="bi bi-check2-circle text-primary me-2"></i>Trajes 7mm</li>
+              <li><i class="bi bi-check2-circle text-primary me-2"></i>Ordenadores</li>
+            </ul>
+            <a th:href="@{/servicios/material}" class="btn btn-outline-light w-100">Consultar Tarifas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="card h-100 overflow-hidden shadow-sm">
+          <img th:src="@{/img/Inicio/imagen-seguros.jpg}" alt="Seguros" class="card-img-top" style="height:240px; object-fit:cover;">
+          <div class="card-body bg-dark text-white">
+            <span class="badge bg-info mb-2">Safety First</span>
+            <h3 class="card-title h5 text-white">Seguros de Buceo</h3>
+            <p class="text-white-50">Bucea con total tranquilidad. Tramitamos tu seguro de buceo de forma inmediata con coberturas internacionales y asistencia médica especializada.</p>
+            <div class="list-group mb-3">
+              <div class="list-group-item bg-transparent border rounded mb-2 text-white d-flex justify-content-between align-items-center">Seguro Diario<span class="fw-bold">10€</span></div>
+              <div class="list-group-item bg-transparent border rounded mb-2 text-white d-flex justify-content-between align-items-center">Seguro Semanal<span class="fw-bold">25€</span></div>
+              <div class="list-group-item bg-transparent border rounded text-white d-flex justify-content-between align-items-center">Seguro Anual<span class="fw-bold">45€</span></div>
+            </div>
+            <a th:href="@{/servicios/seguros}" class="btn btn-primary w-100">Contratar Ahora</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 mt-5 bg-dark text-white rounded-4" style="background: linear-gradient(180deg, #08121f 0%, #0b2138 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="text-uppercase text-primary mb-2 small">Requisitos para el alquiler</p>
+        <h2 class="fw-bold">Requisitos para el Alquiler</h2>
+        <p class="mx-auto text-white" style="max-width: 680px;">Todo buceador debe cumplir estos requisitos antes de alquilar material o contratar un seguro. Nosotros te ayudamos a preparar la documentación y la experiencia necesaria.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="p-4 h-100 requirement-card rounded-4 border border-1 border-white-10">
+            <div class="icon-circle mb-3 bg-primary text-white">
+              <i class="bi bi-award fs-4"></i>
+            </div>
+            <h3 class="h5">Titulación en Vigor</h3>
+            <p class="text-white">Presenta tu carnet de buceador activo (PADI, SSI, FEDAS, CMAS) acorde al tipo de inmersión. La titulación debe cubrir profundidad y modalidad.</p>
+            <ul class="list-unstyled text-white-50 small mt-3">
+              <li>Certificado básico o avanzado válido</li>
+              <li>Formación en inmersiones con tanque</li>
+              <li>Permiso para inmersiones en mar abierto</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="p-4 h-100 requirement-card rounded-4 border border-1 border-white-10">
+            <div class="icon-circle mb-3 bg-info text-white">
+              <i class="bi bi-shield-lock fs-4"></i>
+            </div>
+            <h3 class="h5">Seguro Obligatorio</h3>
+            <p class="text-white">Es obligatorio contar con seguro de accidentes y responsabilidad civil. El seguro debe cubrir tanto actividades como daños a terceros.</p>
+            <ul class="list-unstyled text-white-50 small mt-3">
+              <li>Cobertura de accidentes personales</li>
+              <li>Responsabilidad civil hasta el organismo organizador</li>
+              <li>Validez durante el periodo de la inmersión</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="p-4 h-100 requirement-card rounded-4 border border-1 border-white-10">
+            <div class="icon-circle mb-3 bg-success text-white">
+              <i class="bi bi-heart-pulse fs-4"></i>
+            </div>
+            <h3 class="h5">Certificado Médico</h3>
+            <p class="text-white">Alquiler de equipo exige un certificado médico reciente o declaración de salud. Debe determinar que no hay contraindicaciones para buceo.</p>
+            <ul class="list-unstyled text-white-50 small mt-3">
+              <li>Declaración de aptitud física</li>
+              <li>Prueba específica para buceo si es requerida</li>
+              <li>Menos de 12 meses de antigüedad</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="p-4 h-100 requirement-card rounded-4 border border-1 border-white-10">
+            <div class="icon-circle mb-3 bg-warning text-white">
+              <i class="bi bi-journal-bookmark fs-4"></i>
+            </div>
+            <h3 class="h5">Libro de Inmersiones</h3>
+            <p class="text-white">Tu logbook actualizado ayuda a validar experiencia y nivel. Debes mostrar inmersiones recientes y certificaciones de profundidad.</p>
+            <ul class="list-unstyled text-white-50 small mt-3">
+              <li>Registro de últimas inmersiones</li>
+              <li>Confirmación de experiencia en condiciones similares</li>
+              <li>Firmas o sellos de instructor cuando proceda</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- Inserta el fragmento del footer -->
-<div id="siteFooter" th:insert="~{fragments/footer :: footer}"></div>
+<div id="siteFooter" th:insert="~{Fragments/footer :: footer}"></div>
 
 <!-- Bootstrap (menu desplegable) y header.js (estado de sesion en el header) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
 <!-- Activa el estado de sesion del header (icono de cuenta vs boton de login) -->
 <script>if (window.initHeaderSession) window.initHeaderSession();</script>
+
+
 </body>
 </html>
