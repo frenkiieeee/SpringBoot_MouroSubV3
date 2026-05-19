@@ -163,6 +163,11 @@
           document.cookie = "sb_access_token=" + accessToken + "; path=/; max-age=3600; samesite=lax";
         }
 
+        // Aseguramos que el usuario exista en la tabla 'usuarios' del dominio.
+        // Supabase solo lo guarda en auth.users; esto crea su fila de dominio si falta.
+        await fetch("/auth/sync?supabaseUserId=" + encodeURIComponent(userId)
+          + "&email=" + encodeURIComponent(userEmail), { method: "POST" });
+
         const adminRes = await fetch("/auth/admin-check?supabaseUserId=" + encodeURIComponent(userId));
         const adminPayload = adminRes.ok ? await adminRes.json() : { isAdmin: false };
         localStorage.setItem("supabaseIsAdmin", String(Boolean(adminPayload.isAdmin)));

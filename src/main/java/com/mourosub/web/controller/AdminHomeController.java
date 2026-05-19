@@ -1,10 +1,13 @@
 package com.mourosub.web.controller;
 
+import com.mourosub.web.model.Usuario;
+import com.mourosub.web.repository.FicheroRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,12 +22,15 @@ public class AdminHomeController {
     // 'final' = una vez que Spring los inyecta en el constructor, ya no cambian
     private final UsuarioRepository usuarioRepository;
     private final ReservaRepository reservaRepository;
+    private final FicheroRepository ficheroRepository;
 
     // Constructor: Spring detecta estos repositorios y nos los pasa solo (inyeccion de dependencias)
     public AdminHomeController(UsuarioRepository usuarioRepository,
-                               ReservaRepository reservaRepository) {
+                               ReservaRepository reservaRepository,
+                               FicheroRepository ficheroRepository) {
         this.usuarioRepository = usuarioRepository;
         this.reservaRepository = reservaRepository;
+        this.ficheroRepository = ficheroRepository;
     }
 
     // GET /admin -> muestra la pagina principal del panel (las 4 secciones)
@@ -47,6 +53,19 @@ public class AdminHomeController {
     public String usuarios(Model model) {
         model.addAttribute("usuarios", usuarioRepository.findAll());
         return "admin/usuarios/lista";
+    }
+
+    // GET /admin/usuarios/{id} -> ficha detallada de un usuario con sus certificados.
+    @GetMapping("/admin/usuarios/{id}")
+    public String usuarioDetalle(@PathVariable Long id, Model model) {
+        // Buscamos el usuario por su id. orElse(null): si no existe, queda null.
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        model.addAttribute("usuario", usuario);
+        // Si el usuario existe, anyadimos al modelo los certificados que ha subido.
+        if (usuario != null) {
+            model.addAttribute("ficheros", ficheroRepository.findByUsuario_IdUsuario(id));
+        }
+        return "admin/usuarios/detalle";
     }
 
     // GET /auth/admin-check -> lo usa el login para saber si un usuario es administrador

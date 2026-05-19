@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Admin - Certificados</title>
+</head>
+<body>
+<main class="container" style="padding-top: 40px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="fw-bold">Certificados</h1>
+    <a class="btn btn-link" th:href="@{/admin}">Volver al admin</a>
+  </div>
+
+  <!-- Mensajes flash tras cambiar el estado de un certificado. -->
+  <div class="alert alert-success" th:if="${ok}" th:text="${ok}">Ok</div>
+  <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
+
+  <!-- Tabla con todos los certificados subidos por los usuarios. -->
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Fichero</th>
+        <th>Subido</th>
+        <th>Estado</th>
+        <th class="text-end">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="f : ${ficheros}">
+        <td th:text="${f.idFichero}">1</td>
+        <!-- Mostramos el nombre del usuario; si aun no lo completo, su email. -->
+        <td th:text="${f.usuario == null ? '-' : (f.usuario.nombre != null ? f.usuario.nombre : f.usuario.email)}">Usuario</td>
+        <td th:text="${f.nombre}">fichero</td>
+        <td th:text="${#temporals.format(f.fechaSubida, 'yyyy-MM-dd HH:mm')}">fecha</td>
+        <!-- Badge segun el estado de validacion. -->
+        <td th:switch="${f.estado}">
+          <span th:case="'VALIDO'" class="badge text-bg-success">VALIDO</span>
+          <span th:case="'NO_VALIDO'" class="badge text-bg-danger">NO VALIDO</span>
+          <span th:case="*" class="badge text-bg-warning">PENDIENTE</span>
+        </td>
+        <td class="text-end">
+          <!-- Ver: abre el fichero en una pestanya nueva para poder revisarlo. -->
+          <a class="btn btn-sm btn-outline-primary" target="_blank"
+             th:href="@{/certificados/ver/{id}(id=${f.idFichero})}">Ver</a>
+          <a class="btn btn-sm btn-outline-secondary"
+             th:href="@{/certificados/descargar/{id}(id=${f.idFichero})}">Descargar</a>
+          <!-- Validar: POST que pone el estado en VALIDO. -->
+          <form th:action="@{/admin/certificados/{id}/estado(id=${f.idFichero})}" method="post" class="d-inline">
+            <input type="hidden" name="estado" value="VALIDO">
+            <button type="submit" class="btn btn-sm btn-outline-success">Validar</button>
+          </form>
+          <!-- No validar: POST que pone el estado en NO_VALIDO. -->
+          <form th:action="@{/admin/certificados/{id}/estado(id=${f.idFichero})}" method="post" class="d-inline">
+            <input type="hidden" name="estado" value="NO_VALIDO">
+            <button type="submit" class="btn btn-sm btn-outline-danger">No validar</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(ficheros)}">
+        <td colspan="6" class="text-muted">No hay certificados subidos.</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

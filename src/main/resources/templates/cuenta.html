@@ -35,6 +35,11 @@
     Necesitas iniciar sesion para ver tu cuenta.
   </div>
 
+  <!-- Boton para subir certificados: el JS lo muestra a cualquier usuario con sesion -->
+  <a id="certBtn" href="/certificados" class="btn btn-outline-primary mt-3 d-none">
+    <i class="bi bi-file-earmark-arrow-up"></i> Subir certificados
+  </a>
+
   <!-- Boton al panel admin: empieza oculto (d-none); el JS lo muestra solo si el usuario es admin -->
   <a id="adminPanelBtn" href="/admin" class="btn btn-primary mt-3 d-none">
     <i class="bi bi-shield-lock"></i> Ir al panel admin
@@ -60,6 +65,7 @@
   const accountRole = document.getElementById("accountRole");
   const accountWarning = document.getElementById("accountWarning");
   const adminPanelBtn = document.getElementById("adminPanelBtn");
+  const certBtn = document.getElementById("certBtn");
   // El login guarda "true"/"false" como texto; lo comparamos con "true".
   const isAdmin = localStorage.getItem("supabaseIsAdmin") === "true";
 
@@ -68,6 +74,8 @@
     accountEmail.textContent = email || "Sin email";
     accountStatus.textContent = "Sesion activa";
     accountRole.textContent = isAdmin ? "Admin" : "Usuario";
+    // Cualquier usuario con sesion puede subir certificados.
+    certBtn.classList.remove("d-none");
     // Si es admin, mostramos el boton del panel admin (le quitamos d-none).
     if (isAdmin) adminPanelBtn.classList.remove("d-none");
   } else {

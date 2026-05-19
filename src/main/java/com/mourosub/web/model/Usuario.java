@@ -21,10 +21,11 @@ public class Usuario {
     // Id del usuario en Supabase. unique=true: no se puede repetir. Es el enlace con el login.
     @Column(name = "supabase_user_id", unique = true, nullable = false)
     private UUID supabaseUserId;
-    // Datos personales. nombre y apellidos son obligatorios (nullable=false).
-    @Column(nullable = false, length = 100)
+    // Datos personales. Son opcionales: al registrarse solo tenemos email; el usuario
+    // completara nombre y apellidos despues (por eso ya no son nullable=false).
+    @Column(length = 100)
     private String nombre;
-    @Column(nullable = false, length = 150)
+    @Column(length = 150)
     private String apellidos;
     @Column(length = 255)
     private String email;

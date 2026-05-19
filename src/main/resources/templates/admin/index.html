@@ -16,7 +16,7 @@
     <!-- th:href="@{/}" -> enlace a la pagina de inicio del sitio -->
     <a class="btn btn-link" th:href="@{/}">Volver al sitio</a>
   </div>
-  <p class="text-muted">Gestion de reservas, servicio tecnico y usuarios.</p>
+  <p class="text-muted">Gestion de reservas, servicio tecnico, usuarios y certificados.</p>
 
   <!-- Rejilla con las 4 secciones del panel. Cada columna ocupa media fila en
        tablet (col-md-6) y un cuarto en escritorio (col-lg-3). -->
@@ -32,6 +32,9 @@
     </div>
     <div class="col-md-6 col-lg-3">
       <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/usuarios}">Gestor de usuarios</a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/certificados}">Certificados</a>
     </div>
   </div>
 </main>

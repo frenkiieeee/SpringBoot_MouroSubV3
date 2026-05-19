@@ -41,6 +41,16 @@ public class Fichero {
     @Column(nullable = false)
     private LocalDateTime fechaSubida = LocalDateTime.now();
 
+    // Usuario que subio el fichero. @ManyToOne: muchos ficheros pueden ser de un mismo usuario.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    // Estado de validacion del certificado: PENDIENTE, VALIDO o NO_VALIDO.
+    // El admin lo cambia desde su panel; empieza siempre en PENDIENTE.
+    @Column(nullable = false, length = 20)
+    private String estado = "PENDIENTE";
+
     // Constructor vacio: JPA lo necesita para crear los objetos.
     public Fichero() {}
 
@@ -65,4 +75,10 @@ public class Fichero {
 
     public LocalDateTime getFechaSubida() { return fechaSubida; }
     public void setFechaSubida(LocalDateTime fechaSubida) { this.fechaSubida = fechaSubida; }
+
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 }
