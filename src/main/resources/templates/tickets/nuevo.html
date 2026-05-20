@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <title>Nuevo ticket</title>
+</head>
+<body>
+
+<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
+
+<main class="container" style="padding-top: 120px; max-width: 600px;">
+  <div class="mb-3">
+    <a class="btn btn-link" th:href="@{/tickets/mis-tickets(supabaseUserId=${supabaseUserId})}">&larr; Volver a Mis tickets</a>
+  </div>
+
+  <h1 class="fw-bold mb-4">Nuevo ticket</h1>
+
+  <!-- Formulario para crear ticket -->
+  <form th:action="@{/tickets/mis-tickets/crear}" method="post">
+    <input type="hidden" name="supabaseUserId" th:value="${supabaseUserId}" />
+
+    <div class="mb-3">
+      <label for="asunto" class="form-label">Asunto</label>
+      <input type="text" class="form-control" id="asunto" name="asunto" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripcion</label>
+      <textarea class="form-control" id="descripcion" name="descripcion" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear ticket</button>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+
+</body>
+</html>

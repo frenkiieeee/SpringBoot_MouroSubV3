@@ -2,6 +2,8 @@ package com.mourosub.web.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tickets")
@@ -18,10 +20,7 @@ public class Tickets {
     private String descripcion;
 
     @Column(nullable = false, length = 30)
-    private String estado = "Abierto";
-
-    @Column(length = 30)
-    private String prioridad;
+    private String estado = "ABIERTO";
 
     @Column(nullable = false)
     private LocalDateTime fechaCreacion;
@@ -31,6 +30,10 @@ public class Tickets {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("fechaCreacion ASC")
+    private List<TicketRespuesta> respuestas = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -54,9 +57,6 @@ public class Tickets {
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 
-    public String getPrioridad() { return prioridad; }
-    public void setPrioridad(String prioridad) { this.prioridad = prioridad; }
-
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
@@ -65,4 +65,17 @@ public class Tickets {
 
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    public List<TicketRespuesta> getRespuestas() { return respuestas; }
+    public void setRespuestas(List<TicketRespuesta> respuestas) { this.respuestas = respuestas; }
+
+    public void addRespuesta(TicketRespuesta respuesta) {
+        respuestas.add(respuesta);
+        respuesta.setTicket(this);
+    }
+
+    public void removeRespuesta(TicketRespuesta respuesta) {
+        respuestas.remove(respuesta);
+        respuesta.setTicket(null);
+    }
 }
