@@ -1,6 +1,7 @@
 package com.mourosub.web.controller;
 import java.util.*;
-
+import com.mourosub.web.exception.exceptions;
+import com.mourosub.web.exception.exceptions.ActividadNotFoundException;
 import com.mourosub.web.model.*;
 import com.mourosub.web.dto.ReservaFormDTO;
 import com.mourosub.web.repository.ActividadRepository;
@@ -48,14 +49,14 @@ public class ReservaController {
     @GetMapping("/nueva")
     public String nueva(@RequestParam Long idActividad, Model model) {
         Actividad actividad = actividadRepository.findById(idActividad)
-            .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+            .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
 
-        ReservaFormDTO reservaForm = new ReservaFormDTO();
-        reservaForm.setIdActividad(idActividad);
+        Reserva reserva = new Reserva();
+        reserva.setActividad(actividad);
 
         model.addAttribute("seccion", "formulario");
         model.addAttribute("titulo", "Reserva de " + actividad.getNombre());
-        model.addAttribute("reservaForm", reservaForm);
+        model.addAttribute("reserva", reserva);
         model.addAttribute("actividades", List.of(actividad));
         model.addAttribute("usuarios", usuarioRepository.findAll());
 
@@ -71,11 +72,10 @@ public class ReservaController {
         model.addAttribute("seccion","formulario");
         model.addAttribute("titulo", "Bautismo y cursos");
         // Objeto vacio (DTO) que recogera los datos del formulario.
-        model.addAttribute("reservaForm", new ReservaFormDTO());
+        model.addAttribute("reserva", new Reserva());
         // Solo las actividades de tipo BAUTISMO o CURSO, para el desplegable.
-        model.addAttribute("actividades",actividadRepository.findByTipoIn(List.of("BAUTISMO", "CURSO")));
+        model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of("BAUTISMO", "CURSO")));
         // Lista de usuarios disponible para la vista.
-        model.addAttribute("usuarios", usuarioRepository.findAll());
 
         return "fragments/reservas/index";
     }
@@ -83,44 +83,46 @@ public class ReservaController {
     // GET /reservas/actividades -> formulario de reserva para actividades (inmersiones, snorkel, paseos).
     @GetMapping("/actividades")
     public String actividades(Model model){
-        model.addAttribute("seccion","formulario");
+        model.addAttribute("seccion","actividades");
         model.addAttribute("titulo", "Actividades");
-        model.addAttribute("reservaForm", new ReservaFormDTO());
+        model.addAttribute("reserva", new Reserva());
         // Solo las actividades de estos tres tipos.
         model.addAttribute("actividades", actividadRepository.findByTipoIn(List.of("INMERSION", "SNORKEL", "PASEO_BARCO")));
-        model.addAttribute("usuarios", usuarioRepository.findAll());
 
         return "fragments/reservas/index";
     }
 
     // POST /reservas/guardar -> recibe el formulario, crea el usuario y la reserva.
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute ReservaFormDTO reservaForm) {
+    public String guardar(
+        @RequestParam Long idActividad,
+        @RequestParam String nombre,
+        @RequestParam String apellidos,
+        @RequestParam String email,
+        @RequestParam String telefono,
+        @RequestParam (required = false) String dni,
+        @RequestParam String codigoPostal,
+        @RequestParam Integer numParaticipantes
+    ) {
     // 1) Creamos un usuario nuevo con los datos del formulario.
     Usuario usuario = new Usuario();
     // Le asignamos un id de Supabase aleatorio (este flujo no pasa por el login real).
     usuario.setSupabaseUserId(UUID.randomUUID());
-    usuario.setNombre(reservaForm.getNombre());
-    usuario.setApellidos(reservaForm.getApellidos());
-    usuario.setEmail(reservaForm.getEmail());
-    usuario.setDni(reservaForm.getDni());
-    usuario.setTelefono(reservaForm.getTelefono());
-    usuario.setDireccion(reservaForm.getDireccion());
-    usuario.setCodPostal(reservaForm.getCodPostal());
-    usuario.setLocalidad(reservaForm.getLocalidad());
-    usuario.setFechaNacimiento(reservaForm.getFechaNacimiento());
-
+    usuario.setNombre(nombre);
+    usuario.setApellidos(apellidos);
+    usuario.setEmail(email);
+    usuario.setTelefono(telefono);
+    usuario.setDni(dni);
+    usuario.setCodPostal(codigoPostal);
     // Guardamos el usuario en la base de datos (asi obtiene su id).
     usuarioRepository.save(usuario);
-
-    // 2) Creamos la reserva con el numero de participantes del formulario.
-    Reserva reserva = new Reserva();
-    reserva.setNumParticipantes(reservaForm.getNumParticipantes());
-
-        // 3) Asociamos la actividad elegida (solo necesitamos su id; el servicio cargara el resto).
-        Actividad actividad = new Actividad();
-        actividad.setIdActividad (reservaForm.getIdActividad());
+    //2 Actividad desde BD
+    Actividad actividad = actividadRepository.findById(idActividad)
+        .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
+        //3 Creamos la reserva
+        Reserva reserva = new Reserva ();
         reserva.setActividad(actividad);
+        reserva.setNumParticipantes(numParaticipantes);
 
         // 4) El servicio crea la reserva (comprueba plazas, asigna instructor, calcula precio...).
         reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
