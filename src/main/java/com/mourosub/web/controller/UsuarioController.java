@@ -44,9 +44,6 @@ public class UsuarioController {
 
     // POST /usuarios/guardar → guarda y redirige
     @PostMapping("/guardar")
-    /*Aqui obtenemos la lista anteior de los usuarios, es decir, cuando el usuario envia el formulario (crear o editar), el metodo se ejecuta
-    Aqui el ModelAttribute, hace que Sprign rellen el objeto Usuario con los datos del formulario
-    */ 
     public String guardar(@ModelAttribute Usuario usuario) {
         if (usuario.getidUsuario() == null) {
             return "redirect:/login";
@@ -62,9 +59,7 @@ public class UsuarioController {
         existente.setLocalidad(usuario.getLocalidad());
         existente.setFechaNacimiento(usuario.getFechaNacimiento());
         usuarioService.guardar(existente);
-        /*El redirect evita que el usuari oreenvie el formulario si refresca la pagina, esto evita duplicar registros, esto sigue
-        el patron PRG, que significa POST -> Redirect-> Get
-        */
+        
         return "redirect:/cuenta";
     }
 
