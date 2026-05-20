@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Formulario Instructor</title>
+</head>
+<body>
+<main class="container py-4">
+  <h1 th:text="${instructor.id != null} ? 'Editar instructor' : 'Nuevo instructor'">Registro de instructor</h1>
+
+  <form th:action="@{/instructores/guardar}" th:object="${instructor}" method="post" enctype="multipart/form-data" id="formInstructor" class="mt-3 needs-validation" novalidate>
+    <!-- Si usas Spring Security, añade el token CSRF: -->
+    <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required maxlength="150">
+        <div class="invalid-feedback">Introduce tu nombre.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="apellidos" class="form-label">Apellidos</label>
+        <input type="text" id="apellidos" th:field="*{apellidos}" class="form-control" required maxlength="150">
+        <div class="invalid-feedback">Introduce tus apellidos.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="dni" class="form-label">DNI</label>
+        <input type="text" id="dni" th:field="*{dni}" class="form-control" required maxlength="9">
+        <div class="invalid-feedback">Introduce tu DNI.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" th:field="*{email}" class="form-control" required>
+        <div class="invalid-feedback">Introduce tu email válido.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="ssiId" class="form-label">SSI ID</label>
+        <input type="text" id="ssiId" th:field="*{ssiId}" class="form-control" required maxlength="50">
+        <div class="invalid-feedback">Introduce tu SSI ID.</div>
+      </div>
+
+      <div class="col-12">
+        <label for="certificados" class="form-label">Titulaciones / certificados </label>
+        <input type="file" id="certificados" name="certificados" class="form-control" multiple accept=".pdf,.png,.jpg,.jpeg">
+        <div class="form-text">Puedes subir varios archivos (PDF/JPG/PNG).</div>
+      </div>
+
+      <div class="col-12 d-flex gap-2 mt-3">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/instructores}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </div>
+  </form>
+</main>
+
+<script>
+  // Validación cliente: requerimientos HTML5 básicos
+  (function () {
+    'use strict';
+    const form = document.getElementById('formInstructor');
+    
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  })();
+</script>
+</body>
+</html>
