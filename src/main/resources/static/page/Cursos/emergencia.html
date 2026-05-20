@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="es" class="h-100" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cursos de Emergencia y Primeros Auxilios | Mourosub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../css/estilos.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  <div id="siteHeader"></div>
+  <script src="../../js/header.js"></script>
+  <script>
+    fetch("/fragments/header")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("siteHeader").innerHTML = html;
+        document.querySelectorAll("#siteHeader a[href]").forEach(function(a) {
+          var href = a.getAttribute("href");
+          if (href && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("http")) {
+            a.setAttribute("href", "../../" + href);
+          }
+        });
+        document.querySelectorAll("#siteHeader img[src]").forEach(function(img) {
+          var src = img.getAttribute("src");
+          if (src && !src.startsWith("/") && !src.startsWith("http")) {
+            img.setAttribute("src", "../../" + src);
+          }
+        });
+        if (window.initHeaderSession) window.initHeaderSession();
+      });
+  </script>
+
+  <main class="container py-5" style="padding-top: 120px;">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../index.html" class="text-decoration-none">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="./Cursos.html" class="text-decoration-none">Cursos</a></li>
+        <li class="breadcrumb-item active text-white" aria-current="page">Emergencia</li>
+      </ol>
+    </nav>
+
+    <section class="mb-5">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <span class="badge bg-danger mb-2">FORMACIÓN</span>
+          <h1 class="fw-bold mb-3">Formación de Emergencia y Primeros Auxilios</h1>
+          <p class="text-muted">
+            Aprende a reaccionar ante emergencias acuáticas con certificaciones DAN -
+            la organización líder mundial en formación de seguridad para buceadores.
+          </p>
+          <p class="text-muted">
+            Estos cursos te proporcionan las habilidades para salvar vidas y actuar
+            correctamente en situaciones de emergencia, tanto dentro como fuera del agua.
+          </p>
+          <div class="d-flex gap-2 mt-4">
+            <a class="btn btn-danger" href="#cursos">Ver cursos</a>
+            <a class="btn btn-outline-light" href="./Cursos.html">Todas las categorías</a>
+          </div>
+        </div>
+        <div class="col-lg-6 text-center">
+          <img src="../../img/Cursos/598-48.jpg" alt="Cursos de Emergencia" class="img-fluid rounded">
+        </div>
+      </div>
+    </section>
+
+    <section id="cursos" class="mb-5">
+      <h2 class="fw-semibold mb-4">Cursos de Formación de Emergencia</h2>
+      <p class="text-muted mb-4">
+        Haz clic en cada curso para ver más información detallada.
+      </p>
+
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-react-right" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="React Right" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">React Right</h5>
+              <p class="card-text text-muted small">Primeros auxilios, RCP, O2 y evaluación neurológica</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">Todos niveles</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-bls" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Basic Life Support" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Basic Life Support DAN</h5>
+              <p class="card-text text-muted small">Soporte Vital Básico, RCP, SVB adulto</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">Todos niveles</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-first-aid" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="First Aid" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">First Aid DAN</h5>
+              <p class="card-text text-muted small">Evaluación lesión, vendajes, fracturas, shock</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">Todos niveles</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-aed" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Automated External Defibrillation" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Automated External Defibrillation DAN</h5>
+              <p class="card-text text-muted small">Uso del DEA, parada cardiaca</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-warning text-dark">Recomendado SBV</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-o2-aquatic" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Oxygen First Aid Aquatic" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Oxygen First Aid for Aquatic Emergencies DAN</h5>
+              <p class="card-text text-muted small">Ahogamiento, preahogamiento, O2 en urgencias acuáticas</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">Todos niveles</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-o2-scuba" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Oxygen First Aid Scuba" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Oxygen First Aid for Scuba Diving Injuries DAN</h5>
+              <p class="card-text text-muted small">Accidentes de buceo, equipo de O2, lesiones</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-warning text-dark">Para buceadores</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-o2-advanced" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Advanced Oxygen First Aid" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Advanced Oxygen First Aid for Scuba Diving Injuries DAN</h5>
+              <p class="card-text text-muted small">MTV100, balón de reanimación, ventilación presión positiva</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-danger">Avanzado</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-neuro" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="On-Site Neurological Assessment" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">On-Site Neurological Assessment for Divers DAN</h5>
+              <p class="card-text text-muted small">Evaluación neurológica, enfermedad descompresión</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-danger">Avanzado</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="collapse" data-bs-target="#detalle-hazardous" role="button">
+            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Hazardous Marine Life" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <span class="badge bg-danger mb-2">EMERGENCIA</span>
+              <h5 class="card-title">Hazardous Marine Life Injuries DAN</h5>
+              <p class="card-text text-muted small">Seres vivos marino peligrosos, picaduras, mordeduras</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary">Todos niveles</span>
+                <i class="bi bi-chevron-expand"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="accordion-cursos">
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-react-right">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-react-right">
+              <div>
+                <strong>React Right</strong>
+                <span class="badge bg-secondary ms-2">Todos niveles</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-react-right" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El programa React Right de SSI es un curso de primeros auxilios diseñado
+                    específicamente para buceadores y cualquier persona interesada en aprender
+                    a reaccionar ante emergencias. Incluye formación en RCP, uso de oxígeno y
+                    evaluación neurológica básica.
+                  </p>
+                  <p>
+                    Es el curso de emergencia más completo y popular de SSI, cubren todas las
+                    competencias esenciales para actuar en situaciones de emergencia.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Reanimación Cardiopulmonar (RCP)</li>
+                    <li>Uso de Desfibrilador Externo Automático (DEA)</li>
+                    <li>Primeros auxilios básicos</li>
+                    <li>Administración de oxígeno de emergencia</li>
+                    <li>Evaluación neurológica básica</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Ser mayor de 12 años</li>
+                    <li>Sin certificación requerida</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 8-10 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional SSI</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="React Right" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-bls">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-bls">
+              <div>
+                <strong>Basic Life Support DAN</strong>
+                <span class="badge bg-secondary ms-2">Todos niveles</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-bls" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El curso Basic Life Support (BLS) de DAN proporciona formación en Soporte
+                    Vital Básico. Aprende a gestionar eficazmente la permeabilidad de las vías
+                    aéreas, posicionamiento correcto, RCP y técnicas de rescate adicionales.
+                  </p>
+                  <p>
+                    Es el primer nivel de formación en emergencia y una base fundamental para
+                    cualquier persona que quiera estar preparada para emergencias médicas.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Técnicas de permeabilidad de vías aéreas</li>
+                    <li>Posicionamiento correcto del paciente</li>
+                    <li>Reanimación Cardiopulmonar (RCP)</li>
+                    <li>Rescate de víctimas de ahogamiento</li>
+                    <li>Control de hemorragias</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Ser mayor de 12 años</li>
+                    <li>Sin certificación requerida</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4-6 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="BLS DAN" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-first-aid">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-first-aid">
+              <div>
+                <strong>First Aid DAN</strong>
+                <span class="badge bg-secondary ms-2">Todos niveles</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-first-aid" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El curso DAN First Aid está diseñado para formar a las personas en la
+                    certificación de RCP/SVB de primeros auxilios para víctimas adultas
+                    con lesiones que no supon un peligro inmediato de muerte.
+                  </p>
+                  <p>
+                    Es el siguiente paso después del BLS, cubriendo evaluación de lesiones,
+                    vendajes, fracturas, inmovilización y tratamiento de condiciones médicas.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Evaluación de lesión</li>
+                    <li>Reacción ante posibles lesiones en cabeza o columna</li>
+                    <li>Evaluación de enfermedad usando procedimiento SAMPLE</li>
+                    <li>Vendajes y entablillado</li>
+                    <li>Técnicas de primeros auxilios para emergencias médicas</li>
+                    <li>Tratamiento de heridas y hemorragias</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Certificación BLS DAN recomendada</li>
+                    <li>Ser mayor de 12 años</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 8-10 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="First Aid DAN" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-aed">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-aed">
+              <div>
+                <strong>Automated External Defibrillation DAN</strong>
+                <span class="badge bg-warning text-dark ms-2">Recomendado SBV</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-aed" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El curso DEA (Desfibrilador Externo Automático) de DAN está diseñado
+                    para buceadores y cualquier persona interesada en aprender a utilizar
+                    un DEA para asistir a víctimas de parada cardiaca.
+                  </p>
+                  <p>
+                    Durante el curso se repasan procedimientos de primeros auxilios con
+                    técnicas de soporte vital básico, complementando la formación BLS.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Reconocimiento de signos de alerta de muerte súbita</li>
+                    <li>Administración de soporte vital básico con DEA</li>
+                    <li>Uso correcto del equipo DEA</li>
+                    <li>Mantenimiento del DEA</li>
+                    <li>Práctica con simulaciones</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Conocimientos de soporte vital básico</li>
+                    <li>Ser mayor de 12 años</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Intermedio</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="AED DAN" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-o2-aquatic">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-o2-aquatic">
+              <div>
+                <strong>Oxygen First Aid for Aquatic Emergencies DAN</strong>
+                <span class="badge bg-secondary ms-2">Todos niveles</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-o2-aquatic" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    Este curso de Primeros Auxilios con Oxígeno en Urgencias Acuáticas está
+                    diseñado para que el público en general pueda reconocer lesiones
+                    relacionadas con actividades acuáticas y proporcionar primeros auxilios
+                    con oxígeno.
+                  </p>
+                  <p>
+                    Es fundamental para cualquier persona involucrada en actividades acuáticas
+                    recreativas o profesionales.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Reconocimiento de lesiones acuáticas</li>
+                    <li>Técnicas de administración de oxígeno</li>
+                    <li>Manejo de ahogamiento y preahogamiento</li>
+                    <li>Uso del equipo DAN de oxígeno</li>
+                    <li>Práctica en simulaciones</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Ser mayor de 12 años</li>
+                    <li>Sin certificación requerida</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4-6 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="O2 Aquatic" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-o2-scuba">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-o2-scuba">
+              <div>
+                <strong>Oxygen First Aid for Scuba Diving Injuries DAN</strong>
+                <span class="badge bg-warning text-dark ms-2">Para buceadores</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-o2-scuba" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    Este curso es el primer nivel para que buceadores y no buceadores aprendan
+                    a identificar los trastornos relacionados con el buceo y a aplicar los
+                    primeros auxilios con oxígeno en caso de emergencia.
+                  </p>
+                  <p>
+                    Es especialmente importante para instructores, divemasters y cualquier
+                    buceador que bucee en áreas remotas o participe en actividades de alto riesgo.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Reconocimiento de accidentes de buceo</li>
+                    <li>Signos y síntomas de enfermedad por descompresión</li>
+                    <li>Uso del equipo DAN de oxígeno</li>
+                    <li>Técnicas de administración de oxígeno</li>
+                    <li>Manejo de preahogamiento</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Ser mayor de 12 años</li>
+                    <li>Sin certificación requerida (buceadores preferidos)</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 6-8 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Intermedio</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="O2 Scuba" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-o2-advanced">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-o2-advanced">
+              <div>
+                <strong>Advanced Oxygen First Aid for Scuba Diving Injuries DAN</strong>
+                <span class="badge bg-danger ms-2">Avanzado</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-o2-advanced" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El curso Advanced Oxygen First Aid te enseña a utilizar dispositivos de
+                    suministro de oxígeno a presión positiva como el MTV100 y/o el balón de
+                    reanimación tipo ambú (bag valve mask).
+                  </p>
+                  <p>
+                    Es el nivel superior de formación en administración de oxígeno para buceadores,
+                    proporcionando técnicas avanzadas de ventilación.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Uso del Manual Triggered Ventilator (MTV)</li>
+                    <li>Uso del balón de reanimación tipo ambú (BVM)</li>
+                    <li>Técnicas de ventilación con presión positiva</li>
+                    <li>Manejo de buceadores que no respiran</li>
+                    <li>Evaluación y mantenimiento del equipo</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Certificación Oxygen First Aid for Scuba Diving Injuries DAN</li>
+                    <li>Ser mayor de 15 años</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 8 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Avanzado</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="Advanced O2" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-neuro">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-neuro">
+              <div>
+                <strong>On-Site Neurological Assessment for Divers DAN</strong>
+                <span class="badge bg-danger ms-2">Avanzado</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-neuro" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    El curso de Evaluación Neurológica In Situ para buzos es un programa de
+                    nivel avanzado que proporciona formación adicional para realizar evaluaciones
+                    neurológicas completas en el lugar del incidente.
+                  </p>
+                  <p>
+                    Es esencial para identificar signos de enfermedad por descompresión y otras
+                    condiciones neurológicas relacionadas con el buceo.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Revisión de enfermedad por descompresión</li>
+                    <li>Evaluación neurológica in-situ completa</li>
+                    <li>Función mental y pares craneales</li>
+                    <li>Función motora y sensibilidad somática</li>
+                    <li>Equilibrio y coordinación</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Certificación Oxygen First Aid for Scuba Diving Injuries DAN (últimos 2 años)</li>
+                    <li>Ser mayor de 15 años</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 8 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Avanzado</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="Neurological" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-dark border-secondary mb-3" id="detalle-hazardous">
+          <div class="accordion-header">
+            <button class="accordion-button bg-dark text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#detalle-hazardous">
+              <div>
+                <strong>Hazardous Marine Life Injuries DAN</strong>
+                <span class="badge bg-secondary ms-2">Todos niveles</span>
+              </div>
+            </button>
+          </div>
+          <div id="detalle-hazardous" class="accordion-collapse collapse" data-bs-parent="#accordion-cursos">
+            <div class="accordion-body text-white">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h4 class="text-danger mb-3">Descripción</h4>
+                  <p>
+                    Este curso está diseñado para que buceadores y cualquier persona interesada
+                    puedan reconocer qué seres vivos marinos pueden suponer un peligro, cuáles
+                    son las lesiones que pueden causar, y cómo prestar primeros auxilios.
+                  </p>
+                  <p>
+                    Cubre desde picaduras de medusas hasta mordeduras de tiburones e
+                    intoxicaciones por ingestión de marisco.
+                  </p>
+
+                  <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+                  <ul>
+                    <li>Identificación de seres vivos marinos peligrosos</li>
+                    <li>Lesiones por veneno (picaduras, mordeduras)</li>
+                    <li>Irritaciones por contacto</li>
+                    <li>Intoxicación por ingestión de marisco</li>
+                    <li>Primeros auxilios específicos</li>
+                    <li>Prevención de lesiones</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+                  <ul>
+                    <li>Ser mayor de 12 años</li>
+                    <li>Sin certificación requerida</li>
+                  </ul>
+
+                  <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+                  <ul class="list-unstyled">
+                    <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 6-8 horas</li>
+                    <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
+                    <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional DAN</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <div class="card bg-secondary text-white p-4">
+                    <img src="../../img/Cursos/598-48.jpg" alt="Hazardous Marine Life" class="img-fluid rounded mb-3">
+                    <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="mt-5 pt-4 border-top border-secondary">
+      <div class="row">
+        <div class="col-md-6">
+          <a href="./deportivos.html" class="btn btn-outline-light w-100 mb-3">
+            <i class="bi bi-arrow-left me-2"></i>Ver cursos Deportivos
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="./tecnicos.html" class="btn btn-outline-light w-100 mb-3">
+            Ver cursos Técnicos XR<i class="bi bi-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+  <script>
+    fetch("/fragments/footer")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("siteFooter").innerHTML = html;
+      });
+  </script>
+
+  <style>
+    .cursor-pointer { cursor: pointer; }
+    .course-card:hover { transform: translateY(-4px); transition: transform 0.2s ease; }
+    .accordion-button:not(.collapsed) { background-color: var(--bs-accordion-active-bg); }
+    .accordion-button:focus { box-shadow: none; border-color: transparent; }
+  </style>
+</body>
+</html>

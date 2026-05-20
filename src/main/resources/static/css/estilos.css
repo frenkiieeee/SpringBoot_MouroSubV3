@@ -341,6 +341,11 @@ header {
   padding: 60px 0;
 }
 
+.slider {
+  width: 100%;
+  overflow: hidden;
+}
+
 
 
 /* CARRUSEL */
@@ -350,7 +355,7 @@ header {
 }
 
 .slide-track {
-  animation: scroll 90s linear infinite;
+  animation: scroll 50s linear infinite;
   display: flex;
   width: calc(250px * 12); 
 }
@@ -368,7 +373,7 @@ header {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transition: all 0.5s ease-in-out; 
+  transition: all 0.3s ease-in-out; 
  filter: brightness(0) invert(1);
 }
 
