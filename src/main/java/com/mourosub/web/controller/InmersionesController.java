@@ -18,7 +18,7 @@ public class InmersionesController {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("inmersiones", inmersionesService.listarTodas());
+        model.addAttribute("inmersiones", inmersionesService.listarActivas());
         return "inmersiones/lista";
     }
 

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Lista de Inmersiones</title>
+</head>
+<body>
+<main class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Inmersiones</h1>
+    <a class="btn btn-primary" th:href="@{/inmersiones/nueva}">Nueva inmersión</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Fecha</th>
+          <th>Precio</th>
+          <th>Plazas</th>
+          <th>Nivel requerido</th>
+          <th>Activo</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="inmersion : ${inmersiones}">
+          <td th:text="${inmersion.idActividad}">1</td>
+          <td th:text="${inmersion.nombre}">Nombre inmersión</td>
+          <td th:text="${inmersion.tipo}">INMERSION</td>
+          <td th:text="${#temporals.format(inmersion.fechaActividad, 'yyyy-MM-dd')}">2026-06-01</td>
+          <td th:text="${inmersion.precio}">0.00</td>
+          <td>
+            <span th:text="${inmersion.plazasOcupadas}">0</span> /
+            <span th:text="${inmersion.plazasMax}">10</span>
+          </td>
+          <td th:text="${inmersion.nivelReq}">Nivel</td>
+          <td>
+            <span th:text="${inmersion.activo} ? 'Sí' : 'No'">Sí</span>
+          </td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-secondary"
+               th:href="@{/inmersiones/editar/{id}(id=${inmersion.idActividad})}">
+              Editar
+            </a>
+            <a class="btn btn-sm btn-outline-success"
+               th:href="@{/inmersiones/{id}/reservar(id=${inmersion.idActividad})}">
+              Reservar
+            </a>
+            <a class="btn btn-sm btn-outline-danger"
+               th:href="@{/inmersiones/eliminar/{id}(id=${inmersion.idActividad})}"
+               onclick="return confirm('Eliminar esta inmersión?');">
+              Eliminar
+            </a>
+          </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(inmersiones)}">
+          <td colspan="9" class="text-muted text-center">No hay inmersiones disponibles.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+</body>
+</html>

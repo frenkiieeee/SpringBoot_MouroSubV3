@@ -19,6 +19,10 @@ public class InmersionesService {
         return inmersionRepository.findAll();
     }
 
+    public List<Inmersiones> listarActivas() {
+        return inmersionRepository.findByActivoTrue();
+    }
+
     public Inmersiones buscarPorId(Long id) {
         return inmersionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Inmersión no encontrada: " + id));
