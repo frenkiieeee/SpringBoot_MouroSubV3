@@ -25,16 +25,10 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    // GET /usuarios → lista todos
+    // GET /usuarios -> la lista de usuarios se gestiona desde el panel admin
     @GetMapping
-    public String listar(Model model) {
-        //Model, es como una bolsa donde guardamos todos los datos que queremos enviar a la vista thymealeaf, es decir lo que saldra en el HTML
-        /*Aqui llamamos al servicio y el mismo servicio nos devuelve de la base de datos una lista de usuarios.                                                   
-        Con ello, mete esa lista en el modelo, es decir, envia la variable usuarios que contiene la lista completa
-        */
-        model.addAttribute("usuarios", usuarioService.listarTodos());
-        //Esto, no nos devuelve texto, esto devuleve el nombre de la plantilla HTML que spring renderizara, por ejemplo Spring buscara algo parecido a esto "src/main/resources/templates/usuarios/lista.html"
-        return "usuarios/lista";   // → templates/usuarios/lista.html
+    public String listar() {
+        return "redirect:/admin/usuarios";
     }
 
     // GET /usuarios/nuevo → formulario
@@ -45,8 +39,7 @@ public class UsuarioController {
     solo prepara los datos necesario para el formulario
     */
     public String nuevo(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "usuarios/formulario";
+        return "redirect:/login";
     }
 
     // POST /usuarios/guardar → guarda y redirige
@@ -55,13 +48,24 @@ public class UsuarioController {
     Aqui el ModelAttribute, hace que Sprign rellen el objeto Usuario con los datos del formulario
     */ 
     public String guardar(@ModelAttribute Usuario usuario) {
-        //En este apartado lo que ocurre es que, si el usuario no tiene ID, crea uno nuevo, is el usuario tiene ID, actualiza el existente
-        //este se encarga de validar, llamar y guardar en la base de datos
-        usuarioService.guardar(usuario);
+        if (usuario.getidUsuario() == null) {
+            return "redirect:/login";
+        }
+        Usuario existente = usuarioService.buscarPorId(usuario.getidUsuario());
+        existente.setNombre(usuario.getNombre());
+        existente.setApellidos(usuario.getApellidos());
+        existente.setEmail(usuario.getEmail());
+        existente.setDni(usuario.getDni());
+        existente.setTelefono(usuario.getTelefono());
+        existente.setDireccion(usuario.getDireccion());
+        existente.setCodPostal(usuario.getCodPostal());
+        existente.setLocalidad(usuario.getLocalidad());
+        existente.setFechaNacimiento(usuario.getFechaNacimiento());
+        usuarioService.guardar(existente);
         /*El redirect evita que el usuari oreenvie el formulario si refresca la pagina, esto evita duplicar registros, esto sigue
         el patron PRG, que significa POST -> Redirect-> Get
         */
-        return "redirect:/usuarios";
+        return "redirect:/cuenta";
     }
 
     // GET /usuarios/editar/{id}
@@ -73,7 +77,7 @@ public class UsuarioController {
         //Llama al servicio para buscar el usuario por su ID, este servicio consulta la base de datos y devuelve el ususario correspondiente a la Id, con ello lo mete dentro del objeto usuario, que contiene los datos actuales del usuario
         model.addAttribute("usuario", usuarioService.buscarPorId(id));
         //Este devuelve el formulario con los datos ya cargados
-        return "usuarios/formulario";
+        return "auth/registro";
     }
 
     // GET /usuarios/eliminar/{id}

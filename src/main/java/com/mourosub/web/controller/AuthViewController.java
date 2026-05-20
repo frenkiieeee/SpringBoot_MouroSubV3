@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthViewController {
 
-    // GET /login -> atajo: redirige a la pagina estatica login.html
-    // Asi podemos enlazar a "/login" aunque el archivo real sea "login.html"
-    @GetMapping("/login")
+    // GET /login -> muestra la plantilla templates/auth/login.html.
+    @GetMapping({"/login", "/login.html"})
     public String login() {
-        return "redirect:/login.html";
+        return "auth/login";
     }
 
     // GET /cuenta -> muestra la pagina "Mi cuenta"
     @GetMapping("/cuenta")
     public String cuenta() {
-        // Devuelve la plantilla templates/cuenta.html
-        return "cuenta";
+        // Devuelve la plantilla templates/usuarios/cuenta.html
+        return "usuarios/cuenta";
     }
 }

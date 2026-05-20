@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,14 +58,7 @@ public class AuthController {
         }
 
         // Sacamos el usuario del Optional y devolvemos sus datos como JSON.
-        Usuario u = usuario.get();
-        return ResponseEntity.ok(Map.of(
-                "idUsuario", u.getidUsuario(),
-                "supabaseUserId", u.getSupabaseUserId().toString(),
-                "email", u.getEmail(),
-                "nombre", u.getNombre(),
-                "apellidos", u.getApellidos()
-        ));
+        return ResponseEntity.ok(toUsuarioPayload(usuario.get()));
     }
 
     // ───────────────────────────────────────────────────────────────────────
@@ -78,11 +74,26 @@ public class AuthController {
     // iniciar sesion, asi que el usuario siempre acaba teniendo su fila de dominio.
     // ───────────────────────────────────────────────────────────────────────
     @PostMapping("/sync")
-    // @RequestParam: los datos llegan como parametros en la URL (?supabaseUserId=...&email=...).
-    // 'email' es required=false: si no viene, no pasa nada (quedara vacio).
-    public ResponseEntity<?> sync(@RequestParam("supabaseUserId") String supabaseUserId,
-                                  @RequestParam(value = "email", required = false) String email) {
+    public ResponseEntity<?> sync(@RequestParam(value = "supabaseUserId", required = false) String supabaseUserIdParam,
+                                  @RequestParam(value = "email", required = false) String emailParam,
+                                  @RequestParam(value = "nombre", required = false) String nombreParam,
+                                  @RequestParam(value = "apellidos", required = false) String apellidosParam,
+                                  @RequestParam(value = "dni", required = false) String dniParam,
+                                  @RequestParam(value = "telefono", required = false) String telefonoParam,
+                                  @RequestParam(value = "direccion", required = false) String direccionParam,
+                                  @RequestParam(value = "codPostal", required = false) String codPostalParam,
+                                  @RequestParam(value = "localidad", required = false) String localidadParam,
+                                  @RequestParam(value = "fechaNacimiento", required = false) String fechaNacimientoParam,
+                                  @RequestBody(required = false) SyncUsuarioRequest request) {
         // 1) El id de Supabase llega como texto; lo convertimos al tipo UUID.
+        String supabaseUserId = firstNonBlank(
+                request != null ? request.getSupabaseUserId() : null,
+                supabaseUserIdParam
+        );
+        if (supabaseUserId == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "supabaseUserId obligatorio"));
+        }
+
         UUID id;
         try {
             id = UUID.fromString(supabaseUserId);
@@ -104,14 +115,101 @@ public class AuthController {
             usuario = new Usuario();
             // Guardamos el id de Supabase: es el enlace entre auth.users y nuestra fila.
             usuario.setSupabaseUserId(id);
-            // Guardamos el email; nombre y apellidos quedan vacios (se completan despues).
-            usuario.setEmail(email);
-            // save(...) hace el INSERT en la tabla y devuelve el usuario con su id ya generado.
-            usuario = usuarioRepository.save(usuario);
         }
 
-        // 3) Respondemos con el id interno del usuario (JSON: {"idUsuario": N}).
-        return ResponseEntity.ok(Map.of("idUsuario", usuario.getidUsuario()));
+        aplicarDatosUsuario(usuario, request, emailParam, nombreParam, apellidosParam, dniParam, telefonoParam,
+                direccionParam, codPostalParam, localidadParam, fechaNacimientoParam);
+        // save(...) hace INSERT o UPDATE y devuelve el usuario persistido.
+        usuario = usuarioRepository.save(usuario);
+
+        return ResponseEntity.ok(toUsuarioPayload(usuario));
+    }
+
+    // GET /auth/profile -> devuelve los datos personales guardados en nuestra tabla usuarios.
+    @GetMapping("/profile")
+    public ResponseEntity<?> profile(@RequestParam("supabaseUserId") String supabaseUserId) {
+        UUID id;
+        try {
+            id = UUID.fromString(supabaseUserId);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("error", "supabaseUserId invalido"));
+        }
+
+        return usuarioRepository.findBySupabaseUserId(id)
+                .<ResponseEntity<?>>map(usuario -> ResponseEntity.ok(toUsuarioPayload(usuario)))
+                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "usuario no encontrado")));
+    }
+
+    private void aplicarDatosUsuario(Usuario usuario, SyncUsuarioRequest request, String emailParam,
+                                     String nombreParam, String apellidosParam, String dniParam,
+                                     String telefonoParam, String direccionParam, String codPostalParam,
+                                     String localidadParam, String fechaNacimientoParam) {
+        if (request == null) {
+            setIfPresent(usuario::setEmail, emailParam);
+            setIfPresent(usuario::setNombre, nombreParam);
+            setIfPresent(usuario::setApellidos, apellidosParam);
+            setIfPresent(usuario::setDni, dniParam);
+            setIfPresent(usuario::setTelefono, telefonoParam);
+            setIfPresent(usuario::setDireccion, direccionParam);
+            setIfPresent(usuario::setCodPostal, codPostalParam);
+            setIfPresent(usuario::setLocalidad, localidadParam);
+            setFechaNacimientoIfPresent(usuario, fechaNacimientoParam);
+            return;
+        }
+
+        setIfPresent(usuario::setEmail, request.getEmail());
+        setIfPresent(usuario::setNombre, request.getNombre());
+        setIfPresent(usuario::setApellidos, request.getApellidos());
+        setIfPresent(usuario::setDni, request.getDni());
+        setIfPresent(usuario::setTelefono, request.getTelefono());
+        setIfPresent(usuario::setDireccion, request.getDireccion());
+        setIfPresent(usuario::setCodPostal, request.getCodPostal());
+        setIfPresent(usuario::setLocalidad, request.getLocalidad());
+
+        setFechaNacimientoIfPresent(usuario, request.getFechaNacimiento());
+    }
+
+    private Map<String, Object> toUsuarioPayload(Usuario usuario) {
+        Map<String, Object> payload = new LinkedHashMap<>();
+        payload.put("idUsuario", usuario.getidUsuario());
+        payload.put("supabaseUserId", usuario.getSupabaseUserId().toString());
+        payload.put("email", usuario.getEmail());
+        payload.put("nombre", usuario.getNombre());
+        payload.put("apellidos", usuario.getApellidos());
+        payload.put("dni", usuario.getDni());
+        payload.put("telefono", usuario.getTelefono());
+        payload.put("direccion", usuario.getDireccion());
+        payload.put("codPostal", usuario.getCodPostal());
+        payload.put("localidad", usuario.getLocalidad());
+        payload.put("fechaNacimiento", usuario.getFechaNacimiento() != null ? usuario.getFechaNacimiento().toString() : null);
+        payload.put("isAdmin", usuario.isAdmin());
+        return payload;
+    }
+
+    private String firstNonBlank(String first, String second) {
+        if (first != null && !first.isBlank()) {
+            return first;
+        }
+        if (second != null && !second.isBlank()) {
+            return second;
+        }
+        return null;
+    }
+
+    private void setIfPresent(java.util.function.Consumer<String> setter, String value) {
+        if (value != null && !value.isBlank()) {
+            setter.accept(value.trim());
+        }
+    }
+
+    private void setFechaNacimientoIfPresent(Usuario usuario, String value) {
+        if (value != null && !value.isBlank()) {
+            try {
+                usuario.setFechaNacimiento(LocalDate.parse(value));
+            } catch (DateTimeParseException ignored) {
+                // Si la fecha llega mal formada, no rompemos el alta; simplemente no la actualizamos.
+            }
+        }
     }
 
     // DTO (objeto simple de transporte de datos): representa el JSON que recibe
@@ -136,5 +234,48 @@ public class AuthController {
         public void setSupabaseUserId(String supabaseUserId) {
             this.supabaseUserId = supabaseUserId;
         }
+    }
+
+    public static class SyncUsuarioRequest {
+        private String supabaseUserId;
+        private String email;
+        private String nombre;
+        private String apellidos;
+        private String dni;
+        private String telefono;
+        private String direccion;
+        private String codPostal;
+        private String localidad;
+        private String fechaNacimiento;
+
+        public String getSupabaseUserId() { return supabaseUserId; }
+        public void setSupabaseUserId(String supabaseUserId) { this.supabaseUserId = supabaseUserId; }
+
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+
+        public String getNombre() { return nombre; }
+        public void setNombre(String nombre) { this.nombre = nombre; }
+
+        public String getApellidos() { return apellidos; }
+        public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+
+        public String getDni() { return dni; }
+        public void setDni(String dni) { this.dni = dni; }
+
+        public String getTelefono() { return telefono; }
+        public void setTelefono(String telefono) { this.telefono = telefono; }
+
+        public String getDireccion() { return direccion; }
+        public void setDireccion(String direccion) { this.direccion = direccion; }
+
+        public String getCodPostal() { return codPostal; }
+        public void setCodPostal(String codPostal) { this.codPostal = codPostal; }
+
+        public String getLocalidad() { return localidad; }
+        public void setLocalidad(String localidad) { this.localidad = localidad; }
+
+        public String getFechaNacimiento() { return fechaNacimiento; }
+        public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     }
 }

@@ -27,7 +27,7 @@
         <div class="header-right">
 
             <!-- Login: visible cuando NO hay sesion. header.js lo oculta si hay sesion. -->
-            <a id="loginLink" href="login.html" th:href="@{/login.html}" class="btn-reservar d-none d-md-inline-flex">Iniciar sesion / Registrarse</a>
+            <a id="loginLink" href="/login" th:href="@{/login}" class="btn-reservar d-none d-md-inline-flex">Iniciar sesion / Registrarse</a>
 
             <!-- Menu de usuario: oculto por defecto (d-none); header.js lo muestra si hay sesion -->
             <div id="userMenu" class="dropdown d-none">
@@ -67,7 +67,7 @@
                 <li><a href="page/inmersiones/index.html" th:href="@{/page/inmersiones/index.html}">Inmersiones</a></li>
                 <li><a href="page/Cursos/Cursos.html" th:href="@{/page/Cursos/Cursos.html}">Cursos</a></li>
                 <li><a href="page/servicios/index.html" th:href="@{/page/servicios/index.html}">Servicios</a></li>
-                <li><a id="loginLinkMobile" href="login.html" th:href="@{/login.html}">Iniciar sesion / Registrarse</a></li>
+                <li><a id="loginLinkMobile" href="/login" th:href="@{/login}">Iniciar sesion / Registrarse</a></li>
             </ul>
         </nav>
     </div>

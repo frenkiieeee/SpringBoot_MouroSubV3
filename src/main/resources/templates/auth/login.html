@@ -1,35 +1,24 @@
 <!doctype html>
-<html lang="es" class="h-100" data-bs-theme="dark">
+<html lang="es" class="h-100" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Iniciar sesion | Mourosub</title>
+  <title>Acceso | Mourosub</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/estilos.css">
-  <!-- Supabase SDK debe cargarse ANTES del script principal -->
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
-  <div id="siteHeader"></div>
-  <script src="js/header.js"></script>
-  <script>
-    fetch("/fragments/header")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("siteHeader").innerHTML = html;
-        if (window.initHeaderSession) window.initHeaderSession();
-      });
-  </script>
+  <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
-  <main class="container" style="padding-top: 120px; max-width: 520px;">
-    <h1 class="fw-bold mb-3" id="title">Iniciar sesion</h1>
-    <p class="text-muted" id="subtitle">Accede con tu cuenta para enviar solicitudes de servicio tecnico.</p>
+  <main id="authMain" class="container" style="padding-top: 140px; max-width: 520px; flex-shrink: 0;">
+    <h1 class="fw-bold mb-3" id="title">Iniciar sesión</h1>
+    <p class="text-muted" id="subtitle">Accede con tu cuenta para gestionar tus reservas y servicios.</p>
 
-    <div class="btn-group mb-3" role="group">
-      <button id="modeLogin" type="button" class="btn btn-outline-primary active">Iniciar sesion</button>
+    <div class="btn-group mb-3 w-100" role="group">
+      <button id="modeLogin" type="button" class="btn btn-outline-primary active">Iniciar sesión</button>
       <button id="modeRegister" type="button" class="btn btn-outline-primary">Registrarse</button>
     </div>
 
@@ -37,38 +26,67 @@
     <div id="loginSuccess" class="alert alert-success d-none"></div>
 
     <form id="loginForm" class="row g-3">
-      <div class="col-12">
+      <div class="col-md-6">
         <label class="form-label">Email</label>
         <input type="email" class="form-control" name="email" required>
       </div>
-      <div class="col-12">
-        <label class="form-label">Contrasena</label>
+      <div class="col-md-6">
+        <label class="form-label">Contraseña</label>
         <input type="password" class="form-control" name="password" required>
       </div>
-      <div class="col-12">
+
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">Repetir email</label>
+        <input type="email" class="form-control" name="repeatEmail" data-register-input disabled>
+      </div>
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre" maxlength="100" data-register-input disabled>
+      </div>
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">Apellidos</label>
+        <input type="text" class="form-control" name="apellidos" maxlength="150" data-register-input disabled>
+      </div>
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">DNI</label>
+        <input type="text" class="form-control" name="dni" maxlength="20" data-register-input disabled>
+      </div>
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">Teléfono</label>
+        <input type="tel" class="form-control" name="telefono" maxlength="20" data-register-input disabled>
+      </div>
+      <div class="col-md-6 d-none" data-register-section>
+        <label class="form-label">Fecha de nacimiento</label>
+        <input type="date" class="form-control" name="fechaNacimiento" data-register-input disabled>
+      </div>
+      <div class="col-md-8 d-none" data-register-section>
+        <label class="form-label">Dirección</label>
+        <input type="text" class="form-control" name="direccion" maxlength="255" data-register-input disabled>
+      </div>
+      <div class="col-md-4 d-none" data-register-section>
+        <label class="form-label">Código postal</label>
+        <input type="text" class="form-control" name="codPostal" maxlength="10" data-register-input disabled>
+      </div>
+      <div class="col-12 d-none" data-register-section>
+        <label class="form-label">Localidad</label>
+        <input type="text" class="form-control" name="localidad" maxlength="100" data-register-input disabled>
+      </div>
+
+      <div class="col-12 mt-4">
         <button class="btn btn-primary w-100" type="submit" id="submitBtn">Entrar</button>
       </div>
     </form>
 
-    <!-- Solo se muestra si ya hay sesion activa -->
-    <div id="loggedInPanel" class="d-none mt-4">
-      <div class="alert alert-info">Ya tienes una sesion activa.</div>
-      <button class="btn btn-outline-secondary" type="button" id="logoutBtn">Cerrar sesion</button>
+    <div id="loggedInPanel" class="d-none mt-4 text-center">
+      <div class="alert alert-info">Ya tienes una sesión activa.</div>
+      <button class="btn btn-outline-secondary w-100" type="button" id="loginPageLogoutBtn">Cerrar sesión</button>
     </div>
   </main>
 
-  <div id="siteFooter"></div>
-  <script>
-    fetch("/fragments/footer")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("siteFooter").innerHTML = html;
-      });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/header.js"></script>
 
   <script>
-    // Inicializamos Supabase con los valores del entorno via Spring Boot.
-    // Esto evita hardcodear URLs o keys en el frontend.
     async function initLogin() {
       const cfg = await fetch("/api/config").then(r => r.json());
       const supabaseClient = window.supabase.createClient(cfg.supabaseUrl, cfg.anonKey);
@@ -76,121 +94,182 @@
     }
 
     function setupLoginForm(supabaseClient) {
+      const form = document.getElementById("loginForm");
+      const errorBox = document.getElementById("loginError");
+      const successBox = document.getElementById("loginSuccess");
+      const logoutBtn = document.getElementById("loginPageLogoutBtn");
+      const loggedInPanel = document.getElementById("loggedInPanel");
+      const modeLogin = document.getElementById("modeLogin");
+      const modeRegister = document.getElementById("modeRegister");
+      const submitBtn = document.getElementById("submitBtn");
+      const title = document.getElementById("title");
+      const subtitle = document.getElementById("subtitle");
+      const authMain = document.getElementById("authMain");
+      const registerSections = document.querySelectorAll("[data-register-section]");
+      const registerInputs = document.querySelectorAll("[data-register-input]");
+      let mode = "login";
 
-    const form = document.getElementById("loginForm");
-    const errorBox = document.getElementById("loginError");
-    const successBox = document.getElementById("loginSuccess");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const loggedInPanel = document.getElementById("loggedInPanel");
-    const modeLogin = document.getElementById("modeLogin");
-    const modeRegister = document.getElementById("modeRegister");
-    const submitBtn = document.getElementById("submitBtn");
-    const title = document.getElementById("title");
-    const subtitle = document.getElementById("subtitle");
-    let mode = "login";
-
-    // Mostrar panel de sesion activa si ya esta logueado
-    if (localStorage.getItem("supabaseUserId")) {
-      loggedInPanel.classList.remove("d-none");
-      form.classList.add("d-none");
-      document.querySelector(".btn-group").classList.add("d-none");
-      title.textContent = "Sesion activa";
-      subtitle.textContent = "Ya has iniciado sesion. Puedes cerrarla o volver al inicio.";
-    }
-
-    function showError(msg) {
-      errorBox.textContent = msg;
-      errorBox.classList.remove("d-none");
-      successBox.classList.add("d-none");
-    }
-
-    function showSuccess(msg) {
-      successBox.textContent = msg;
-      successBox.classList.remove("d-none");
-      errorBox.classList.add("d-none");
-    }
-
-    function setMode(next) {
-      mode = next;
-      modeLogin.classList.toggle("active", mode === "login");
-      modeRegister.classList.toggle("active", mode === "register");
-      if (mode === "login") {
-        title.textContent = "Iniciar sesion";
-        subtitle.textContent = "Accede con tu cuenta para enviar solicitudes de servicio tecnico.";
-        submitBtn.textContent = "Entrar";
-      } else {
-        title.textContent = "Registrarse";
-        subtitle.textContent = "Crea tu cuenta para acceder al sistema de tickets.";
-        submitBtn.textContent = "Crear cuenta";
+      if (localStorage.getItem("supabaseUserId")) {
+        loggedInPanel.classList.remove("d-none");
+        form.classList.add("d-none");
+        document.querySelector(".btn-group").classList.add("d-none");
+        title.textContent = "Sesión activa";
+        subtitle.textContent = "Ya has iniciado sesión.";
       }
-    }
 
-    modeLogin.addEventListener("click", () => setMode("login"));
-    modeRegister.addEventListener("click", () => setMode("register"));
+      function showError(msg) {
+        errorBox.textContent = msg;
+        errorBox.classList.remove("d-none");
+        successBox.classList.add("d-none");
+      }
 
-    form.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const email = form.email.value.trim();
-      const password = form.password.value.trim();
-      submitBtn.disabled = true;
+      function showSuccess(msg) {
+        successBox.textContent = msg;
+        successBox.classList.remove("d-none");
+        errorBox.classList.add("d-none");
+      }
 
-      try {
-        if (mode === "register") {
-          const { data, error } = await supabaseClient.auth.signUp({ email, password });
-          if (error) { showError(error.message); return; }
-          if (!data?.user?.id) {
-            showSuccess("Registro creado. Revisa tu correo si se solicita confirmacion.");
-            return;
-          }
+      function setMode(next) {
+        mode = next;
+        modeLogin.classList.toggle("active", mode === "login");
+        modeRegister.classList.toggle("active", mode === "register");
+        authMain.style.maxWidth = mode === "register" ? "760px" : "520px";
+        registerSections.forEach(section => section.classList.toggle("d-none", mode !== "register"));
+        registerInputs.forEach(input => {
+          input.disabled = mode !== "register";
+          input.required = mode === "register";
+        });
+
+        if (mode === "login") {
+          title.textContent = "Iniciar sesión";
+          subtitle.textContent = "Accede con tu cuenta.";
+          submitBtn.textContent = "Entrar";
         } else {
-          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          if (error) { showError(error.message); return; }
+          title.textContent = "Registrarse";
+          subtitle.textContent = "Crea tu cuenta y completa tus datos personales.";
+          submitBtn.textContent = "Crear cuenta";
         }
-
-        const { data } = await supabaseClient.auth.getUser();
-        const userId = data?.user?.id;
-        const userEmail = data?.user?.email || "";
-        if (!userId) { showError("No se pudo obtener el usuario."); return; }
-
-        localStorage.setItem("supabaseUserId", userId);
-        localStorage.setItem("supabaseUserEmail", userEmail);
-
-        // Guardamos el token de sesion en una cookie para que el servidor
-        // (filtro de Spring) pueda validar el acceso al panel admin
-        const { data: sessionData } = await supabaseClient.auth.getSession();
-        const accessToken = sessionData?.session?.access_token;
-        if (accessToken) {
-          document.cookie = "sb_access_token=" + accessToken + "; path=/; max-age=3600; samesite=lax";
-        }
-
-        // Aseguramos que el usuario exista en la tabla 'usuarios' del dominio.
-        // Supabase solo lo guarda en auth.users; esto crea su fila de dominio si falta.
-        await fetch("/auth/sync?supabaseUserId=" + encodeURIComponent(userId)
-          + "&email=" + encodeURIComponent(userEmail), { method: "POST" });
-
-        const adminRes = await fetch("/auth/admin-check?supabaseUserId=" + encodeURIComponent(userId));
-        const adminPayload = adminRes.ok ? await adminRes.json() : { isAdmin: false };
-        localStorage.setItem("supabaseIsAdmin", String(Boolean(adminPayload.isAdmin)));
-
-        showSuccess("Sesion iniciada. Redirigiendo...");
-        setTimeout(() => window.location.href = "/cuenta", 800);
-      } finally {
-        submitBtn.disabled = false;
       }
-    });
 
-    logoutBtn.addEventListener("click", async function() {
-      await supabaseClient.auth.signOut();
-      localStorage.removeItem("supabaseUserId");
-      localStorage.removeItem("supabaseUserEmail");
-      localStorage.removeItem("supabaseIsAdmin");
-      document.cookie = "sb_access_token=; path=/; max-age=0";
-      showSuccess("Sesion cerrada correctamente. Redirigiendo...");
-      setTimeout(() => window.location.href = "/", 800);
-    });
-    } // fin setupLoginForm
+      function getRegistrationProfile() {
+        return {
+          nombre: form.nombre.value.trim(),
+          apellidos: form.apellidos.value.trim(),
+          dni: form.dni.value.trim(),
+          telefono: form.telefono.value.trim(),
+          fechaNacimiento: form.fechaNacimiento.value,
+          direccion: form.direccion.value.trim(),
+          codPostal: form.codPostal.value.trim(),
+          localidad: form.localidad.value.trim()
+        };
+      }
+
+      async function postSync(payload) {
+        const params = new URLSearchParams();
+        Object.entries(payload).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && String(value).trim() !== "") {
+            params.append(key, value);
+          }
+        });
+        const response = await fetch("/auth/sync?" + params.toString(), { method: "POST" });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "No se pudo guardar el usuario.");
+        }
+        return data;
+      }
+
+      modeLogin.addEventListener("click", () => setMode("login"));
+      modeRegister.addEventListener("click", () => setMode("register"));
+
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+        submitBtn.disabled = true;
+
+        try {
+          let userId;
+          let userEmail;
+          let syncPayload;
+
+          if (mode === "register") {
+            if (password.length < 6) {
+              showError("La contraseña debe tener al menos 6 caracteres.");
+              return;
+            }
+            if (email.toLowerCase() !== form.repeatEmail.value.trim().toLowerCase()) {
+              showError("Los emails no coinciden.");
+              return;
+            }
+
+            const profile = getRegistrationProfile();
+            const { data, error } = await supabaseClient.auth.signUp({
+              email,
+              password,
+              options: { data: { email, ...profile } }
+            });
+            if (error) { showError(error.message); return; }
+            if (!data?.user?.id) {
+              showSuccess("Registro creado. Revisa tu correo si se solicita confirmación.");
+              return;
+            }
+
+            userId = data.user.id;
+            userEmail = data.user.email || email;
+            syncPayload = {
+              supabaseUserId: userId,
+              email: userEmail,
+              ...profile
+            };
+          } else {
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) { showError(error.message); return; }
+
+            const { data } = await supabaseClient.auth.getUser();
+            userId = data?.user?.id;
+            userEmail = data?.user?.email || "";
+            if (!userId) { showError("No se pudo obtener el usuario."); return; }
+            syncPayload = { supabaseUserId: userId, email: userEmail };
+          }
+
+          const { data: sessionData } = await supabaseClient.auth.getSession();
+          const accessToken = sessionData?.session?.access_token;
+
+          await postSync(syncPayload);
+
+          localStorage.setItem("supabaseUserId", userId);
+          localStorage.setItem("supabaseUserEmail", userEmail);
+          if (accessToken) {
+            document.cookie = "sb_access_token=" + accessToken + "; path=/; max-age=3600; samesite=lax";
+          }
+
+          const adminRes = await fetch("/auth/admin-check?supabaseUserId=" + encodeURIComponent(userId));
+          const adminPayload = adminRes.ok ? await adminRes.json() : { isAdmin: false };
+          localStorage.setItem("supabaseIsAdmin", String(Boolean(adminPayload.isAdmin)));
+
+          showSuccess(mode === "register" ? "Cuenta creada. Redirigiendo..." : "Sesión iniciada. Redirigiendo...");
+          setTimeout(() => window.location.href = "/cuenta", 800);
+        } catch (err) {
+          showError(err.message || "Error en la autenticación");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+
+      logoutBtn.addEventListener("click", async function() {
+        await supabaseClient.auth.signOut();
+        localStorage.clear();
+        document.cookie = "sb_access_token=; path=/; max-age=0";
+        showSuccess("Sesión cerrada.");
+        setTimeout(() => window.location.href = "/", 800);
+      });
+
+      setMode("login");
+    }
 
     initLogin();
+    if (window.initHeaderSession) window.initHeaderSession();
   </script>
 </body>
 </html>

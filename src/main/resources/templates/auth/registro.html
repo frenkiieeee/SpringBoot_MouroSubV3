@@ -4,89 +4,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <title>Registrarse | Mourosub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <title>Datos personales | Mourosub</title>
 </head>
 <body>
-<main class="container" style="padding-top: 40px;">
 
-  <!-- El titulo cambia segun venga el objeto con id o sin el.
-       Si getidUsuario() devuelve null, es un usuario nuevo; si tiene valor, es una edicion.
-       Mismo patron que en admin/servicios/tecnico/formulario.html con idServicioTecnico. -->
-  <h1 class="fw-bold"
-      th:text="${usuario.getidUsuario() == null ? 'Nuevo usuario' : 'Editar usuario'}">
-    Usuario
+<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
+
+<main class="container" style="padding-top: 120px; max-width: 760px;">
+  <h1 class="fw-bold mb-3"
+      th:text="${usuario.getidUsuario() == null ? 'Datos personales' : 'Editar datos personales'}">
+    Datos personales
   </h1>
+  <p class="text-muted">Mantén actualizada tu información de usuario.</p>
 
-  <!-- th:action apunta siempre a /usuarios/guardar: el controlador distingue
-       crear de editar por si el id viene relleno o nulo en el objeto.
-       th:object="${usuario}" enlaza el formulario con el objeto del modelo;
-       a partir de aqui, th:field="*{campo}" es equivalente a th:field="${usuario.campo}". -->
   <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post" class="row g-3">
-
-    <!-- Campo oculto con el id: si viene relleno el servidor hace UPDATE;
-         si es null hace INSERT. Spring/JPA lo gestiona automaticamente. -->
     <input type="hidden" th:field="*{idUsuario}">
 
-    <!-- ── Datos personales ─────────────────────────────────────── -->
     <div class="col-md-6">
       <label class="form-label">Nombre</label>
-      <!-- th:field="*{nombre}" hace tres cosas a la vez:
-           - pone name="nombre" (para que el POST lleve el campo al controlador)
-           - pone id="nombre" (para el label)
-           - rellena value con el valor actual del campo si es una edicion -->
-      <input type="text" class="form-control" th:field="*{nombre}">
+      <input type="text" class="form-control" th:field="*{nombre}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Apellidos</label>
-      <input type="text" class="form-control" th:field="*{apellidos}">
+      <input type="text" class="form-control" th:field="*{apellidos}" required>
     </div>
 
-     <!-- Campo Email Principal -->
     <div class="col-md-6">
       <label class="form-label">Email</label>
-      <input type="email" class="form-control" th:field="*{email}" id="email" required>
-      <div class="invalid-feedback">Por favor, introduce un email válido.</div>
+      <input type="email" class="form-control" th:field="*{email}" readonly required>
     </div>
-
-    <!-- Repetir Email -->
-    <div class="col-md-6">
-      <label class="form-label">Repetir Email</label>
-      <input type="email" class="form-control" id="repetirEmail" name="repetirEmail" required>
-      <div class="invalid-feedback" id="errorRepetirEmail">El email no coincide.</div>
-    </div>
-
 
     <div class="col-md-6">
       <label class="form-label">DNI</label>
-      <input type="text" class="form-control" th:field="*{dni}">
+      <input type="text" class="form-control" th:field="*{dni}" required>
     </div>
 
     <div class="col-md-6">
-      <label class="form-label">Telefono</label>
-      <input type="text" class="form-control" th:field="*{telefono}">
+      <label class="form-label">Teléfono</label>
+      <input type="text" class="form-control" th:field="*{telefono}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Fecha de nacimiento</label>
-      <!-- type="date": el navegador muestra un selector de fecha.
-           Thymeleaf convierte el LocalDate a yyyy-MM-dd automaticamente con th:field. -->
-      <input type="date" class="form-control" th:field="*{fechaNacimiento}">
+      <input type="date" class="form-control" th:field="*{fechaNacimiento}" required>
     </div>
 
-    <!-- ── Direccion ─────────────────────────────────────────────── -->
     <div class="col-md-8">
-      <label class="form-label">Localidad</label>
-      <input type="text" class="form-control" th:field="*{localidad}">
+      <label class="form-label">Dirección</label>
+      <input type="text" class="form-control" th:field="*{direccion}" required>
     </div>
 
-    <!-- ── Botones de accion ──────────────────────────────────────── -->
+    <div class="col-md-4">
+      <label class="form-label">Código postal</label>
+      <input type="text" class="form-control" th:field="*{codPostal}" required>
+    </div>
+
     <div class="col-12">
-      <button class="btn btn-primary" type="submit">Guardar</button>
-      <a class="btn btn-link" th:href="@{/usuarios}">Cancelar</a>
+      <label class="form-label">Localidad</label>
+      <input type="text" class="form-control" th:field="*{localidad}" required>
     </div>
 
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a class="btn btn-link" th:href="@{/cuenta}">Cancelar</a>
+    </div>
   </form>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>if (window.initHeaderSession) window.initHeaderSession();</script>
 </body>
 </html>

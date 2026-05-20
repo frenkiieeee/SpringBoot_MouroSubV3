@@ -33,18 +33,18 @@ public class FragmentController {
     // produces = TEXT_HTML_VALUE: avisamos de que la respuesta es HTML
     @GetMapping(value = "/fragments/header", produces = MediaType.TEXT_HTML_VALUE)
     public String header() throws IOException {
-        return readFragment("fragments/header.html");
+        return readFragment("Fragments/header.html");
     }
 
     // GET /fragments/footer -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footer", produces = MediaType.TEXT_HTML_VALUE)
     public String footer() throws IOException {
-        return readFragment("fragments/footer.html");
+        return readFragment("Fragments/footer.html");
     }
     // GET /fragments/footerBlack -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footerBlack", produces = MediaType.TEXT_HTML_VALUE)
     public String footerBlack() throws IOException {
-        return readFragment("fragments/footerBlack.html");
+        return readFragment("Fragments/footerBlack.html");
     }
 
     // Metodo auxiliar: abre el archivo indicado y devuelve su contenido como texto.

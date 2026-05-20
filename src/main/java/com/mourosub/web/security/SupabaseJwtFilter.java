@@ -55,7 +55,7 @@ public class SupabaseJwtFilter extends OncePerRequestFilter {
         if (esAdmin(leerCookie(request))) {
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("/login.html");
+            response.sendRedirect("/login");
         }
     }
 
