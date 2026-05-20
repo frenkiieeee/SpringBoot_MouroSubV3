@@ -47,7 +47,7 @@
             y a tu ritmo, siempre con supervisión constante.
           </p>
           <div class="d-flex gap-2 mt-4">
-            <a class="btn btn-primary" href="#categorias">Ver categorías</a>
+            <a class="btn btn-primary" href="#modalidades">Ver categorías</a>
           </div>
         </div>
         <div class="col-lg-6 text-center">
@@ -60,7 +60,7 @@
       <h2 class="fw-semibold mb-4">Modalidades de cursos</h2>
       <div class="row g-4">
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" onclick="location.href='apnea.html'">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-apnea" role="button">
             <img src="../../img/Cursos/598-11.jpg" class="card-img-top" alt="Apnea" style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <span class="badge bg-primary mb-2">MODALIDAD</span>
@@ -68,29 +68,29 @@
               <p class="card-text text-muted">Control de respiración, técnica y seguridad para disfrutar del buceo en apnea.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">5 cursos</span>
-                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" onclick="location.href='deportivos.html'">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-deportivos" role="button">
             <img src="../../img/Cursos/598-21.jpg" class="card-img-top" alt="Cursos Deportivos" style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <span class="badge bg-success mb-2">MODALIDAD</span>
               <h5 class="card-title">Cursos Deportivos y Especialidad</h5>
-              <p class="card-text text-muted">Progressión recreativa hasta certificaciones internacionales de buceo.</p>
+              <p class="card-text text-muted">Progresión recreativa hasta certificaciones internacionales de buceo.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">18 cursos</span>
-                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" onclick="location.href='emergencia.html'">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-emergencia" role="button">
             <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Cursos de Emergencia" style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <span class="badge bg-danger mb-2">MODALIDAD</span>
@@ -98,14 +98,14 @@
               <p class="card-text text-muted">Primeros auxilios, RCP, uso de oxígeno y evaluación neurológica para buceadores.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">9 cursos</span>
-                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" onclick="location.href='tecnicos.html'">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-tecnicos" role="button">
             <img src="../../img/Cursos/598-31.jpg" class="card-img-top" alt="Cursos Técnicos" style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <span class="badge bg-warning text-dark mb-2">MODALIDAD</span>
@@ -113,14 +113,14 @@
               <p class="card-text text-muted">Formación avanzada para entornos exigentes y buceo técnico de mezclas de gas.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">8 cursos</span>
-                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" onclick="location.href='profesionales.html'">
+          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-profesionales" role="button">
             <img src="../../img/Cursos/598-50.jpg" class="card-img-top" alt="Cursos Profesionales" style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <span class="badge bg-info mb-2">MODALIDAD</span>
@@ -128,7 +128,7 @@
               <p class="card-text text-muted">Programas para instructores y carreras profesionales en el sector del buceo.</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-secondary">6 cursos</span>
-                <i class="bi bi-chevron-right"></i>
+                <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
@@ -173,6 +173,162 @@
     </section>
   </main>
 
+  <div class="modal fade" id="modal-apnea" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <div>
+            <h5 class="modal-title fw-bold">Buceo en Apnea</h5>
+            <span class="badge bg-primary">5 cursos</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <img src="../../img/Cursos/598-11.jpg" alt="Buceo en apnea" class="img-fluid rounded">
+            </div>
+            <div class="col-md-7">
+              <p>Modalidad centrada en la respiración, la relajación, la técnica corporal y la seguridad bajo el agua sin equipo autónomo.</p>
+              <ul>
+                <li>Try Freediving</li>
+                <li>Apnea Básica</li>
+                <li>Apnea Nivel 1</li>
+                <li>Apnea Nivel 2</li>
+                <li>Apnea Nivel 3</li>
+              </ul>
+              <a href="apnea.html" class="btn btn-primary w-100">Ver cursos de Apnea</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-deportivos" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <div>
+            <h5 class="modal-title fw-bold">Cursos Deportivos y Especialidad</h5>
+            <span class="badge bg-success">18 cursos</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <img src="../../img/Cursos/598-21.jpg" alt="Cursos deportivos" class="img-fluid rounded">
+            </div>
+            <div class="col-md-7">
+              <p>Formación recreativa progresiva para aprender a bucear, mejorar tu autonomía y avanzar hacia especialidades SSI.</p>
+              <ul>
+                <li>Primeras certificaciones</li>
+                <li>Especialidades recreativas</li>
+                <li>Entrenamiento en aguas abiertas</li>
+                <li>Progresión internacional</li>
+              </ul>
+              <a href="deportivos.html" class="btn btn-primary w-100">Ver cursos Deportivos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-emergencia" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <div>
+            <h5 class="modal-title fw-bold">Formación de Emergencia y Primeros Auxilios</h5>
+            <span class="badge bg-danger">9 cursos</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <img src="../../img/Cursos/598-48.jpg" alt="Cursos de emergencia" class="img-fluid rounded">
+            </div>
+            <div class="col-md-7">
+              <p>Programas para responder mejor ante incidentes, aplicar primeros auxilios y reforzar la seguridad en actividades de buceo.</p>
+              <ul>
+                <li>Primeros auxilios</li>
+                <li>RCP</li>
+                <li>Uso de oxígeno</li>
+                <li>Evaluación neurológica</li>
+              </ul>
+              <a href="emergencia.html" class="btn btn-primary w-100">Ver cursos de Emergencia</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-tecnicos" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <div>
+            <h5 class="modal-title fw-bold">Cursos Técnicos XR</h5>
+            <span class="badge bg-warning text-dark">8 cursos</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <img src="../../img/Cursos/598-31.jpg" alt="Cursos técnicos XR" class="img-fluid rounded">
+            </div>
+            <div class="col-md-7">
+              <p>Entrenamiento avanzado para buceadores que quieren formarse en entornos exigentes, mayor planificación y técnicas XR.</p>
+              <ul>
+                <li>Buceo técnico</li>
+                <li>Mezclas de gases</li>
+                <li>Planificación avanzada</li>
+                <li>Entornos con mayor exigencia</li>
+              </ul>
+              <a href="tecnicos.html" class="btn btn-primary w-100">Ver cursos Técnicos XR</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-profesionales" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary">
+          <div>
+            <h5 class="modal-title fw-bold">Profesionales</h5>
+            <span class="badge bg-info">6 cursos</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <img src="../../img/Cursos/598-50.jpg" alt="Cursos profesionales" class="img-fluid rounded">
+            </div>
+            <div class="col-md-7">
+              <p>Programas pensados para quienes quieren orientar su camino hacia la enseñanza, la guía de buceadores o una carrera profesional.</p>
+              <ul>
+                <li>Formación profesional SSI</li>
+                <li>Programas para instructores</li>
+                <li>Desarrollo de carrera</li>
+                <li>Experiencia supervisada</li>
+              </ul>
+              <a href="profesionales.html" class="btn btn-primary w-100">Ver cursos Profesionales</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="siteFooter"></div>
   <script>
     fetch("/fragments/footer")
@@ -181,10 +337,5 @@
         document.getElementById("siteFooter").innerHTML = html;
       });
   </script>
-
-  <style>
-    .cursor-pointer { cursor: pointer; }
-    .course-card:hover { transform: translateY(-4px); transition: transform 0.2s ease; }
-  </style>
 </body>
 </html>
