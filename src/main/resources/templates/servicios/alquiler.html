@@ -20,7 +20,7 @@
     <div class="row g-4">
       <div class="col-12 col-md-6">
         <div class="card h-100 overflow-hidden shadow-sm">
-          <img th:src="@{/img/Inicio/imagen-material.jpg}" alt="Material" class="card-img-top" style="height:240px; object-fit:cover;">
+          <img th:src="@{\img\Alquileres\equipo.jpg}" alt="Material" class="card-img-top" style="height:240px; object-fit:cover;">
           <div class="card-body bg-dark text-white">
             <span class="badge bg-primary mb-2">Premium Gear</span>
             <h3 class="card-title h5 text-white">Alquiler de Material</h3>
@@ -31,24 +31,22 @@
               <li><i class="bi bi-check2-circle text-primary me-2"></i>Trajes 7mm</li>
               <li><i class="bi bi-check2-circle text-primary me-2"></i>Ordenadores</li>
             </ul>
-            <a th:href="@{/servicios/material}" class="btn btn-outline-light w-100">Consultar Tarifas</a>
+            <a th:href="@{/servicios/material}" class="btn btn-outline-light w-100  " style="background-color: #ffffff; color: #0b2138; border: none;">Consultar Tarifas</a>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6">
         <div class="card h-100 overflow-hidden shadow-sm">
-          <img th:src="@{/img/Inicio/imagen-seguros.jpg}" alt="Seguros" class="card-img-top" style="height:240px; object-fit:cover;">
+          <img th:src="@{\img\Dei-V-Underwater-Album-1024x576.jpg}" alt="Seguros" class="card-img-top" style="height:240px; object-fit:cover;">
           <div class="card-body bg-dark text-white">
             <span class="badge bg-info mb-2">Safety First</span>
             <h3 class="card-title h5 text-white">Seguros de Buceo</h3>
             <p class="text-white-50">Bucea con total tranquilidad. Tramitamos tu seguro de buceo de forma inmediata con coberturas internacionales y asistencia médica especializada.</p>
             <div class="list-group mb-3">
-              <div class="list-group-item bg-transparent border rounded mb-2 text-white d-flex justify-content-between align-items-center">Seguro Diario<span class="fw-bold">10€</span></div>
-              <div class="list-group-item bg-transparent border rounded mb-2 text-white d-flex justify-content-between align-items-center">Seguro Semanal<span class="fw-bold">25€</span></div>
-              <div class="list-group-item bg-transparent border rounded text-white d-flex justify-content-between align-items-center">Seguro Anual<span class="fw-bold">45€</span></div>
+              <div class="list-group-item bg-transparent border rounded text-white d-flex justify-content-between align-items-center">Seguro Anual<span class="fw-bold">120€</span></div>
             </div>
-            <a th:href="@{/servicios/seguros}" class="btn btn-primary w-100">Contratar Ahora</a>
+              <a th:href="@{/servicios/seguros}" class="btn w-100" style="background-color: #ffffff; color: #0b2138; border: none;">Contratar Ahora</a>
           </div>
         </div>
       </div>
