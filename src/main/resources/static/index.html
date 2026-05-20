@@ -123,7 +123,7 @@
       .catch(err => console.error(err));
 
     // cargar pie de pagina con control de errores
-    fetch("/fragments/footer")
+    fetch("/fragments/footerBlack")
       .then(r => {
         if (!r.ok) throw new Error("Error al cargar footer: " + r.status);
         return r.text();

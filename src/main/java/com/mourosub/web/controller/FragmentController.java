@@ -41,6 +41,11 @@ public class FragmentController {
     public String footer() throws IOException {
         return readFragment("fragments/footer.html");
     }
+    // GET /fragments/footerBlack -> devuelve el HTML del footer.
+    @GetMapping(value = "/fragments/footerBlack", produces = MediaType.TEXT_HTML_VALUE)
+    public String footerBlack() throws IOException {
+        return readFragment("fragments/footerBlack.html");
+    }
 
     // Metodo auxiliar: abre el archivo indicado y devuelve su contenido como texto.
     private String readFragment(String relativePath) throws IOException {
