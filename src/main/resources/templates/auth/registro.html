@@ -19,8 +19,7 @@
   </h1>
   <p class="text-muted">Mantén actualizada tu información de usuario.</p>
 
-  <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post" class="row g-3">
-    <input type="hidden" th:field="*{idUsuario}">
+  <form id="registroForm" class="row g-3">
 
     <div class="col-md-6">
       <label class="form-label">Nombre</label>
@@ -76,6 +75,48 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
-<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+<script>
+
+if (window.initHeaderSession) window.initHeaderSession();
+
+  // Autocompleta el email desde Supabase si es un registro nuevo y está vacío
+  const emailInput = document.getElementById('emailInput');
+  if (!emailInput.value) {
+      emailInput.value = localStorage.getItem('supabaseUserEmail') || '';
+  }
+
+  // Intercepta el formulario para mandarlo al AuthController
+  document.getElementById('registroForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); 
+
+    const supabaseUserId = localStorage.getItem('supabaseUserId');
+    if (!supabaseUserId) {
+        alert("Error: No estás autenticado.");
+        return;
+    }
+
+    const formData = new FormData(this);
+    formData.append("supabaseUserId", supabaseUserId);
+
+    try {
+        const response = await fetch('/auth/sync', {
+            method: 'POST',
+            body: new URLSearchParams(formData)
+        });
+
+        if (response.ok) {
+            window.location.href = '/cuenta'; 
+        } else {
+            const err = await response.json();
+            alert("Error al guardar: " + (err.error || "Desconocido"));
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error de red al intentar guardar.");
+    }
+  });
+  
+</script>
+
 </body>
 </html>
