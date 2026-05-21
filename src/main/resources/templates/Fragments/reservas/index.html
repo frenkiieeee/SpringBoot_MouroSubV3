@@ -6,126 +6,211 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservas</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/reservas.css}">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  
 
 </head>
 
 <body>
+    <div id="siteHeader"></div>
     <section th:if="${seccion == 'inicio'}">
-    <h1>Reservas</h1>
-    
+
+    <!-- HERO -->
+    <div class="hero">
+        <p class="hero-label">● ELIGE TU EXPERIENCIA</p>
+        <h1>Reserva tu <span>aventura</span></h1>
+        <p>Dinos cuál es tu nivel actual para recomendarte la mejor opción.</p>
+    </div>
+
+    <!-- CARDS GRID -->
+    <div class="cards-grid">
+
         <!-- Card Bautismos y Cursos -->
         <a th:href="@{/reservas/cursos}" class="card">
-            <!---->
-            <img class="card-img" 
-                 th:src="@{/img/Cursos/598-10.jpg}"
+            <img class="card-img"
+                 th:src="@{/img/Cursos/598-3.jpg}"
                  alt="Bautismo de buceo">
             <div class="card-overlay"></div>
             <div class="card-content">
-                <div class="badge badge-cyan">⭐ PRINCIPIANTES</div>
-                <div class="card-title">Bautismos de<br>Buceo</div>
+                <span class="badge badge-yellow">
+                    <i class="bi bi-patch-check-fill"></i> CERTIFICADOS
+                </span>
+                <div class="card-title">Bautismos de<br>Buceo y Cursos</div>
                 <span class="card-btn card-btn-cyan">RESERVAR BAUTISMO →</span>
             </div>
         </a>
 
-       
+        <!-- Card Actividades -->
         <a th:href="@{/reservas/actividades}" class="card">
             <img class="card-img"
-                    th:src="@{/img/Actividades/Imagen2.jpg}"
-                    alt="Actividades acuaticas">
+                 th:src="@{/img/Actividades/Imagen2.jpg}"
+                 alt="Actividades acuáticas">
             <div class="card-overlay"></div>
             <div class="card-content">
-                <div class="badge badge-white">Certificados</div>
-                <div class="card-title">Cursos para<br>Buceadores</div>
-                <span class="card-btn">Reservar Curso</span>
+                <span class="badge badge-cyan">
+                    <i class="bi bi-star-fill"></i> ACTIVIDADES
+                </span>
+                <div class="card-title">Actividades</div>
+                <span class="card-btn">Reservar Actividades →</span>
             </div>
         </a>
 
-    </section>
+    </div>
+
+    <!-- Enlace de ayuda -->
+    <p style="text-align:center; color: var(--muted); font-size: 0.85rem; padding-bottom: 2rem;">
+        ○ ¿No estás seguro de qué elegir? 
+        <a href="/contacto" style="color: var(--cyan);">Contáctanos</a>
+    </p>
+
+</section>
     <!--========== Forumulario de actividades ===============-->
     <section th:if="${seccion == 'formulario'}">
-        <h2 th:text="${titulo}">Nueva reserva - Actividad</h2>
+    <div class="form-section">
+
+        <p class="hero-label">NUEVA RESERVA</p>
+        <h2 class="form-title" th:text="${titulo}">Reserva de Actividad</h2>
+        <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+
         <form th:action="@{/reservas/guardar}" method="post">
 
-            <label for="idActividad">Actividades</label>
-            <select id="idActividad" name="idActividad" required>
-                <option value="">Seleccione una opcion</option>
-                <option value="">snorkel y buceo</option>
-                <option value="">Vela, piragua y kayak</option>
-                <option value="">Paddle surf</option>
-                <option value="">Surf y Windsurf</option>
-                <option value="">Motos de agua y rutas en barco</option>
-                <option th:each="actividad : ${actividades}" 
-                        th:value="${actividad.idActividad}"
-                        th:text="${actividad.nombre + ' - ' + actividad.tipo + ' - ' + actividad.precio + ' €'}">
-                </option>
-            </select>
-            <br>
-            <label for="Act-nombre">Nombre</label>
-            <input id="Act-nombre" type="text" name="nombre" required>
+            <div class="form-group">
+                <label for="idActividad">Actividad</label>
+                <select id="idActividad" name="idActividad" required>
+                    <option value="">Seleccione una opcion</option>
+                    <option value="">snorkel y buceo</option>
+                    <option value="">Vela, piragua y kayak</option>
+                    <option value="">Paddle surf</option>
+                    <option value="">Surf y Windsurf</option>
+                    <option value="">Motos de agua y rutas en barco</option>
+                    <option th:each="actividad : ${actividades}"
+                            th:value="${actividad.idActividad}"
+                            th:text="${actividad.nombre + ' — ' + actividad.precio + ' €'}">
+                    </option>
+                </select>
+            </div>
 
-            <label for="Act-apellidos">Apellidos</label>
-            <input id="Act-apellidos" type="text" name="apellidos" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Act-nombre">Nombre</label>
+                    <input id="Act-nombre" type="text" name="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="Act-apellidos">Apellidos</label>
+                    <input id="Act-apellidos" type="text" name="apellidos" placeholder="Tus apellidos" required>
+                </div>
+            </div>
 
-            <label for="Act-email">Email</label>
-            <input id="Act-email" type="email" name="email" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Act-email">Email</label>
+                    <input id="Act-email" type="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="Act-telefono">Teléfono</label>
+                    <input id="Act-telefono" type="text" name="telefono" placeholder="612 345 678" required>
+                </div>
+            </div>
 
-            <label for="Act-telefono">Telefono</label>
-            <input id="Act-telefono" type="text" name="telefono" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Act-dni">DNI</label>
+                    <input id="Act-dni" type="text" name="dni" placeholder="00000000X">
+                </div>
+                <div class="form-group">
+                    <label for="Act-CodigoPostal">Código postal</label>
+                    <input id="Act-CodigoPostal" type="text" name="codigoPostal" placeholder="39000">
+                </div>
+            </div>
 
-            <label for="Act-dni">DNI</label>
-            <input id="Act-dni" type="text" name="dni">
+            <div class="form-group">
+                <label for="Act-numParticipantes">Número de participantes</label>
+                <input id="Act-numParticipantes" type="number" name="numParticipantes" min="1" placeholder="1" required>
+            </div>
 
-            <label for="Act-CodigoPostal">Codigo postal</label>
-            <input id="Act-CodigoPostal" type="text" name="codigoPostal">
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-check-circle"></i> Guardar reserva
+            </button>
 
-            <label for="Act-numParticipantes">Indique el numero de participantes</label>
-            <input id="Act-numParticipantes" type="number" name="numParticipantes" min="1" required>
-            <button type="submit">Guardar reserva</button>
         </form>
-        <a th:href="@{/reservas}">Volver</a>
-    </section>
 
-    <section th:if="${seccion == 'cursos'}">
-        <h2 th:text="${titulo}">Nueva reserva - Curso</h2>
+        <a th:href="@{/reservas}" class="btn-volver">
+            ← Volver a reservas
+        </a>
+
+    </div>
+</section>
+<section th:if="${seccion == 'cursos'}">
+    <div class="form-section">
+
+        <p class="hero-label">NUEVA RESERVA</p>
+        <h2 class="form-title" th:text="${titulo}">Reserva de Curso</h2>
+        <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+
         <form th:action="@{/reservas/guardar}" method="post">
 
-            <label for="idCurso">Cursos</label>
-            <select id="idCurso" name="idCurso" required>
-                <option value=""></option>
-                <option value="">Cursos de apnea</option>
-                <option value="">Cursos Deportivos y Especialidad</option>
-                <option value="">Formacion de Emergencia y Primeros Auxilios</option>
-                <option value="">Técnicos XR</option>
-                <option value="">Profesionales</option>
-                <option th:each="curso : ${cursos}" 
-                        th:value="${curso.idCurso}"
-                        th:text="${curso.nombre + ' - ' + curso.tipo + ' - ' + curso.precio + ' €'}">
+            <div class="form-group">
+                <label for="idCurso">Curso</label>
+                <select id="idCurso" name="idCurso" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="">Cursos de apnea</option>
+                    <option value="">Cursos Deportivos y Especialidad</option>
+                    <option value="">Formación de Emergencia y Primeros Auxilios</option>
+                    <option value="">Técnicos XR</option>
+                    <option value="">Profesionales</option>
+                    <option th:each="curso : ${cursos}"
+                            th:value="${curso.idCurso}"
+                            th:text="${curso.nombre + ' — ' + curso.tipo + ' — ' + curso.precio + ' €'}">
+                    </option>
+                </select>
+            </div>
 
-                </option>
-            </select>
-            <br>
-            <label for="Act-nombre">Nombre</label>
-            <input id="Act-nombre" type="text" name="nombre" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cur-nombre">Nombre</label>
+                    <input id="cur-nombre" type="text" name="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="cur-apellidos">Apellidos</label>
+                    <input id="cur-apellidos" type="text" name="apellidos" placeholder="Tus apellidos" required>
+                </div>
+            </div>
 
-            <label for="Act-apellidos">Apellidos</label>
-            <input id="Act-apellidos" type="text" name="apellidos" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cur-email">Email</label>
+                    <input id="cur-email" type="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="cur-telefono">Teléfono</label>
+                    <input id="cur-telefono" type="text" name="telefono" placeholder="612 345 678" required>
+                </div>
+            </div>
 
-            <label for="Act-email">Email</label>
-            <input id="Act-email" type="email" name="email" required>
+            <div class="form-group">
+                <label for="cur-dni">DNI</label>
+                <input id="cur-dni" type="text" name="dni" placeholder="00000000X">
+            </div>
 
-            <label for="Act-telefono">Telefono</label>
-            <input id="Act-telefono" type="text" name="telefono" required>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-check-circle"></i> Guardar reserva
+            </button>
 
-            <label for="cur-dni">DNI</label>
-            <input id="cur-dni" type="text" name="dni">
-
-
-
-            <button type="submit">Guardar reserva</button>
         </form>
-        <a th:href="@{/reservas}">Volver</a>
-    </section>
+
+        <a th:href="@{/reservas}" class="btn-volver">
+            ← Volver a reservas
+        </a>
+
+    </div>
+</section>
+    <div id="siteFooter"></div>
+    <script src="js/header.js"></script>
     <script>
         // cargar cabecera con control de errores
         fetch("/fragments/header")
