@@ -1,0 +1,264 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# docker-compose.prod.yaml — Despliegue en Coolify
+# ═══════════════════════════════════════════════════════════════════════════
+# Diferencias frente a docker-compose.yaml (desarrollo local):
+#
+#   1. SIN 'ports:' (publicacion de puertos del host).
+#      Coolify tiene su propio proxy inverso (Traefik) que escucha en 80/443.
+#      Publicar puertos del host provoca conflictos ('port is already allocated').
+#      En su lugar usamos 'expose:' para indicar el puerto interno del contenedor;
+#      Coolify enruta el dominio a ese puerto a traves de su red interna.
+#
+#   2. SIN volumenes de hot-reload del front (static/templates).
+#      En produccion la app sirve los recursos empaquetados dentro del .jar.
+#
+#   3. Las variables se inyectan desde el panel de Coolify (Environment Variables).
+#      Coolify genera el .env del despliegue a partir de esas variables.
+#
+# ── Como exponer servicios en Coolify ─────────────────────────────────────
+#   En Coolify, tras importar este compose, asigna un dominio a cada servicio
+#   publico desde la pestana 'Domains' del servicio:
+#     - springboot-app   -> dominio principal de la web      (puerto 8080)
+#     - supabase-gateway -> API de Supabase (la usa el navegador) (puerto 8000)
+#     - studio-proxy     -> panel de administracion Supabase Studio (puerto 3000)
+#   El resto de servicios son internos y no necesitan dominio.
+#
+#   IMPORTANTE: en las variables de entorno de Coolify, SUPABASE_PUBLIC_URL y
+#   SITE_URL deben apuntar a los dominios publicos reales (https://...), no a
+#   localhost.
+# ═══════════════════════════════════════════════════════════════════════════
+
+services:
+
+  # ─────────────────────────────────────────────────────────────
+  # PostgreSQL (Supabase) — interno
+  # ─────────────────────────────────────────────────────────────
+  supabase-db:
+    image: supabase/postgres:15.8.1.085
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXP: ${JWT_EXPIRY:-3600}
+    volumes:
+      - supabase-db-data:/var/lib/postgresql/data
+      - ./docker/supabase/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Auth (GoTrue) — interno
+  # ─────────────────────────────────────────────────────────────
+  supabase-auth:
+    image: supabase/gotrue:v2.186.0
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: ${SUPABASE_PUBLIC_URL}
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}?search_path=auth,public
+      GOTRUE_SITE_URL: ${SITE_URL}
+      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS:-}
+      GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP:-false}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: ${JWT_EXPIRY:-3600}
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: ${ENABLE_EMAIL_SIGNUP:-true}
+      GOTRUE_MAILER_AUTOCONFIRM: ${ENABLE_EMAIL_AUTOCONFIRM:-true}
+      GOTRUE_SMTP_ADMIN_EMAIL: ${SMTP_ADMIN_EMAIL:-no-reply@example.com}
+      GOTRUE_SMTP_HOST: ${SMTP_HOST:-mailhog}
+      GOTRUE_SMTP_PORT: ${SMTP_PORT:-1025}
+      GOTRUE_SMTP_USER: ${SMTP_USER:-}
+      GOTRUE_SMTP_PASS: ${SMTP_PASS:-}
+      GOTRUE_SMTP_SENDER_NAME: ${SMTP_SENDER_NAME:-Mourosub}
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # PostgREST — interno
+  # ─────────────────────────────────────────────────────────────
+  supabase-rest:
+    image: postgrest/postgrest:v14.8
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS:-public}
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_EXTRA_SEARCH_PATH: public
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Storage — interno
+  # ─────────────────────────────────────────────────────────────
+  supabase-storage:
+    image: supabase/storage-api:v1.48.26
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-rest:
+        condition: service_started
+    environment:
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      AUTH_JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB:-postgres}
+      POSTGREST_URL: http://supabase-rest:3000
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      STORAGE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+    volumes:
+      - supabase-storage-data:/var/lib/storage
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Postgres Meta — interno
+  # ─────────────────────────────────────────────────────────────
+  supabase-meta:
+    image: supabase/postgres-meta:v0.96.3
+    restart: unless-stopped
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: supabase-db
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: ${POSTGRES_DB:-postgres}
+      PG_META_DB_USER: supabase_admin
+      PG_META_DB_PASSWORD: ${SUPABASE_ADMIN_PASSWORD}
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Supabase Studio — interno (se accede a traves de studio-proxy)
+  # ─────────────────────────────────────────────────────────────
+  supabase-studio:
+    image: supabase/studio:2026.04.27-sha-5f60601
+    restart: unless-stopped
+    depends_on:
+      supabase-meta:
+        condition: service_started
+    environment:
+      HOSTNAME: 0.0.0.0
+      STUDIO_PG_META_URL: http://supabase-meta:8080
+      POSTGRES_HOST: supabase-db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: supabase_admin
+      POSTGRES_PASSWORD: ${SUPABASE_ADMIN_PASSWORD}
+      SUPABASE_URL: http://supabase-gateway:8000
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Studio Proxy — PUBLICO (asigna un dominio en Coolify, puerto 3000)
+  # ─────────────────────────────────────────────────────────────
+  studio-proxy:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      supabase-studio:
+        condition: service_started
+    environment:
+      STUDIO_USER: ${STUDIO_USER:-admin}
+      STUDIO_PASSWORD: ${STUDIO_PASSWORD:-changeme}
+    command: >
+      sh -c "apk add --no-cache apache2-utils &&
+             htpasswd -bc /etc/nginx/.htpasswd $$STUDIO_USER $$STUDIO_PASSWORD &&
+             nginx -g 'daemon off;'"
+    volumes:
+      - ./docker/studio-proxy:/etc/nginx:ro
+    expose:
+      - "3000"
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Gateway — PUBLICO (asigna un dominio en Coolify, puerto 8000)
+  # El navegador llama a la API de Supabase a traves de este servicio.
+  # ─────────────────────────────────────────────────────────────
+  supabase-gateway:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      supabase-auth:
+        condition: service_started
+      supabase-rest:
+        condition: service_started
+      supabase-storage:
+        condition: service_started
+    volumes:
+      - ./docker/supabase:/etc/nginx:ro
+    expose:
+      - "8000"
+    networks:
+      - mourosub-net
+
+  # ─────────────────────────────────────────────────────────────
+  # Spring Boot — PUBLICO (asigna el dominio principal en Coolify, puerto 8080)
+  # ─────────────────────────────────────────────────────────────
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_URL: jdbc:postgresql://supabase-db:5432/${POSTGRES_DB:-postgres}
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASS: ${POSTGRES_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      JWT_SECRET: ${JWT_SECRET}
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mourosub.com}
+      APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
+      # En produccion el front se sirve desde dentro del .jar (classpath),
+      # no se montan volumenes de hot-reload.
+    expose:
+      - "${SERVER_PORT:-8080}"
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+      supabase-auth:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:${SERVER_PORT:-8080}/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - mourosub-net
+
+volumes:
+  supabase-db-data:
+  supabase-storage-data:
+
+networks:
+  mourosub-net:
