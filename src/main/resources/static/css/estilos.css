@@ -103,7 +103,6 @@ header {
   box-shadow: 0 4px 15px rgba(10, 74, 110, 0.2); /* Deplazamiento horizontal, Vertical y Blur */
   white-space: nowrap;
 }
-
 .btn-reservar:hover {
   background: var(--ocean-mid);
   box-shadow: 0 6px 20px rgba(10, 74, 110, 0.3);
@@ -296,8 +295,9 @@ header {
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.527) 40%, transparent 100%);
   border-radius: 16px;
-  pointer-events: none; /* Hace que la capa ignore los clicks y traspasen al enlace */
+    pointer-events: none; /* Hace que la capa ignore los clicks y traspasen al enlace */
 }
+
 
 .card-foto-body {
   position: absolute;

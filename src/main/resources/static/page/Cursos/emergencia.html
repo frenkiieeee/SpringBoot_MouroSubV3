@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cursos de Emergencia y Primeros Auxilios | Mourosub</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../../css/estilos.css">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
+
   <div id="siteHeader"></div>
   <script src="../../js/header.js"></script>
   <script>
@@ -18,269 +21,1207 @@
       .then(r => r.text())
       .then(html => {
         document.getElementById("siteHeader").innerHTML = html;
+
         document.querySelectorAll("#siteHeader a[href]").forEach(function(a) {
           var href = a.getAttribute("href");
           if (href && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("http")) {
             a.setAttribute("href", "../../" + href);
           }
         });
+
         document.querySelectorAll("#siteHeader img[src]").forEach(function(img) {
           var src = img.getAttribute("src");
           if (src && !src.startsWith("/") && !src.startsWith("http")) {
             img.setAttribute("src", "../../" + src);
           }
         });
+
         if (window.initHeaderSession) window.initHeaderSession();
       });
   </script>
 
   <main class="container py-5" style="padding-top: 120px;">
+
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="../../index.html" class="text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="./Cursos.html" class="text-decoration-none">Cursos</a></li>
-        <li class="breadcrumb-item active text-white" aria-current="page">Emergencia</li>
+        <li class="breadcrumb-item">
+          <a href="../../index.html" class="text-decoration-none">Inicio</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="./Cursos.html" class="text-decoration-none">Cursos</a>
+        </li>
+        <li class="breadcrumb-item active text-white" aria-current="page">
+          Emergencia
+        </li>
       </ol>
     </nav>
 
     <section class="mb-5">
       <div class="row align-items-center g-4">
+
         <div class="col-lg-6">
           <span class="badge bg-danger mb-2">FORMACIÓN</span>
-          <h1 class="fw-bold mb-3">Formación de Emergencia y Primeros Auxilios</h1>
+
+          <h1 class="fw-bold mb-3">
+            Formación de Emergencia y Primeros Auxilios
+          </h1>
+
           <p class="text-muted">
-            Aprende a reaccionar ante emergencias acuáticas con certificaciones DAN, la organización
-            líder mundial en formación de seguridad para buceadores.
+            Aprende a reaccionar ante emergencias acuáticas con certificaciones DAN,
+            la organización líder mundial en formación de seguridad para buceadores.
           </p>
+
           <p class="text-muted">
-            Estos cursos te proporcionan habilidades para salvar vidas y actuar correctamente
-            en situaciones de emergencia, tanto dentro como fuera del agua.
+            Estos cursos te proporcionan habilidades para salvar vidas y actuar
+            correctamente en situaciones de emergencia tanto dentro como fuera del agua.
           </p>
+
           <div class="d-flex gap-2 mt-4">
             <a class="btn btn-danger" href="#cursos">Ver cursos</a>
-            <a class="btn btn-outline-light" href="./Cursos.html">Todas las categorías</a>
+            <a class="btn btn-outline-light" href="./Cursos.html">
+              Todas las categorías
+            </a>
           </div>
         </div>
 
         <div class="col-lg-6 text-center">
-          <img src="../../img/Cursos/598-48.jpg" alt="Cursos de Emergencia" class="img-fluid rounded">
+          <img
+            src="../../img/Cursos/598-48.jpg"
+            alt="Cursos de Emergencia"
+            class="img-fluid rounded"
+          >
         </div>
+
       </div>
     </section>
 
     <section id="cursos" class="mb-5">
-      <h2 class="fw-semibold mb-4">Cursos de Formación de Emergencia</h2>
+
+      <h2 class="fw-semibold mb-4">
+        Cursos de Formación de Emergencia
+      </h2>
+
       <p class="text-muted mb-4">
         Haz clic en cada curso para ver más información detallada.
       </p>
 
       <div class="row g-4 mb-4">
+
+        <!-- React Right -->
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-react-right" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="React Right" style="height: 200px; object-fit: cover;">
+          <div
+            class="card h-100 shadow-sm cursor-pointer course-card"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-react-right"
+            role="button"
+          >
+            <img
+              src="../../img/Cursos/598-48.jpg"
+              class="card-img-top"
+              alt="React Right"
+              style="height: 200px; object-fit: cover;"
+            >
+
             <div class="card-body">
               <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">React Right</h5>
-              <p class="card-text text-muted small">Primeros auxilios, RCP, O2 y evaluación neurológica</p>
+
+              <h5 class="card-title">
+                React Right
+              </h5>
+
+              <p class="card-text text-muted small">
+                Primeros auxilios, RCP, O2 y evaluación neurológica
+              </p>
+
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">Todos niveles</span>
+                <span class="badge bg-secondary">
+                  Todos niveles
+                </span>
+
                 <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Basic Life Support -->
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-bls" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Basic Life Support" style="height: 200px; object-fit: cover;">
+          <div
+            class="card h-100 shadow-sm cursor-pointer course-card"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-bls"
+            role="button"
+          >
+            <img
+              src="../../img/Cursos/598-48.jpg"
+              class="card-img-top"
+              alt="Basic Life Support"
+              style="height: 200px; object-fit: cover;"
+            >
+
             <div class="card-body">
               <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Basic Life Support DAN</h5>
-              <p class="card-text text-muted small">Soporte Vital Básico, RCP, SVB adulto</p>
+
+              <h5 class="card-title">
+                Basic Life Support DAN
+              </h5>
+
+              <p class="card-text text-muted small">
+                Soporte Vital Básico, RCP y SVB adulto
+              </p>
+
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">Todos niveles</span>
+                <span class="badge bg-secondary">
+                  Todos niveles
+                </span>
+
                 <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- First Aid -->
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-first-aid" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="First Aid" style="height: 200px; object-fit: cover;">
+          <div
+            class="card h-100 shadow-sm cursor-pointer course-card"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-first-aid"
+            role="button"
+          >
+            <img
+              src="../../img/Cursos/598-48.jpg"
+              class="card-img-top"
+              alt="First Aid"
+              style="height: 200px; object-fit: cover;"
+            >
+
             <div class="card-body">
               <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">First Aid DAN</h5>
-              <p class="card-text text-muted small">Evaluación lesión, vendajes, fracturas, shock</p>
+
+              <h5 class="card-title">
+                First Aid DAN
+              </h5>
+
+              <p class="card-text text-muted small">
+                Evaluación lesión, vendajes, fracturas y shock
+              </p>
+
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">Todos niveles</span>
+                <span class="badge bg-secondary">
+                  Todos niveles
+                </span>
+
                 <i class="bi bi-box-arrow-up-right"></i>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-aed" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Automated External Defibrillation" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Automated External Defibrillation DAN</h5>
-              <p class="card-text text-muted small">Uso del DEA, parada cardiaca</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-warning text-dark">Recomendado SBV</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- AED -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-aed"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="AED"
+      style="height: 200px; object-fit: cover;"
+    >
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-o2-aquatic" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Oxygen First Aid Aquatic" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Oxygen First Aid for Aquatic Emergencies DAN</h5>
-              <p class="card-text text-muted small">Ahogamiento, preahogamiento, O2 en urgencias acuáticas</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">Todos niveles</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-o2-scuba" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Oxygen First Aid Scuba" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Oxygen First Aid for Scuba Diving Injuries DAN</h5>
-              <p class="card-text text-muted small">Accidentes de buceo, equipo de O2, lesiones</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-warning text-dark">Para buceadores</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <h5 class="card-title">
+        Automated External Defibrillation DAN
+      </h5>
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-o2-advanced" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Advanced Oxygen First Aid" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Advanced Oxygen First Aid for Scuba Diving Injuries DAN</h5>
-              <p class="card-text text-muted small">MTV100, balón de reanimación, ventilación presión positiva</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-danger">Avanzado</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <p class="card-text text-muted small">
+        Uso del DEA y parada cardiaca
+      </p>
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-neuro" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="On-Site Neurological Assessment" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">On-Site Neurological Assessment for Divers DAN</h5>
-              <p class="card-text text-muted small">Evaluación neurológica, enfermedad descompresión</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-danger">Avanzado</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-warning text-dark">
+          Recomendado SBV
+        </span>
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-hazardous" role="button">
-            <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Hazardous Marine Life" style="height: 200px; object-fit: cover;">
-            <div class="card-body">
-              <span class="badge bg-danger mb-2">EMERGENCIA</span>
-              <h5 class="card-title">Hazardous Marine Life Injuries DAN</h5>
-              <p class="card-text text-muted small">Seres vivos marinos peligrosos, picaduras, mordeduras</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-secondary">Todos niveles</span>
-                <i class="bi bi-box-arrow-up-right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- O2 AQUATIC -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-o2-aquatic"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="Oxygen Aquatic"
+      style="height: 200px; object-fit: cover;"
+    >
+
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
+
+      <h5 class="card-title">
+        Oxygen First Aid for Aquatic Emergencies DAN
+      </h5>
+
+      <p class="card-text text-muted small">
+        Ahogamiento y oxígeno en urgencias acuáticas
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-secondary">
+          Todos niveles
+        </span>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- O2 SCUBA -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-o2-scuba"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="Oxygen Scuba"
+      style="height: 200px; object-fit: cover;"
+    >
+
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
+
+      <h5 class="card-title">
+        Oxygen First Aid for Scuba Diving Injuries DAN
+      </h5>
+
+      <p class="card-text text-muted small">
+        Accidentes de buceo y administración de O2
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-warning text-dark">
+          Para buceadores
+        </span>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- O2 ADVANCED -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-o2-advanced"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="Advanced Oxygen"
+      style="height: 200px; object-fit: cover;"
+    >
+
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
+
+      <h5 class="card-title">
+        Advanced Oxygen First Aid DAN
+      </h5>
+
+      <p class="card-text text-muted small">
+        Ventilación avanzada y presión positiva
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-danger">
+          Avanzado
+        </span>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEURO -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-neuro"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="Neuro"
+      style="height: 200px; object-fit: cover;"
+    >
+
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
+
+      <h5 class="card-title">
+        On-Site Neurological Assessment DAN
+      </h5>
+
+      <p class="card-text text-muted small">
+        Evaluación neurológica para buceadores
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-danger">
+          Avanzado
+        </span>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HAZARDOUS -->
+<div class="col-12 col-md-6 col-lg-4">
+  <div
+    class="card h-100 shadow-sm cursor-pointer course-card"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-hazardous"
+    role="button"
+  >
+    <img
+      src="../../img/Cursos/598-48.jpg"
+      class="card-img-top"
+      alt="Hazardous Marine"
+      style="height: 200px; object-fit: cover;"
+    >
+
+    <div class="card-body">
+      <span class="badge bg-danger mb-2">EMERGENCIA</span>
+
+      <h5 class="card-title">
+        Hazardous Marine Life Injuries DAN
+      </h5>
+
+      <p class="card-text text-muted small">
+        Picaduras, mordeduras y fauna marina peligrosa
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="badge bg-secondary">
+          Todos niveles
+        </span>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </section>
 
     <section class="mt-5 pt-4 border-top border-secondary">
+
       <div class="row">
+
         <div class="col-md-6">
-          <a href="./deportivos.html" class="btn btn-outline-light w-100 mb-3">
-            <i class="bi bi-arrow-left me-2"></i>Ver cursos Deportivos
+          <a
+            href="./deportivos.html"
+            class="btn btn-outline-light w-100 mb-3"
+          >
+            <i class="bi bi-arrow-left me-2"></i>
+            Ver cursos Deportivos
           </a>
         </div>
+
         <div class="col-md-6">
-          <a href="./tecnicos.html" class="btn btn-outline-light w-100 mb-3">
-            Ver cursos Técnicos XR<i class="bi bi-arrow-right ms-2"></i>
+          <a
+            href="./tecnicos.html"
+            class="btn btn-outline-light w-100 mb-3"
+          >
+            Ver cursos Técnicos XR
+            <i class="bi bi-arrow-right ms-2"></i>
           </a>
         </div>
+
       </div>
+
     </section>
+
   </main>
 
-  <div class="modal fade" id="modal-react-right" tabindex="-1" aria-hidden="true">
+  <!-- MODAL REACT RIGHT -->
+  <div
+    class="modal fade"
+    id="modal-react-right"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content bg-dark text-white border-secondary">
-        <div class="modal-header border-secondary">
-          <div>
-            <h5 class="modal-title fw-bold">React Right</h5>
-            <span class="badge bg-secondary">Todos niveles</span>
-          </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-4">
-            <div class="col-lg-8">
-              <h4 class="text-danger mb-3">Descripción</h4>
-              <p>El programa React Right de SSI es un curso de primeros auxilios diseñado específicamente para buceadores y cualquier persona interesada en aprender a reaccionar ante emergencias. Incluye formación en RCP, uso de oxígeno y evaluación neurológica básica.</p>
-              <p>Es el curso de emergencia más completo y popular de SSI, cubriendo todas las competencias esenciales para actuar en situaciones de emergencia.</p>
 
-              <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+        <div class="modal-header border-secondary">
+
+          <div>
+            <h5 class="modal-title fw-bold">
+              React Right
+            </h5>
+
+            <span class="badge bg-secondary">
+              Todos niveles
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          ></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row g-4">
+
+            <div class="col-lg-8">
+
+              <h4 class="text-danger mb-3">
+                Descripción
+              </h4>
+
+              <p>
+                El programa React Right de SSI es un curso de primeros auxilios
+                diseñado específicamente para buceadores y cualquier persona
+                interesada en aprender a reaccionar ante emergencias.
+              </p>
+
+              <p>
+                Incluye formación en RCP, uso de oxígeno y evaluación neurológica
+                básica para responder correctamente en situaciones críticas.
+              </p>
+
+              <h4 class="text-danger mb-3 mt-4">
+                Contenido del curso
+              </h4>
+
               <ul>
                 <li>Reanimación Cardiopulmonar (RCP)</li>
                 <li>Uso de Desfibrilador Externo Automático (DEA)</li>
                 <li>Primeros auxilios básicos</li>
-                <li>Administración de oxígeno de emergencia</li>
-                <li>Evaluación neurológica básica</li>
+                <li>Administración de oxígeno</li>
+                <li>Evaluación neurológica</li>
               </ul>
 
-              <h4 class="text-danger mb-3 mt-4">Requisitos previos</h4>
+              <h4 class="text-danger mb-3 mt-4">
+                Requisitos previos
+              </h4>
+
               <ul>
                 <li>Ser mayor de 12 años</li>
-                <li>Sin certificación requerida</li>
+                <li>No se requiere certificación previa</li>
               </ul>
 
-              <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+              <h4 class="text-danger mb-3 mt-4">
+                Información adicional
+              </h4>
+
               <ul class="list-unstyled">
-                <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 8-10 horas</li>
-                <li><i class="bi bi-bar-chart me-2 text-danger"></i>Nivel: Todos</li>
-                <li><i class="bi bi-award me-2 text-danger"></i>Certificación internacional SSI</li>
+                <li>
+                  <i class="bi bi-clock me-2 text-danger"></i>
+                  Duración: 8-10 horas
+                </li>
+
+                <li>
+                  <i class="bi bi-bar-chart me-2 text-danger"></i>
+                  Nivel: Todos
+                </li>
+
+                <li>
+                  <i class="bi bi-award me-2 text-danger"></i>
+                  Certificación internacional SSI
+                </li>
               </ul>
+
             </div>
+
             <div class="col-lg-4">
+
               <div class="card bg-secondary text-white p-4">
-                <img src="../../img/Cursos/598-48.jpg" alt="React Right" class="img-fluid rounded mb-3">
-                <a href="/contacto/" class="btn btn-danger w-100">RESERVA / +INFO</a>
+
+                <img
+                  src="../../img/Cursos/598-48.jpg"
+                  alt="React Right"
+                  class="img-fluid rounded mb-3"
+                >
+
+                <a
+                  href="/contacto/"
+                  class="btn btn-danger w-100"
+                >
+                  RESERVA / +INFO
+                </a>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Repite el mismo patrón para los demás modales usando el contenido que ya tenías en cada accordion-body. -->
+  <!-- MODAL BASIC LIFE SUPPORT -->
+  <div
+    class="modal fade"
+    id="modal-bls"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content bg-dark text-white border-secondary">
+
+        <div class="modal-header border-secondary">
+
+          <div>
+            <h5 class="modal-title fw-bold">
+              Basic Life Support DAN
+            </h5>
+
+            <span class="badge bg-secondary">
+              Todos niveles
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          ></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row g-4">
+
+            <div class="col-lg-8">
+
+              <h4 class="text-danger mb-3">
+                Descripción
+              </h4>
+
+              <p>
+                El curso Basic Life Support DAN proporciona formación esencial
+                en soporte vital básico y técnicas de RCP para actuar con rapidez
+                ante emergencias médicas.
+              </p>
+
+              <h4 class="text-danger mb-3 mt-4">
+                Contenido del curso
+              </h4>
+
+              <ul>
+                <li>RCP adulto</li>
+                <li>Cadena de supervivencia</li>
+                <li>Evaluación primaria</li>
+                <li>Atención a víctimas inconscientes</li>
+                <li>Protocolos de emergencia</li>
+              </ul>
+
+              <h4 class="text-danger mb-3 mt-4">
+                Información adicional
+              </h4>
+
+              <ul class="list-unstyled">
+                <li>
+                  <i class="bi bi-clock me-2 text-danger"></i>
+                  Duración: 4-6 horas
+                </li>
+
+                <li>
+                  <i class="bi bi-award me-2 text-danger"></i>
+                  Certificación DAN
+                </li>
+              </ul>
+
+            </div>
+
+            <div class="col-lg-4">
+
+              <div class="card bg-secondary text-white p-4">
+
+                <img
+                  src="../../img/Cursos/598-48.jpg"
+                  alt="Basic Life Support"
+                  class="img-fluid rounded mb-3"
+                >
+
+                <a
+                  href="/contacto/"
+                  class="btn btn-danger w-100"
+                >
+                  RESERVA / +INFO
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FIRST AID -->
+  <div
+    class="modal fade"
+    id="modal-first-aid"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content bg-dark text-white border-secondary">
+
+        <div class="modal-header border-secondary">
+
+          <div>
+            <h5 class="modal-title fw-bold">
+              First Aid DAN
+            </h5>
+
+            <span class="badge bg-secondary">
+              Todos niveles
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          ></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row g-4">
+
+            <div class="col-lg-8">
+
+              <h4 class="text-danger mb-3">
+                Descripción
+              </h4>
+
+              <p>
+                Aprende técnicas fundamentales de primeros auxilios para actuar
+                correctamente ante lesiones y accidentes comunes.
+              </p>
+
+              <h4 class="text-danger mb-3 mt-4">
+                Contenido del curso
+              </h4>
+
+              <ul>
+                <li>Evaluación de lesiones</li>
+                <li>Vendajes y control de hemorragias</li>
+                <li>Tratamiento de fracturas</li>
+                <li>Shock y emergencias médicas</li>
+                <li>Protocolos de actuación</li>
+              </ul>
+
+              <h4 class="text-danger mb-3 mt-4">
+                Información adicional
+              </h4>
+
+              <ul class="list-unstyled">
+                <li>
+                  <i class="bi bi-clock me-2 text-danger"></i>
+                  Duración: 4 horas
+                </li>
+
+                <li>
+                  <i class="bi bi-award me-2 text-danger"></i>
+                  Certificación DAN
+                </li>
+              </ul>
+
+            </div>
+
+            <div class="col-lg-4">
+
+              <div class="card bg-secondary text-white p-4">
+
+                <img
+                  src="../../img/Cursos/598-48.jpg"
+                  alt="First Aid"
+                  class="img-fluid rounded mb-3"
+                >
+
+                <a
+                  href="/contacto/"
+                  class="btn btn-danger w-100"
+                >
+                  RESERVA / +INFO
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL AED -->
+<div class="modal fade" id="modal-aed" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            Automated External Defibrillation DAN
+          </h5>
+
+          <span class="badge bg-secondary">
+            Todos niveles
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Curso de utilización del Desfibrilador Externo Automático (DEA)
+              para responder rápidamente ante emergencias cardíacas.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Uso del DEA</li>
+              <li>Protocolos de emergencia</li>
+              <li>RCP básica</li>
+              <li>Cadena de supervivencia</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL O2 AQUATIC -->
+<div class="modal fade" id="modal-o2-aquatic" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            Oxygen First Aid for Aquatic Emergencies DAN
+          </h5>
+
+          <span class="badge bg-secondary">
+            Todos niveles
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Formación en administración de oxígeno para emergencias acuáticas
+              y accidentes relacionados con el agua.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Uso de oxígeno</li>
+              <li>Ahogamiento</li>
+              <li>Protocolos de actuación</li>
+              <li>Atención primaria</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL O2 SCUBA -->
+<div class="modal fade" id="modal-o2-scuba" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            Oxygen First Aid for Scuba Diving Injuries DAN
+          </h5>
+
+          <span class="badge bg-secondary">
+            Para buceadores
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Aprende a administrar oxígeno en accidentes relacionados con el buceo.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Accidentes disbáricos</li>
+              <li>Uso de oxígeno</li>
+              <li>Protocolos de emergencia</li>
+              <li>Primeros auxilios</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 5 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL O2 ADVANCED -->
+<div class="modal fade" id="modal-o2-advanced" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            Advanced Oxygen First Aid DAN
+          </h5>
+
+          <span class="badge bg-danger">
+            Avanzado
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Curso avanzado de administración de oxígeno y ventilación.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Ventilación avanzada</li>
+              <li>Presión positiva</li>
+              <li>Oxigenoterapia avanzada</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 6 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NEURO -->
+<div class="modal fade" id="modal-neuro" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            On-Site Neurological Assessment DAN
+          </h5>
+
+          <span class="badge bg-danger">
+            Avanzado
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Aprende a realizar evaluaciones neurológicas en accidentes de buceo.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Evaluación neurológica</li>
+              <li>Protocolos DAN</li>
+              <li>Síntomas neurológicos</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HAZARDOUS -->
+<div class="modal fade" id="modal-hazardous" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white border-secondary">
+
+      <div class="modal-header border-secondary">
+        <div>
+          <h5 class="modal-title fw-bold">
+            Hazardous Marine Life Injuries DAN
+          </h5>
+
+          <span class="badge bg-secondary">
+            Todos niveles
+          </span>
+        </div>
+
+        <button type="button" class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <h4 class="text-danger mb-3">Descripción</h4>
+
+            <p>
+              Curso sobre identificación y tratamiento de lesiones causadas
+              por fauna marina peligrosa.
+            </p>
+
+            <h4 class="text-danger mb-3 mt-4">Contenido del curso</h4>
+
+            <ul>
+              <li>Picaduras y mordeduras</li>
+              <li>Fauna marina peligrosa</li>
+              <li>Protocolos de emergencia</li>
+            </ul>
+
+            <h4 class="text-danger mb-3 mt-4">Información adicional</h4>
+
+            <ul class="list-unstyled">
+              <li><i class="bi bi-clock me-2 text-danger"></i>Duración: 4 horas</li>
+              <li><i class="bi bi-award me-2 text-danger"></i>Certificación DAN</li>
+            </ul>
+
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-secondary text-white p-4">
+
+              <img src="../../img/Cursos/598-48.jpg"
+                class="img-fluid rounded mb-3">
+
+              <a href="/contacto/" class="btn btn-danger w-100">
+                RESERVA / +INFO
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
   <div id="siteFooter"></div>
+
+  
   <script>
     fetch("/fragments/footer")
       .then(r => r.text())
@@ -288,5 +1229,6 @@
         document.getElementById("siteFooter").innerHTML = html;
       });
   </script>
+
 </body>
 </html>
