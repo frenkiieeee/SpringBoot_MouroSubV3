@@ -186,11 +186,19 @@ services:
       dockerfile: Dockerfile
     container_name: springboot-mourosub
     restart: unless-stopped
-    # Todas las variables (DB_URL, DB_USER, DB_PASS, JWT_SECRET, ANON_KEY...) se inyectan desde .env.
     env_file:
       - .env
     environment:
-      # Solo variables propias del contenedor (rutas del filesystem montado, no van en .env).
+      DB_URL: jdbc:postgresql://supabase-db:5432/${POSTGRES_DB:-postgres}
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASS: ${POSTGRES_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mourosub.com}
+      APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
       # Sirve el front desde los volumenes montados: los cambios se ven sin reconstruir.
       STATIC_LOCATIONS: file:/app/static/
       THYMELEAF_PREFIX: file:/app/templates/
@@ -198,9 +206,7 @@ services:
       - ./src/main/resources/static:/app/static
       - ./src/main/resources/templates:/app/templates
     ports:
-      # Puerto del host (APP_PORT, 8090) -> puerto interno del contenedor (SERVER_PORT).
-      # El 8090 deja libre el 8080 del host para la exposicion publica.
-      - "${APP_PORT}:${SERVER_PORT}"
+      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
     depends_on:
       supabase-db:
         condition: service_healthy
