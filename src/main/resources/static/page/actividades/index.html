@@ -6,7 +6,7 @@
   <title>Actividades | Mourosub</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../../css/estilos.css">
+  <link rel="stylesheet" href="../../css/actividades.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -33,29 +33,139 @@
       });
   </script>
 
-  <main class="container py-5" style="padding-top: 120px;">
-    <section class="mb-5">
-      <div class="row align-items-center g-4">
-        <div class="col-lg-6">
-          <h1 class="fw-bold mb-3">Centro de actividades nauticas</h1>
-          <p class="text-muted">
-            Disfruta de la bahia y su entorno natural. La zona ofrece condiciones ideales para
-            la practica de deportes nauticos y actividades en el mar durante todo el ano.
-          </p>
-          <p class="text-muted">
-            Las playas, la biodiversidad y los vientos constantes crean un escenario perfecto
-            para experiencias seguras y variadas, tanto para iniciacion como para niveles avanzados.
-          </p>
-          <div class="d-flex gap-2">
-            <a class="btn btn-primary" href="#actividades-lista">Ver actividades</a>
-            <a class="btn btn-outline-secondary" href="#entorno">Conocer el entorno</a>
+  <main style="padding-top: 100px;">
+    <div
+      id="myCarousel"
+      class="carousel slide mb-5 container"
+      data-bs-ride="carousel"
+    >
+      <!-- Indicadores -->
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+
+      <!-- Slides -->
+      <div class="carousel-inner rounded overflow-hidden shadow">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <img
+            src="../../img/Actividades/Imagen8.jpg"
+            class="d-block w-100"
+            alt="Actividades nauticas"
+            style="height: 600px; object-fit: cover;"
+          >
+
+          <div class="carousel-caption text-start mb-5">
+            <h1 class="fw-bold">Centro de actividades nauticas</h1>
+
+            <p class="opacity-75">
+              Disfruta de la bahia y su entorno natural con experiencias
+              unicas en el mar.
+            </p>
+
+            <p>
+              <a class="btn btn-lg btn-primary" href="#actividades-lista">
+                Ver actividades
+              </a>
+            </p>
           </div>
         </div>
-        <div class="col-lg-6 text-center">
-          <img src="../../img/Actividades/Imagen8.jpg" alt="Actividades nauticas" class="img-fluid rounded">
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <img
+            src="../../img/Actividades/Imagen7.jpg"
+            class="d-block w-100"
+            alt="Entorno natural"
+            style="height: 600px; object-fit: cover;"
+          >
+
+          <div class="carousel-caption">
+            <h1 class="fw-bold">Naturaleza y aventura</h1>
+
+            <p>
+              Playas, biodiversidad y vientos constantes para disfrutar
+              del entorno.
+            </p>
+
+            <p>
+              <a class="btn btn-lg btn-primary" href="#entorno">
+                Conocer el entorno
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <img
+            src="../../img/Actividades/Imagen6.jpg"
+            class="d-block w-100"
+            alt="Experiencias nauticas"
+            style="height: 600px; object-fit: cover;"
+          >
+
+          <div class="carousel-caption text-end mb-5">
+            <h1 class="fw-bold">Experiencias para todos</h1>
+
+            <p>
+              Actividades seguras y adaptadas tanto para iniciacion
+              como para niveles avanzados.
+            </p>
+
+            <p>
+              <a class="btn btn-lg btn-primary" href="#">
+                Reservar ahora
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- Controles -->
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </main>
 
     <section id="entorno" class="mb-5">
       <h2 class="fw-semibold mb-3">Un entorno privilegiado</h2>

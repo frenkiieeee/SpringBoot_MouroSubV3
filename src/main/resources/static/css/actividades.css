@@ -1,3 +1,16 @@
+.carousel-caption {
+    bottom: 20%;
+}
+
+.carousel-caption h1 {
+    font-size: 3rem;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.carousel-caption p {
+    font-size: 1.1rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
 /* colores y valores globales */
 :root {
   --ocean:       #0a4a6e;
@@ -333,55 +346,6 @@ header {
   text-decoration: underline;
 }
 
-
-
-/* CARRUSEL */
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-250px * 6)); } 
-}
-
-.slide-track {
-  animation: scroll 50s linear infinite;
-  display: flex;
-  width: calc(250px * 12); 
-}
-
-.slide {
-  height: 100px;
-  width: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-}
-
-.slide img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  transition: all 0.3s ease-in-out; 
- filter: brightness(0) invert(1);
-}
-
-.slide img:hover {
-  transform: scale(1.2); 
-}
-
-/* Degradado para que se vean los sponsors */
-.DegradadinAzulin {
-  background: linear-gradient(
-    to bottom, 
-    rgb(13, 27, 42) 0%, 
-    rgb(8, 18, 27) 100%
-  );
-  padding: 60px 0;
-}
-
-.slider {
-  width: 100%;
-  overflow: hidden;
-}
 
 /* FOOTER */
 .site-footer {
