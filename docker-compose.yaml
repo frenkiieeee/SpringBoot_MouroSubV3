@@ -19,12 +19,6 @@ services:
       - supabase-db-data:/var/lib/postgresql/data
       - ./docker/supabase/init:/docker-entrypoint-initdb.d:ro
 
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
     networks:
       - mourosub-net
 
@@ -68,12 +62,6 @@ services:
       GOTRUE_SMTP_PASS: ${SMTP_PASS:-}
       GOTRUE_SMTP_SENDER_NAME: ${SMTP_SENDER_NAME:-Mourosub}
 
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9999/health"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-
     networks:
       - mourosub-net
 
@@ -96,12 +84,6 @@ services:
 
       PGRST_JWT_SECRET: ${JWT_SECRET}
       PGRST_DB_EXTRA_SEARCH_PATH: public
-
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
 
     networks:
       - mourosub-net
@@ -246,13 +228,6 @@ services:
 
     ports:
       - "${APP_PORT}:${SERVER_PORT}"
-
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:${SERVER_PORT}/actuator/health | grep -q '\"status\":\"UP\"'"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 90s
 
     networks:
       - mourosub-net
