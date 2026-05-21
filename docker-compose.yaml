@@ -1,9 +1,8 @@
 services:
 
-  # ─── Base de datos PostgreSQL (Supabase) ───────────────────────────────────
+  # ─── Base de datos PostgreSQL (Supabase) 
   supabase-db:
     image: supabase/postgres:15.8.1.085
-    container_name: supabase-db
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
@@ -25,10 +24,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Autenticacion (GoTrue) ────────────────────────────────────────────────
+  # ─── Autenticacion (GoTrue) 
   supabase-auth:
     image: supabase/gotrue:v2.186.0
-    container_name: supabase-auth
     restart: unless-stopped
     depends_on:
       supabase-db:
@@ -57,10 +55,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── API REST (PostgREST) — necesario para que Studio muestre datos ─────────
+  # ─── API REST (PostgREST) — necesario para que Studio muestre datos 
   supabase-rest:
     image: postgrest/postgrest:v14.8
-    container_name: supabase-rest
     restart: unless-stopped
     depends_on:
       supabase-db:
@@ -74,10 +71,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Storage ───────────────────────────────────────────────────────────────
+  # ─── Storage 
   supabase-storage:
     image: supabase/storage-api:v1.48.26
-    container_name: supabase-storage
     restart: unless-stopped
     depends_on:
       supabase-db:
@@ -98,10 +94,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Metadata (postgres-meta) — necesario para Studio ─────────────────────
+  # ─── Metadata (postgres-meta) — necesario para Studio 
   supabase-meta:
     image: supabase/postgres-meta:v0.96.3
-    container_name: supabase-meta
     restart: unless-stopped
     depends_on:
       supabase-db:
@@ -116,10 +111,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Supabase Studio (panel admin) ─────────────────────────────────────────
+  # ─── Supabase Studio (panel admin) 
   supabase-studio:
     image: supabase/studio:2026.04.27-sha-5f60601
-    container_name: supabase-studio
     restart: unless-stopped
     depends_on:
       supabase-meta:
@@ -138,10 +132,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Studio Proxy (Basic Auth — protege Supabase Studio) ───────────────────
+  # ─── Studio Proxy (Basic Auth — protege Supabase Studio) 
   studio-proxy:
     image: nginx:1.27-alpine
-    container_name: studio-proxy
     restart: unless-stopped
     depends_on:
       supabase-studio:
@@ -160,10 +153,9 @@ services:
     networks:
       - mourosub-net
 
-  # ─── Gateway Nginx (punto de entrada Supabase API) ─────────────────────────
+  # ─── Gateway Nginx (punto de entrada Supabase API) 
   supabase-gateway:
     image: nginx:1.27-alpine
-    container_name: supabase-gateway
     restart: unless-stopped
     depends_on:
       supabase-auth:
@@ -173,30 +165,31 @@ services:
       supabase-storage:
         condition: service_started
     ports:
-      - "${SUPABASE_GATEWAY_PORT:-8000}:8000"
+      - "${SUPABASE_GATEWAY_PORT}:8000"
     volumes:
       - ./docker/supabase/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - mourosub-net
 
-  # ─── Aplicacion Spring Boot ────────────────────────────────────────────────
+  # ─── Aplicacion Spring Boot 
   springboot-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: springboot-mourosub
     restart: unless-stopped
+    # Todas las variables se inyectan desde .env (definelas tambien en Coolify).
     env_file:
       - .env
     environment:
       DB_URL: jdbc:postgresql://supabase-db:5432/${POSTGRES_DB:-postgres}
       DB_USER: ${POSTGRES_USER:-postgres}
       DB_PASS: ${POSTGRES_PASSWORD}
-      SERVER_PORT: ${SERVER_PORT:-8080}
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_SECRET: ${JWT_SECRET}
       SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
       ANON_KEY: ${ANON_KEY}
       SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mourosub.com}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
       APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
       SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
       # Sirve el front desde los volumenes montados: los cambios se ven sin reconstruir.
@@ -206,14 +199,17 @@ services:
       - ./src/main/resources/static:/app/static
       - ./src/main/resources/templates:/app/templates
     ports:
-      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+      # Puerto del host (APP_PORT, 8090) -> puerto interno del contenedor (SERVER_PORT, 8080).
+      # Sin valor por defecto: si la variable no esta definida el deploy falla claro,
+      # en lugar de caer al 8080 y chocar con otro servicio (error 'port already allocated').
+      - "${APP_PORT}:${SERVER_PORT}"
     depends_on:
       supabase-db:
         condition: service_healthy
       supabase-auth:
         condition: service_started
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:${SERVER_PORT:-8080}/actuator/health | grep -q '\"status\":\"UP\"'"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:${SERVER_PORT}/actuator/health | grep -q '\"status\":\"UP\"'"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -227,4 +223,3 @@ volumes:
 
 networks:
   mourosub-net:
-    name: mourosub-net
