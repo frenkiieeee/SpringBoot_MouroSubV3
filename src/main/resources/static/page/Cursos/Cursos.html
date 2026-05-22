@@ -4,263 +4,370 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cursos | Mourosub</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../../css/estilos.css">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
+
   <div id="siteHeader"></div>
+
   <script src="../../js/header.js"></script>
+
   <script>
     fetch("/fragments/header")
       .then(r => r.text())
       .then(html => {
         document.getElementById("siteHeader").innerHTML = html;
+
         document.querySelectorAll("#siteHeader a[href]").forEach(function(a) {
           var href = a.getAttribute("href");
+
           if (href && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("http")) {
             a.setAttribute("href", "../../" + href);
           }
         });
+
         document.querySelectorAll("#siteHeader img[src]").forEach(function(img) {
           var src = img.getAttribute("src");
+
           if (src && !src.startsWith("/") && !src.startsWith("http")) {
             img.setAttribute("src", "../../" + src);
           }
         });
+
         if (window.initHeaderSession) window.initHeaderSession();
       });
   </script>
 
   <main class="container py-5" style="padding-top: 120px;">
+
     <section class="mb-5">
+
       <div class="row align-items-center g-4">
+
         <div class="col-lg-6">
-<<<<<<< Updated upstream
-          <h1 class="fw-bold mb-3">Cursos de Buceo</h1>
+
+          <h1 class="fw-bold mb-3">
+            Cursos de Buceo
+          </h1>
+
           <p class="text-muted">
-            Tu oportunidad para descubrir el mundo submarino con seguridad, metodología clara y
-            acompañamiento profesional desde el primer día.
+            Tu oportunidad para descubrir el mundo submarino con seguridad,
+            metodología clara y acompañamiento profesional desde el primer día.
           </p>
+
           <p class="text-muted">
-            Con formación digital previa y sesiones prácticas, buscamos que avances con confianza
-            y a tu ritmo, siempre con supervisión constante.
+            Con formación digital previa y sesiones prácticas, buscamos que avances
+            con confianza y a tu ritmo, siempre con supervisión constante.
           </p>
+
           <div class="d-flex gap-2 mt-4">
-            <a class="btn btn-primary" href="#modalidades">Ver categorías</a>
-=======
-          <h1 class="fw-bold mb-3">Cursos</h1>
-          <p class="text-muted">
-            Tu oportunidad para descubrir el mundo submarino con seguridad, metodologia clara y
-            acompanamiento profesional desde el primer dia.
-          </p>
-          <p class="text-muted">
-            Con formacion digital previa y sesiones practicas, buscamos que avances con confianza
-            y a tu ritmo, siempre con supervision constante.
-          </p>
-          <div class="d-flex gap-2">
-            <a class="btn btn-primary" href="#modalidades">Ver modalidades</a>
-            <a class="btn btn-outline-secondary" href="#buen-curso">Que implica un buen curso</a>
->>>>>>> Stashed changes
+
+            <a class="btn btn-primary" href="#modalidades">
+              Ver categorías
+            </a>
+
+            <a class="btn btn-outline-light" href="/reservas">
+              RESERVA / +INFO
+            </a>
+
           </div>
+
         </div>
+
         <div class="col-lg-6 text-center">
-          <img src="../../img/Cursos/mourosub-escuela-de-buceo-santander-4-1024x576.jpg" alt="Cursos de buceo" class="img-fluid rounded">
+
+          <img
+            src="../../img/Cursos/mourosub-escuela-de-buceo-santander-4-1024x576.jpg"
+            alt="Cursos de buceo"
+            class="img-fluid rounded"
+          >
+
         </div>
+
       </div>
+
     </section>
 
-<<<<<<< Updated upstream
     <section id="modalidades" class="mb-5">
-      <h2 class="fw-semibold mb-4">Modalidades de cursos</h2>
+
+      <h2 class="fw-semibold mb-4">
+        Modalidades de cursos
+      </h2>
+
       <div class="row g-4">
+
+        <!-- APNEA -->
         <div class="col-12 col-md-6 col-lg-4">
+
           <a href="apnea.html" class="text-decoration-none">
+
             <div class="card h-100 shadow-sm cursor-pointer">
-              <img src="../../img/Cursos/598-11.jpg" class="card-img-top" alt="Apnea" style="height: 200px; object-fit: cover;">
+
+              <img
+                src="../../img/Cursos/598-11.jpg"
+                class="card-img-top"
+                alt="Apnea"
+                style="height: 200px; object-fit: cover;"
+              >
+
               <div class="card-body">
-                <span class="badge bg-primary mb-2">APNEA</span>
-                <h5 class="card-title">Buceo en Apnea</h5>
-                <p class="card-text text-muted">Control de respiración, técnica y seguridad para disfrutar del buceo en apnea.</p>
+
+                <span class="badge bg-primary mb-2">
+                  APNEA
+                </span>
+
+                <h5 class="card-title">
+                  Buceo en Apnea
+                </h5>
+
+                <p class="card-text text-muted">
+                  Control de respiración, técnica y seguridad para disfrutar del buceo en apnea.
+                </p>
+
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-secondary">5 cursos</span>
+
+                  <span class="badge bg-secondary">
+                    5 cursos
+                  </span>
+
                 </div>
+
               </div>
+
             </div>
+
           </a>
+
         </div>
 
+        <!-- DEPORTIVOS -->
         <div class="col-12 col-md-6 col-lg-4">
+
           <a href="deportivos.html" class="text-decoration-none">
+
             <div class="card h-100 shadow-sm cursor-pointer">
-              <img src="../../img/Cursos/598-21.jpg" class="card-img-top" alt="Cursos Deportivos" style="height: 200px; object-fit: cover;">
+
+              <img
+                src="../../img/Cursos/598-21.jpg"
+                class="card-img-top"
+                alt="Cursos Deportivos"
+                style="height: 200px; object-fit: cover;"
+              >
+
               <div class="card-body">
-                <span class="badge bg-success mb-2">RECREATIVO</span>
-                <h5 class="card-title">Cursos Deportivos y Especialidad</h5>
-                <p class="card-text text-muted">Progresión recreativa hasta certificaciones internacionales de buceo.</p>
+
+                <span class="badge bg-success mb-2">
+                  RECREATIVO
+                </span>
+
+                <h5 class="card-title">
+                  Cursos Deportivos y Especialidad
+                </h5>
+
+                <p class="card-text text-muted">
+                  Progresión recreativa hasta certificaciones internacionales de buceo.
+                </p>
+
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-secondary">18 cursos</span>
+
+                  <span class="badge bg-secondary">
+                    18 cursos
+                  </span>
+
                 </div>
+
               </div>
+
             </div>
+
           </a>
+
         </div>
 
+        <!-- EMERGENCIA -->
         <div class="col-12 col-md-6 col-lg-4">
+
           <a href="emergencia.html" class="text-decoration-none">
+
             <div class="card h-100 shadow-sm cursor-pointer">
-              <img src="../../img/Cursos/598-48.jpg" class="card-img-top" alt="Cursos de Emergencia" style="height: 200px; object-fit: cover;">
+
+              <img
+                src="../../img/Cursos/598-48.jpg"
+                class="card-img-top"
+                alt="Cursos de Emergencia"
+                style="height: 200px; object-fit: cover;"
+              >
+
               <div class="card-body">
-                <span class="badge bg-danger mb-2">EMERGENCIA</span>
-                <h5 class="card-title">Formación de Emergencia y Primeros Auxilios</h5>
-                <p class="card-text text-muted">Primeros auxilios, RCP, uso de oxígeno y evaluación neurológica para buceadores.</p>
+
+                <span class="badge bg-danger mb-2">
+                  EMERGENCIA
+                </span>
+
+                <h5 class="card-title">
+                  Formación de Emergencia y Primeros Auxilios
+                </h5>
+
+                <p class="card-text text-muted">
+                  Primeros auxilios, RCP, uso de oxígeno y evaluación neurológica para buceadores.
+                </p>
+
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-secondary">9 cursos</span>
+
+                  <span class="badge bg-secondary">
+                    9 cursos
+                  </span>
+
                 </div>
+
               </div>
+
             </div>
+
           </a>
+
         </div>
 
+        <!-- TÉCNICOS -->
         <div class="col-12 col-md-6 col-lg-4">
+
           <a href="tecnicos.html" class="text-decoration-none">
+
             <div class="card h-100 shadow-sm cursor-pointer">
-              <img src="../../img/Cursos/598-31.jpg" class="card-img-top" alt="Cursos Técnicos" style="height: 200px; object-fit: cover;">
+
+              <img
+                src="../../img/Cursos/598-31.jpg"
+                class="card-img-top"
+                alt="Cursos Técnicos"
+                style="height: 200px; object-fit: cover;"
+              >
+
               <div class="card-body">
-                <span class="badge bg-warning text-dark mb-2">TÉCNICO</span>
-                <h5 class="card-title">Cursos Técnicos XR</h5>
-                <p class="card-text text-muted">Formación avanzada para entornos exigentes y buceo técnico de mezclas de gas.</p>
+
+                <span class="badge bg-warning text-dark mb-2">
+                  TÉCNICO
+                </span>
+
+                <h5 class="card-title">
+                  Cursos Técnicos XR
+                </h5>
+
+                <p class="card-text text-muted">
+                  Formación avanzada para entornos exigentes y buceo técnico de mezclas de gas.
+                </p>
+
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-secondary">8 cursos</span>
+
+                  <span class="badge bg-secondary">
+                    8 cursos
+                  </span>
+
                 </div>
+
               </div>
+
             </div>
+
           </a>
+
         </div>
 
+        <!-- PROFESIONALES -->
         <div class="col-12 col-md-6 col-lg-4">
+
           <a href="profesionales.html" class="text-decoration-none">
-            <div class="card h-100 shadow-sm cursor-pointer">
-              <img src="../../img/Cursos/598-50.jpg" class="card-img-top" alt="Cursos Profesionales" style="height: 200px; object-fit: cover;">
-              <div class="card-body">
-                <span class="badge bg-info mb-2">PROFESIONAL</span>
-                <h5 class="card-title">Profesionales</h5>
-                <p class="card-text text-muted">Programas para instructores y carreras profesionales en el sector del buceo.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-secondary">6 cursos</span>
-                </div>
-              </div>
-            </div>
-          </a>
-=======
-    <section id="buen-curso" class="mb-5">
-      <h2 class="fw-semibold mb-3">Que implica un buen curso</h2>
-      <p class="text-muted">
-        Antes de empezar, conviene revisar algunos puntos clave para evitar sorpresas y
-        asegurar una experiencia completa y segura.
-      </p>
-      <ul class="text-muted">
-        <li>Comprueba que el centro esta registrado oficialmente como actividad subacuatica.</li>
-        <li>Si es posible, visita las instalaciones y la sala de teoria que se usaran en el curso.</li>
-        <li>Verifica que los instructores tienen acreditacion vigente y estatus de ensenanza.</li>
-        <li>Confirma si el material academico esta incluido y se mantiene para cursos posteriores.</li>
-        <li>Pregunta por costes extra: piscina, alquiler de equipo o tasas de certificacion.</li>
-        <li>Revisa el equipo incluido: traje, chaleco, reguladores, manometro, etc.</li>
-        <li>El instructor debe acompanarte en todas las fases y entregarte acreditacion provisional.</li>
-      </ul>
-    </section>
 
-    <section id="modalidades" class="mb-5">
-      <h2 class="fw-semibold mb-3">Modalidades de cursos</h2>
-      <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Cursos/598-11.jpg" class="card-img-top" alt="Apnea">
-            <div class="card-body">
-              <h5 class="card-title">Buceo en apnea</h5>
-              <p class="card-text">Control de respiracion, tecnica y seguridad para disfrutar del buceo en apnea.</p>
-              <a class="btn btn-outline-primary" href="#">Ver detalles</a>
+            <div class="card h-100 shadow-sm cursor-pointer">
+
+              <img
+                src="../../img/Cursos/598-50.jpg"
+                class="card-img-top"
+                alt="Cursos Profesionales"
+                style="height: 200px; object-fit: cover;"
+              >
+
+              <div class="card-body">
+
+                <span class="badge bg-info mb-2">
+                  PROFESIONAL
+                </span>
+
+                <h5 class="card-title">
+                  Profesionales
+                </h5>
+
+                <p class="card-text text-muted">
+                  Programas para instructores y carreras profesionales en el sector del buceo.
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                  <span class="badge bg-secondary">
+                    6 cursos
+                  </span>
+
+                </div>
+
+              </div>
+
             </div>
-          </div>
+
+          </a>
+
         </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Cursos/598-14.jpg" class="card-img-top" alt="Bautismos de buceo">
-            <div class="card-body">
-              <h5 class="card-title">Bautismos de buceo</h5>
-              <p class="card-text">Primera experiencia guiada para descubrir el buceo de forma controlada.</p>
-              <a class="btn btn-outline-primary" href="#">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Cursos/598-21.jpg" class="card-img-top" alt="Cursos deportivos">
-            <div class="card-body">
-              <h5 class="card-title">Cursos deportivos</h5>
-              <p class="card-text">Progresion recreativa hasta certificaciones internacionales de buceo.</p>
-              <a class="btn btn-outline-primary" href="#">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Cursos/598-31.jpg" class="card-img-top" alt="Cursos tecnicos">
-            <div class="card-body">
-              <h5 class="card-title">Cursos tecnicos</h5>
-              <p class="card-text">Formacion avanzada para entornos exigentes y buceo tecnico.</p>
-              <a class="btn btn-outline-primary" href="#">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Cursos/598-40.jpg" class="card-img-top" alt="Cursos profesionales">
-            <div class="card-body">
-              <h5 class="card-title">Cursos profesionales</h5>
-              <p class="card-text">Programas para instructores y carreras profesionales en el sector.</p>
-              <a class="btn btn-outline-primary" href="#">Ver detalles</a>
-            </div>
-          </div>
->>>>>>> Stashed changes
-        </div>
+
       </div>
+
     </section>
 
     <section class="mb-5">
+
       <div class="row g-4 align-items-center">
+
         <div class="col-lg-7">
-<<<<<<< Updated upstream
-          <h2 class="fw-semibold mb-3">Formación digital y acompañamiento</h2>
+
+          <h2 class="fw-semibold mb-3">
+            Formación digital y acompañamiento
+          </h2>
+
           <p class="text-muted">
-            Puedes avanzar en la parte académica desde casa con material digital y el seguimiento
-            del instructor, para optimizar el tiempo presencial y llegar mejor preparado al agua.
+            Puedes avanzar en la parte académica desde casa con material digital
+            y el seguimiento del instructor, para optimizar el tiempo presencial
+            y llegar mejor preparado al agua.
           </p>
+
           <p class="text-muted">
-            El objetivo es que adquieras los conocimientos y entrenamiento necesarios para bucear con
-            seguridad y disfrutar al máximo de cada inmersión.
+            El objetivo es que adquieras los conocimientos y entrenamiento
+            necesarios para bucear con seguridad y disfrutar al máximo
+            de cada inmersión.
           </p>
+
+          <a href="/reservas" class="btn btn-primary mt-3">
+            RESERVA / +INFO
+          </a>
+
         </div>
+
         <div class="col-lg-5 text-center">
-          <img src="../../img/Cursos/598-50.jpg" alt="Formación digital" class="img-fluid rounded">
-=======
-          <h2 class="fw-semibold mb-3">Formacion digital y acompanamiento</h2>
-          <p class="text-muted">
-            Puedes avanzar en la parte academica desde casa con material digital y el seguimiento
-            del instructor, para optimizar el tiempo presencial y llegar mejor preparado al agua.
-          </p>
-          <p class="text-muted">
-            El objetivo es que adquieras conocimientos y entrenamiento necesarios para bucear con
-            seguridad y disfrutar al maximo de cada inmersion.
-          </p>
+
+          <img
+            src="../../img/Cursos/598-50.jpg"
+            alt="Formación digital"
+            class="img-fluid rounded"
+          >
+
         </div>
-        <div class="col-lg-5 text-center">
-          <img src="../../img/Cursos/598-50.jpg" alt="Formacion digital" class="img-fluid rounded">
->>>>>>> Stashed changes
-        </div>
+
       </div>
+
     </section>
+
   </main>
 
 </body>
