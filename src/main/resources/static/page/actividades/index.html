@@ -1,272 +1,886 @@
 <!doctype html>
 <html lang="es" class="h-100" data-bs-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Actividades | Mourosub</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <link rel="stylesheet" href="../../css/actividades.css">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <div id="siteHeader"></div>
+
   <script src="../../js/header.js"></script>
+
   <script>
     fetch("/fragments/header")
       .then(r => r.text())
       .then(html => {
         document.getElementById("siteHeader").innerHTML = html;
+
         document.querySelectorAll("#siteHeader a[href]").forEach(function(a) {
           var href = a.getAttribute("href");
+
           if (href && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("http")) {
             a.setAttribute("href", "../../" + href);
           }
         });
+
         document.querySelectorAll("#siteHeader img[src]").forEach(function(img) {
           var src = img.getAttribute("src");
+
           if (src && !src.startsWith("/") && !src.startsWith("http")) {
             img.setAttribute("src", "../../" + src);
           }
         });
+
         if (window.initHeaderSession) window.initHeaderSession();
       });
   </script>
 
-  <main style="padding-top: 100px;">
-    <div
-      id="myCarousel"
-      class="carousel slide mb-5 container"
-      data-bs-ride="carousel"
-    >
-      <!-- Indicadores -->
-      <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#myCarousel"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
+  <main>
 
-        <button
-          type="button"
-          data-bs-target="#myCarousel"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
+    <!-- HERO -->
+    <section class="hero-actividades">
 
-        <button
-          type="button"
-          data-bs-target="#myCarousel"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
+      <div class="container">
+
+        <p class="hero-kicker">
+          EXPERIENCIAS MOUROSUB
+        </p>
+
+        <h1 class="hero-title">
+          Actividades nauticas
+        </h1>
+
+        <p class="hero-desc">
+          Descubre experiencias diseñadas para disfrutar
+          del mar, la aventura y el entorno marino.
+        </p>
+
       </div>
 
-      <!-- Slides -->
-      <div class="carousel-inner rounded overflow-hidden shadow">
+    </section>
 
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
+    <!-- GRID -->
+    <section class="container pb-5">
+
+      <div class="actividades-grid">
+
+        <!-- NIÑOS -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalNinos"
+        >
+
           <img
-            src="../../img/Actividades/Imagen8.jpg"
-            class="d-block w-100"
-            alt="Actividades nauticas"
-            style="height: 600px; object-fit: cover;"
+            src="../../img/Actividades/Imagen2.jpg"
+            alt="Niños y buceo"
           >
 
-          <div class="carousel-caption text-start mb-5">
-            <h1 class="fw-bold">Centro de actividades nauticas</h1>
+          <div class="actividad-overlay"></div>
 
-            <p class="opacity-75">
-              Disfruta de la bahia y su entorno natural con experiencias
-              unicas en el mar.
-            </p>
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              INFANTIL
+            </span>
+
+            <h3>
+              Niños y buceo
+            </h3>
 
             <p>
-              <a class="btn btn-lg btn-primary" href="#actividades-lista">
-                Ver actividades
-              </a>
+              Descubrimiento submarino adaptado
+              a los más pequeños.
             </p>
-          </div>
-        </div>
 
-        <!-- Slide 2 -->
-        <div class="carousel-item">
+          </div>
+
+        </article>
+
+        <!-- SNORKEL -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalSnorkel"
+        >
+
           <img
-            src="../../img/Actividades/Imagen7.jpg"
-            class="d-block w-100"
-            alt="Entorno natural"
-            style="height: 600px; object-fit: cover;"
+            src="../../img/Actividades/Imagen3.jpg"
+            alt="Snorkelling"
           >
 
-          <div class="carousel-caption">
-            <h1 class="fw-bold">Naturaleza y aventura</h1>
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              EXPLORACIÓN
+            </span>
+
+            <h3>
+              Snorkelling
+            </h3>
 
             <p>
-              Playas, biodiversidad y vientos constantes para disfrutar
-              del entorno.
+              Explora la costa y la fauna marina
+              desde la superficie.
             </p>
 
-            <p>
-              <a class="btn btn-lg btn-primary" href="#entorno">
-                Conocer el entorno
-              </a>
-            </p>
           </div>
-        </div>
 
-        <!-- Slide 3 -->
-        <div class="carousel-item">
+        </article>
+
+        <!-- BAUTISMOS -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalBautismo"
+        >
+
+          <img
+            src="../../img/Actividades/Imagen4.jpg"
+            alt="Bautismos de buceo"
+          >
+
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              INICIACIÓN
+            </span>
+
+            <h3>
+              Bautismos de buceo
+            </h3>
+
+            <p>
+              Vive tu primera experiencia
+              bajo el agua.
+            </p>
+
+          </div>
+
+        </article>
+
+        <!-- CLUB -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalClub"
+        >
+
+          <img
+            src="../../img/Actividades/Imagen5.jpg"
+            alt="Club Mourosub"
+          >
+
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              COMUNIDAD
+            </span>
+
+            <h3>
+              Club Mourosub
+            </h3>
+
+            <p>
+              Comparte experiencias y aventuras
+              submarinas.
+            </p>
+
+          </div>
+
+        </article>
+
+        <!-- RUTAS -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalRutas"
+        >
+
           <img
             src="../../img/Actividades/Imagen6.jpg"
-            class="d-block w-100"
-            alt="Experiencias nauticas"
-            style="height: 600px; object-fit: cover;"
+            alt="Rutas en barco"
           >
 
-          <div class="carousel-caption text-end mb-5">
-            <h1 class="fw-bold">Experiencias para todos</h1>
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              NATURALEZA
+            </span>
+
+            <h3>
+              Rutas en barco
+            </h3>
 
             <p>
-              Actividades seguras y adaptadas tanto para iniciacion
-              como para niveles avanzados.
+              Navega y descubre espacios únicos
+              del Cantábrico.
             </p>
 
-            <p>
-              <a class="btn btn-lg btn-primary" href="#">
-                Reservar ahora
-              </a>
-            </p>
           </div>
-        </div>
+
+        </article>
+
+        <!-- MEDIO AMBIENTE -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalMedio"
+        >
+
+          <img
+            src="../../img/Actividades/Imagen7.jpg"
+            alt="Naturaleza y medio ambiente"
+          >
+
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              ECO
+            </span>
+
+            <h3>
+              Naturaleza y medio ambiente
+            </h3>
+
+            <p>
+              Conservación, divulgación
+              y educación marina.
+            </p>
+
+          </div>
+
+        </article>
+
+        <!-- TALLERES -->
+        <article
+          class="actividad-card"
+          data-bs-toggle="modal"
+          data-bs-target="#modalTalleres"
+        >
+
+          <img
+            src="../../img/Actividades/Imagen8.jpg"
+            alt="Talleres técnicos"
+          >
+
+          <div class="actividad-overlay"></div>
+
+          <div class="actividad-info">
+
+            <span class="actividad-tag">
+              FORMACIÓN
+            </span>
+
+            <h3>
+              Talleres técnicos
+            </h3>
+
+            <p>
+              Aprende técnicas, material
+              y seguridad.
+            </p>
+
+          </div>
+
+        </article>
+
       </div>
 
-      <!-- Controles -->
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
+    </section>
 
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#myCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+  </main>
+
+  <!-- ======================= -->
+  <!-- MODAL NIÑOS -->
+  <!-- ======================= -->
+
+  <div class="modal fade" id="modalNinos" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen2.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            INFANTIL
+          </span>
+
+          <h2>
+            Niños y buceo
+          </h2>
+
+          <p class="actividad-lead">
+            Actividades diseñadas para introducir
+            a los más pequeños en el mundo submarino.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Una experiencia educativa y divertida
+              para descubrir el entorno marino
+              mediante juegos y actividades adaptadas.
+            </p>
+
+            <p>
+              Todas las actividades están supervisadas
+              por profesionales especializados.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Edad</span>
+              <strong>+8 años</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Nivel</span>
+              <strong>Iniciación</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>2-3 horas</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
     </div>
-  </main>
 
-    <section id="entorno" class="mb-5">
-      <h2 class="fw-semibold mb-3">Un entorno privilegiado</h2>
-      <p class="text-muted">
-        La bahia de Santander y su entorno se han convertido en un lugar unico para disfrutar
-        de actividades nauticas. Con temperaturas suaves en primavera y verano, es una zona
-        ideal para entrenamientos, competiciones y ocio en el mar.
-      </p>
-      <p class="text-muted">
-        La combinacion de aguas tranquilas y zonas abiertas permite adaptar cada salida a las
-        necesidades del grupo, con opciones para todas las edades.
-      </p>
-    </section>
+  </div>
 
-    <section id="actividades-lista" class="mb-5">
-      <h2 class="fw-semibold mb-3">Actividades disponibles</h2>
-      <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen2.jpg" class="card-img-top" alt="Snorkel y buceo">
-            <div class="card-body">
-              <h5 class="card-title">Snorkel y buceo</h5>
-              <p class="card-text">Exploraciones guiadas para descubrir el fondo marino con seguridad.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen3.jpg" class="card-img-top" alt="Vela y kayak">
-            <div class="card-body">
-              <h5 class="card-title">Vela, piragua y kayak</h5>
-              <p class="card-text">Rutas en el estuario y la bahia para disfrutar del paisaje.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen4.jpg" class="card-img-top" alt="Paddle surf">
-            <div class="card-body">
-              <h5 class="card-title">Paddle surf</h5>
-              <p class="card-text">Una forma divertida y estable de recorrer la costa y el estuario.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen5.jpg" class="card-img-top" alt="Surf y windsurf">
-            <div class="card-body">
-              <h5 class="card-title">Surf y windsurf</h5>
-              <p class="card-text">Aprovecha las olas y el viento para sesiones dinamicas en el agua.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen6.jpg" class="card-img-top" alt="Motos de agua">
-            <div class="card-body">
-              <h5 class="card-title">Motos de agua y rutas en barco</h5>
-              <p class="card-text">Experiencias de velocidad o paseos guiados por la bahia.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="../../img/Actividades/Imagen7.jpg" class="card-img-top" alt="Titulos nauticos">
-            <div class="card-body">
-              <h5 class="card-title">Titulos nauticos</h5>
-              <p class="card-text">Formacion para obtener titulaciones y navegar con autonomia.</p>
-              <a class="btn btn-outline-primary" href="#">Ver mas</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- MODAL SNORKEL -->
 
-    <section class="mb-5">
-      <div class="row g-4 align-items-center">
-        <div class="col-lg-7">
-          <h2 class="fw-semibold mb-3">Aventura para todas las edades</h2>
-          <p class="text-muted">
-            Durante todo el ano, el estuario ofrece condiciones seguras para practicar actividades
-            como piragua o paddle surf, con salidas adaptadas a cada grupo.
+  <div class="modal fade" id="modalSnorkel" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen3.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            EXPLORACIÓN
+          </span>
+
+          <h2>
+            Snorkelling
+          </h2>
+
+          <p class="actividad-lead">
+            Explora la costa y descubre
+            la fauna marina desde la superficie.
           </p>
-          <p class="text-muted">
-            El objetivo es que disfrutes del mar con confianza, acompanado por un equipo experto
-            y con opciones para todos los niveles.
-          </p>
-        </div>
-        <div class="col-lg-5 text-center">
-          <img src="../../img/Actividades/Imagen9.png" alt="Actividades en familia" class="img-fluid rounded">
-        </div>
-      </div>
-    </section>
-  </main>
 
+          <div class="actividad-texto">
+
+            <p>
+              Una actividad perfecta para todas las edades
+              y niveles que quieran disfrutar del mar.
+            </p>
+
+            <p>
+              Descubrirás zonas de gran biodiversidad
+              acompañado por profesionales.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Nivel</span>
+              <strong>Iniciación</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>2 horas</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Incluye</span>
+              <strong>Equipo completo</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL BAUTISMOS -->
+
+  <div class="modal fade" id="modalBautismo" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen4.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            INICIACIÓN
+          </span>
+
+          <h2>
+            Bautismos de buceo
+          </h2>
+
+          <p class="actividad-lead">
+            Vive tu primera inmersión
+            respirando bajo el agua.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Descubre el submarinismo de forma segura
+              acompañado por instructores especializados.
+            </p>
+
+            <p>
+              Una experiencia emocionante
+              para iniciarse en el buceo.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Nivel</span>
+              <strong>Principiante</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>3 horas</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Edad mínima</span>
+              <strong>+10 años</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL CLUB -->
+
+  <div class="modal fade" id="modalClub" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen5.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            COMUNIDAD
+          </span>
+
+          <h2>
+            Club Mourosub
+          </h2>
+
+          <p class="actividad-lead">
+            Comparte experiencias y forma parte
+            de nuestra comunidad submarina.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Participa en actividades, inmersiones
+              y encuentros durante todo el año.
+            </p>
+
+            <p>
+              Un espacio para seguir aprendiendo
+              y disfrutando del mar.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Acceso</span>
+              <strong>Socios</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Actividades</span>
+              <strong>Todo el año</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Nivel</span>
+              <strong>Todos</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL RUTAS -->
+
+  <div class="modal fade" id="modalRutas" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen6.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            NATURALEZA
+          </span>
+
+          <h2>
+            Rutas en barco
+          </h2>
+
+          <p class="actividad-lead">
+            Navega y descubre espacios únicos
+            del Cantábrico.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Disfruta de rutas guiadas
+              por la bahía y el litoral.
+            </p>
+
+            <p>
+              Una experiencia perfecta
+              para familias y grupos.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>2-3 horas</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Tipo</span>
+              <strong>Ruta guiada</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Ideal para</span>
+              <strong>Familias</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL MEDIO AMBIENTE -->
+
+  <div class="modal fade" id="modalMedio" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen7.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            ECO
+          </span>
+
+          <h2>
+            Naturaleza y medio ambiente
+          </h2>
+
+          <p class="actividad-lead">
+            Conservación y divulgación marina
+            para todas las edades.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Descubre la biodiversidad marina
+              mediante actividades educativas.
+            </p>
+
+            <p>
+              Aprende sobre protección y conservación
+              del entorno marino.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Actividad</span>
+              <strong>Educativa</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>2 horas</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Público</span>
+              <strong>Todas las edades</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL TALLERES -->
+
+  <div class="modal fade" id="modalTalleres" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content actividad-modal">
+
+        <button
+          type="button"
+          class="btn-close btn-close-white actividad-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+        <img
+          src="../../img/Actividades/Imagen8.jpg"
+          class="actividad-modal-img"
+          alt=""
+        >
+
+        <div class="actividad-modal-body">
+
+          <span class="actividad-tag">
+            FORMACIÓN
+          </span>
+
+          <h2>
+            Talleres técnicos
+          </h2>
+
+          <p class="actividad-lead">
+            Aprende técnicas, seguridad
+            y mantenimiento especializado.
+          </p>
+
+          <div class="actividad-texto">
+
+            <p>
+              Talleres prácticos impartidos
+              por profesionales especializados.
+            </p>
+
+            <p>
+              Formación para mejorar conocimientos
+              y habilidades técnicas.
+            </p>
+
+          </div>
+
+          <div class="actividad-datos">
+
+            <div class="actividad-dato">
+              <span>Formato</span>
+              <strong>Práctico</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Nivel</span>
+              <strong>Intermedio</strong>
+            </div>
+
+            <div class="actividad-dato">
+              <span>Duración</span>
+              <strong>3 horas</strong>
+            </div>
+
+          </div>
+
+          <a href="/reservas" class="btn-reservar">
+            Reservar actividad
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
   <div id="siteFooter"></div>
+
   <script>
     fetch("/fragments/footer")
       .then(r => r.text())
@@ -274,5 +888,6 @@
         document.getElementById("siteFooter").innerHTML = html;
       });
   </script>
+
 </body>
 </html>
