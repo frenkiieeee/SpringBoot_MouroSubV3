@@ -206,7 +206,8 @@ services:
       - ./src/main/resources/static:/app/static
       - ./src/main/resources/templates:/app/templates
     ports:
-      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+      # Host (APP_PORT, 8090) -> contenedor (SERVER_PORT, 8080).
+      - "${APP_PORT:-8090}:${SERVER_PORT:-8080}"
     depends_on:
       supabase-db:
         condition: service_healthy
