@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 import java.util.UUID;
 
-// Es el controlador del panel de administracion
+// controla la seccion donde manda el jefe
 @Controller
 public class AdminHomeController {
 
-    // Repositorios para leer datos de la base de datos.
-    // 'final' = una vez que Spring los inyecta en el constructor, ya no cambian
+    // los tres repositorios necesarios para extraer los datos crudos
     private final UsuarioRepository usuarioRepository;
     private final ReservaRepository reservaRepository;
     private final FicheroRepository ficheroRepository;
 
-    // Constructor: Spring detecta estos repositorios y nos los pasa solo (inyeccion de dependencias)
+    // inyeccion por constructor de toda la vida
     public AdminHomeController(UsuarioRepository usuarioRepository,
                                ReservaRepository reservaRepository,
                                FicheroRepository ficheroRepository) {
@@ -33,52 +32,49 @@ public class AdminHomeController {
         this.ficheroRepository = ficheroRepository;
     }
 
-    // GET /admin -> muestra la pagina principal del panel (las 4 secciones)
+    // carga el dashboard de inicio del admin
     @GetMapping("/admin")
     public String index() {
-        // Devuelve la plantilla templates/admin/index.html
         return "admin/index";
     }
 
-    // GET /admin/reservas -> lista todas las reservas
+    // manda todas las reservas de la base de datos de golpe a la vista para el listado
     @GetMapping("/admin/reservas")
     public String reservas(Model model) {
-        // Pedimos al repositorio todas las reservas y las metemos en el modelo para la vista.
         model.addAttribute("reservas", reservaRepository.findAll());
         return "admin/reservas/lista";
     }
 
-    // GET /admin/usuarios -> lista todos los usuarios registrados
+    // saca un listado general de todos los clientes registrados
     @GetMapping("/admin/usuarios")
     public String usuarios(Model model) {
         model.addAttribute("usuarios", usuarioRepository.findAll());
         return "admin/usuarios/lista";
     }
 
-    // GET /admin/usuarios/{id} -> ficha detallada de un usuario con sus certificados.
+    // carga el perfil detallado de un usuario concreto tirando de su id
     @GetMapping("/admin/usuarios/{id}")
     public String usuarioDetalle(@PathVariable Long id, Model model) {
-        // Buscamos el usuario por su id. orElse(null): si no existe, queda null.
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         model.addAttribute("usuario", usuario);
-        // Si el usuario existe, anyadimos al modelo los certificados que ha subido.
+        
+        // si lo encuentra le saca tambien los ficheros o certificados que haya subido
         if (usuario != null) {
             model.addAttribute("ficheros", ficheroRepository.findByUsuario_IdUsuario(id));
         }
         return "admin/usuarios/detalle";
     }
 
-    // GET /auth/admin-check -> lo usa el login para saber si un usuario es administrador
-    // @ResponseBody: en vez de devolver una plantilla, devuelve los datos directamente (en JSON)
+    // endpoint rest oculto que sirve para que supabase pregunte si alguien tiene rango de admin al loguearse
     @GetMapping("/auth/admin-check")
     @ResponseBody
     public Map<String, Object> adminCheck(@RequestParam("supabaseUserId") String supabaseUserId) {
-        // Buscamos al usuario por su id de Supabase y miramos su campo is_admin
-        // Si ese usuario no existe, orElse(false) hace que el resultado sea 'false'
+        // pilla la id de supabase comprueba el boolean isadmin de la tabla y devuelve true o false
         boolean isAdmin = usuarioRepository.findBySupabaseUserId(UUID.fromString(supabaseUserId))
                 .map(u -> u.isAdmin())
                 .orElse(false);
-        // Devolvemos un JSON con la forma {"isAdmin": true/false}.
+        
+        // escupe un map que spring convierte en un json con la respuesta automatica
         return Map.of("isAdmin", isAdmin);
     }
 }
