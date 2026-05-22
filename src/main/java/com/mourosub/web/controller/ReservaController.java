@@ -60,17 +60,6 @@ public class ReservaController {
 
         return "fragments/reservas/index";
     }
-    
-<<<<<<< Updated upstream
-    // prepara el formulario solo con las actividades filtradas por bautismo y curso
-    @GetMapping("/cursos")
-    public String cursos(Model model){
-        model.addAttribute("seccion","formulario");
-        model.addAttribute("titulo", "Bautismo y cursos");
-        model.addAttribute("reserva", new Reserva());
-        model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of("BAUTISMO", "CURSO")));
-=======
-
 
     // GET /reservas/cursos -> formulario de reserva para cursos.
     @GetMapping("/cursos")
@@ -84,7 +73,6 @@ public class ReservaController {
         model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of( "CURSO")));
         // Lista de usuarios disponible para la vista.
 
->>>>>>> Stashed changes
         return "fragments/reservas/index";
     }
 
@@ -149,9 +137,4 @@ public class ReservaController {
         reservaService.cancelarReserva(idReserva);
         return "redirect:/reservas";
     }
-<<<<<<< Updated upstream
 }
-=======
-
-}
->>>>>>> Stashed changes
