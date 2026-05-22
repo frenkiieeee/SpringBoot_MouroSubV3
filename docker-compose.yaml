@@ -163,13 +163,16 @@ services:
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
 
-    ports:
-      - "${SUPABASE_STUDIO_PORT:-3000}:3000"
+    # Sin 'ports': Studio NO se expone directo (eso permitia entrar sin contrasenya).
+    # El unico acceso es a traves de studio-proxy, que exige Basic Auth.
+    expose:
+      - "3000"
 
     networks:
       - mourosub-net
 
   # Studio Proxy
+  # Protege Supabase Studio con Basic Auth (usuario/contrasenya).
   studio-proxy:
     image: nginx:1.27-alpine
     restart: unless-stopped
@@ -178,27 +181,29 @@ services:
       supabase-studio:
         condition: service_started
 
-    working_dir: /app
-
     environment:
       STUDIO_USER: ${STUDIO_USER:-admin}
       STUDIO_PASSWORD: ${STUDIO_PASSWORD:-changeme}
 
+    # Instala htpasswd, genera el fichero de credenciales y arranca nginx.
+    # Se monta solo el fichero nginx.conf (no la carpeta), asi /etc/nginx
+    # sigue siendo escribible y htpasswd puede crear el .htpasswd.
     command: >
       sh -c "apk add --no-cache apache2-utils &&
-             htpasswd -bc /etc/nginx/.htpasswd $$STUDIO_USER $$STUDIO_PASSWORD &&
+             htpasswd -bc /etc/nginx/.htpasswd \"$$STUDIO_USER\" \"$$STUDIO_PASSWORD\" &&
              nginx -g 'daemon off;'"
 
     volumes:
-      - ./docker/studio-proxy:/etc/nginx:ro
+      - ./docker/studio-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
 
     ports:
-      - "${SUPABASE_STUDIO_PROXY_PORT:-3010}:3000"
+      - "${SUPABASE_STUDIO_PROXY_PORT:-3000}:3000"
 
     networks:
       - mourosub-net
 
   # Gateway
+  # Punto de entrada de la API de Supabase. Se monta solo el fichero nginx.conf.
   supabase-gateway:
     image: nginx:1.27-alpine
     restart: unless-stopped
@@ -213,13 +218,11 @@ services:
       supabase-storage:
         condition: service_started
 
-    working_dir: /app
-
     ports:
       - "${SUPABASE_GATEWAY_PORT:-8000}:8000"
 
     volumes:
-      - ./docker/supabase:/etc/nginx:ro
+      - ./docker/supabase/nginx.conf:/etc/nginx/nginx.conf:ro
 
     networks:
       - mourosub-net
