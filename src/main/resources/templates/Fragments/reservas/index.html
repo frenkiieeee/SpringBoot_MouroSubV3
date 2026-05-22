@@ -30,18 +30,18 @@
     <!-- CARDS GRID -->
     <div class="cards-grid">
 
-        <!-- Card Bautismos y Cursos -->
+        <!-- Card Cursos -->
         <a th:href="@{/reservas/cursos}" class="card">
             <img class="card-img"
                  th:src="@{/img/Cursos/598-3.jpg}"
-                 alt="Bautismo de buceo">
+                 alt="Cursos">
             <div class="card-overlay"></div>
             <div class="card-content">
                 <span class="badge badge-yellow">
                     <i class="bi bi-patch-check-fill"></i> CERTIFICADOS
                 </span>
-                <div class="card-title">Bautismos de<br>Buceo y Cursos</div>
-                <span class="card-btn card-btn-cyan">RESERVAR BAUTISMO →</span>
+                <div class="card-title">Cursos<br></div>
+                <span class="card-btn card-btn-cyan">RESERVAR CURSO →</span>
             </div>
         </a>
 
@@ -70,7 +70,7 @@
 
 </section>
     <!--========== Forumulario de actividades ===============-->
-    <section th:if="${seccion == 'formulario'}">
+    <section th:if="${seccion == 'actividades'}">
     <div class="form-section">
 
         <p class="hero-label">NUEVA RESERVA</p>
@@ -80,21 +80,28 @@
         <form th:action="@{/reservas/guardar}" method="post">
 
             <div class="form-group">
-                <label for="idActividad">Actividad</label>
-                <select id="idActividad" name="idActividad" required>
-                    <option value="">Seleccione una opcion</option>
-                    <option value="">snorkel y buceo</option>
-                    <option value="">Vela, piragua y kayak</option>
-                    <option value="">Paddle surf</option>
-                    <option value="">Surf y Windsurf</option>
-                    <option value="">Motos de agua y rutas en barco</option>
+                <label for="tipoActividad">Tipo de actividad</label>
+                <select id="tipoActividad" name="tipoActividad" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="ninos-buceo">Niños y Buceo</option>
+                    <option value="snorkel">Snorkel</option>
+                    <option value="bautismos-buceo">Bautismos de Buceo</option>
+                    <option value="club-mourosub">Club Mourosub</option>
+                    <option value="rutas-barco">Rutas en barco</option>
+                    <option value="naturaleza-medio-ambiente">Naturaleza y medio ambiente</option>
+                    <option value="talleres-tecnicos">Talleres técnicos</option>
                     <option th:each="actividad : ${actividades}"
                             th:value="${actividad.idActividad}"
                             th:text="${actividad.nombre + ' — ' + actividad.precio + ' €'}">
                     </option>
                 </select>
             </div>
-
+            <div class="form-group" id="actividadDetalleGroup" style="display: none;">
+                <label for="actividadDetalle">Actividad concreta</label>
+                <select id="actividadDetalle" name="actividadDetalle">
+                <option value="">Seleccione una opción</option>
+                </select>
+            </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="Act-nombre">Nombre</label>
@@ -145,7 +152,7 @@
 
     </div>
 </section>
-<section th:if="${seccion == 'cursos'}">
+<section th:if="${seccion == 'cursos'|| seccion == 'formulario'}">
     <div class="form-section">
 
         <p class="hero-label">NUEVA RESERVA</p>
@@ -158,18 +165,23 @@
                 <label for="idCurso">Curso</label>
                 <select id="idCurso" name="idCurso" required>
                     <option value="">Seleccione una opción</option>
-                    <option value="">Cursos de apnea</option>
-                    <option value="">Cursos Deportivos y Especialidad</option>
-                    <option value="">Formación de Emergencia y Primeros Auxilios</option>
-                    <option value="">Técnicos XR</option>
-                    <option value="">Profesionales</option>
+                    <option value="apnea">Cursos de apnea</option>
+                    <option value="deportivos">Cursos Deportivos y Especialidad</option>
+                    <option value="emergencia">Formación de Emergencia y Primeros Auxilios</option>
+                    <option value="xr">Técnicos XR</option>
+                    <option value="profesionales">Profesionales</option>
                     <option th:each="curso : ${cursos}"
                             th:value="${curso.idCurso}"
                             th:text="${curso.nombre + ' — ' + curso.tipo + ' — ' + curso.precio + ' €'}">
                     </option>
                 </select>
             </div>
-
+            <div class="form-group" id="cursoDetalleGroup" style="display: none;">
+                <label for="cursoDetalle">Curso concreto</label>
+                <select id="cursoDetalle" name="cursoDetalle">
+                <option value="">Seleccione una opción</option>
+                </select>
+            </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="cur-nombre">Nombre</label>
@@ -235,6 +247,155 @@
             })
             .catch(err => console.error(err));
     </script>
+
+    <script>
+    const cursosPorCategoria = {
+        apnea: [
+            "Try Freediving",
+            "Apnea básica",
+            "Apnea Nivel 1",
+            "Apnea Nivel 2",
+            "Apnea Nivel 3"
+        ],
+        deportivos: [
+            "Open Water Diver",
+            "Speciality Diver",
+            "Buceador Stress & Rescue",
+            "Advanced Adventurer",
+            "Advanced Open Water Diver",
+            "Master Diver",
+            "Flotabilidad Perfecta",
+            "Buceo Profundo",
+            "Orientación",
+            "Búsqueda y Recuperación",
+            "Aire Enriquecido Nitrox",
+            "Buceo en Pecios",
+            "Recreational Sidemount Diving",
+            "La Ciencia del Buceo",
+            "Buceo Nocturno y Visibilidad Limitada",
+            "Técnicas de Equipamiento",
+            "Foto y Vídeo",
+            "Buceo con Traje Seco"
+        ],
+        emergencia: [
+            "React Right",
+            "Basic Life Support DAN",
+            "First Aid DAN",
+            "Automated External Defibrillation DAN",
+            "Oxygen First Aid for Aquatic Emergencies DAN",
+            "Oxygen First Aid for Scuba Diving Injuries DAN",
+            "Advanced Oxygen First Aid for Scuba Diving Injuries DAN",
+            "On-Site Neurological Assessment for Divers DAN",
+            "Hazardous Marine Life Injuries DAN"
+        ],
+        xr: [
+            "Extended Range Nitrox Diving",
+            "Extended Range",
+            "Technical Extended Range",
+            "Trimix Hipóxico",
+            "CCR Technical Extended Range",
+            "Extended Range Gas Blender",
+            "Advanced Wreck Diving",
+            "Buceo en Cavernas"
+        ],
+        profesionales: [
+            "Dive Guide",
+            "Dive Control Specialist",
+            "Snorkeling Instructor",
+            "Instructor Training Course",
+            "Divemaster Instructor",
+            "Dive Control Specialist Instructor"
+        ]
+    };
+
+    const actividadesPorCategoria = {
+        "ninos-buceo": [
+            "Niños y Buceo",
+            "Bautismo infantil",
+            "Actividades acuáticas infantiles"
+        ],
+        snorkel: [
+            "Snorkel",
+            "Ruta de snorkel",
+            "Snorkel desde barco"
+        ],
+        "bautismos-buceo": [
+            "Bautismo de buceo",
+            "Bautismo de buceo en mar",
+            "Bautismo de buceo en grupo"
+        ],
+        "rutas-barco": [
+            "Ruta en barco",
+            "Ruta por la bahía",
+            "Ruta alrededor de la Isla de Mouro"
+        ],
+        "naturaleza-medio-ambiente": [
+            "Actividad de naturaleza",
+            "Actividad de medio ambiente",
+            "Divulgación marina"
+        ],
+        "talleres-tecnicos": [
+            "Taller técnico",
+            "Taller de material",
+            "Taller de seguridad"
+        ]
+    };
+
+    const tipoCurso = document.getElementById("idCurso");
+    const cursoDetalleGroup = document.getElementById("cursoDetalleGroup");
+    const cursoDetalle = document.getElementById("cursoDetalle");
+
+    if (tipoCurso && cursoDetalleGroup && cursoDetalle) {
+    tipoCurso.addEventListener("change", function () {
+        const categoria = this.value;
+        cursoDetalle.innerHTML = '<option value="">Seleccione una opción</option>';
+
+        if (!categoria || !cursosPorCategoria[categoria]) {
+            cursoDetalleGroup.style.display = "none";
+            cursoDetalle.required = false;
+            return;
+        }
+
+        cursosPorCategoria[categoria].forEach(curso => {
+            const option = document.createElement("option");
+            option.value = curso;
+            option.textContent = curso;
+            cursoDetalle.appendChild(option);
+        });
+
+        cursoDetalleGroup.style.display = "block";
+        cursoDetalle.required = true;
+    });
+    }
+
+    const tipoActividad = document.getElementById("tipoActividad");
+    const actividadDetalleGroup = document.getElementById("actividadDetalleGroup");
+    const actividadDetalle = document.getElementById("actividadDetalle");
+
+    if (tipoActividad && actividadDetalleGroup && actividadDetalle) {
+        tipoActividad.addEventListener("change", function () {
+            const categoria = this.value;
+            actividadDetalle.innerHTML = '<option value="">Seleccione una opción</option>';
+
+            if (!categoria || !actividadesPorCategoria[categoria]) {
+                actividadDetalleGroup.style.display = "none";
+                actividadDetalle.required = false;
+                return;
+            }
+
+            actividadesPorCategoria[categoria].forEach(actividad => {
+                const option = document.createElement("option");
+                option.value = actividad;
+                option.textContent = actividad;
+                actividadDetalle.appendChild(option);
+            });
+
+            actividadDetalleGroup.style.display = "block";
+            actividadDetalle.required = true;
+        });
+    }
+</script>
+
 </body>
 
 </html>

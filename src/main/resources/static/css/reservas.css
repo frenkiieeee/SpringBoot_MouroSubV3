@@ -564,12 +564,7 @@
 
 .btn-volver:hover { color: var(--white); }
 
-/* Móvil */
-@media (max-width: 600px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-}
+
  /* FOOTER */
 .site-footer {
   background: #0d1b2a;

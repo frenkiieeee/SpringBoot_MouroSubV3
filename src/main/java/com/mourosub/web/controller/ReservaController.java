@@ -61,6 +61,7 @@ public class ReservaController {
         return "fragments/reservas/index";
     }
     
+<<<<<<< Updated upstream
     // prepara el formulario solo con las actividades filtradas por bautismo y curso
     @GetMapping("/cursos")
     public String cursos(Model model){
@@ -68,6 +69,22 @@ public class ReservaController {
         model.addAttribute("titulo", "Bautismo y cursos");
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of("BAUTISMO", "CURSO")));
+=======
+
+
+    // GET /reservas/cursos -> formulario de reserva para cursos.
+    @GetMapping("/cursos")
+    public String cursos(Model model){
+        // La plantilla mostrara el formulario.
+        model.addAttribute("seccion","cursos");
+        model.addAttribute("titulo", "Cursos");
+        // Objeto vacio (DTO) que recogera los datos del formulario.
+        model.addAttribute("reserva", new Reserva());
+        // Solo las actividades de tipo CURSO, para el desplegable.
+        model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of( "CURSO")));
+        // Lista de usuarios disponible para la vista.
+
+>>>>>>> Stashed changes
         return "fragments/reservas/index";
     }
 
@@ -91,7 +108,7 @@ public class ReservaController {
         @RequestParam String telefono,
         @RequestParam (required = false) String dni,
         @RequestParam String codigoPostal,
-        @RequestParam Integer numParaticipantes
+        @RequestParam Integer numParticipantes
     ) {
         // creamos un usuario sobre la marcha generandole un uuid falso porque no pasa por el login oficial
         Usuario usuario = new Usuario();
@@ -110,7 +127,7 @@ public class ReservaController {
             
         Reserva reserva = new Reserva ();
         reserva.setActividad(actividad);
-        reserva.setNumParticipantes(numParaticipantes);
+        reserva.setNumParticipantes(numParticipantes);
 
         // le pasamos la bola al servicio para que haga los calculos asigne instructor y guarde en bd
         reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
@@ -132,4 +149,9 @@ public class ReservaController {
         reservaService.cancelarReserva(idReserva);
         return "redirect:/reservas";
     }
+<<<<<<< Updated upstream
 }
+=======
+
+}
+>>>>>>> Stashed changes
