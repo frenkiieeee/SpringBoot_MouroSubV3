@@ -4,97 +4,166 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cursos Deportivos | Mourosub</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../../css/estilos.css">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
+
   <div id="siteHeader"></div>
+
   <script src="../../js/header.js"></script>
+
   <script>
     fetch("/fragments/header")
       .then(r => r.text())
       .then(html => {
         document.getElementById("siteHeader").innerHTML = html;
+
         document.querySelectorAll("#siteHeader a[href]").forEach(function(a) {
           var href = a.getAttribute("href");
+
           if (href && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("http")) {
             a.setAttribute("href", "../../" + href);
           }
         });
+
         document.querySelectorAll("#siteHeader img[src]").forEach(function(img) {
           var src = img.getAttribute("src");
+
           if (src && !src.startsWith("/") && !src.startsWith("http")) {
             img.setAttribute("src", "../../" + src);
           }
         });
+
         if (window.initHeaderSession) window.initHeaderSession();
       });
   </script>
 
   <main class="container py-5" style="padding-top: 120px;">
+
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="../../index.html" class="text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="./Cursos.html" class="text-decoration-none">Cursos</a></li>
-        <li class="breadcrumb-item active text-white" aria-current="page">Deportivos</li>
+        <li class="breadcrumb-item">
+          <a href="../../index.html" class="text-decoration-none">
+            Inicio
+          </a>
+        </li>
+
+        <li class="breadcrumb-item">
+          <a href="./Cursos.html" class="text-decoration-none">
+            Cursos
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active text-white" aria-current="page">
+          Deportivos
+        </li>
       </ol>
     </nav>
 
     <section class="mb-5">
+
       <div class="row align-items-center g-4">
+
         <div class="col-lg-6">
-          <span class="badge bg-success mb-2">Modalidad</span>
-          <h1 class="fw-bold mb-3">Cursos Deportivos y Especialidad</h1>
+
+          <span class="badge bg-success mb-2">
+            Modalidad
+          </span>
+
+          <h1 class="fw-bold mb-3">
+            Cursos Deportivos y Especialidad
+          </h1>
+
           <p class="text-muted">
-            Formación recreativa y especialidades para aprender a bucear, mejorar tu técnica
-            y avanzar hacia certificaciones internacionales.
+            Formación recreativa y especialidades para aprender a bucear,
+            mejorar tu técnica y avanzar hacia certificaciones internacionales.
           </p>
+
           <p class="text-muted">
             Haz clic en cada curso para ver la información completa en un popup.
           </p>
+
           <div class="d-flex gap-2 mt-4">
-            <a class="btn btn-primary" href="#cursos">Ver cursos</a>
-            <a class="btn btn-outline-light" href="./Cursos.html">Todas las categorías</a>
+
+            <a class="btn btn-primary" href="#cursos">
+              Ver cursos
+            </a>
+
+            <a class="btn btn-outline-light" href="./Cursos.html">
+              Todas las categorías
+            </a>
+
           </div>
+
         </div>
 
         <div class="col-lg-6 text-center">
-          <img src="../../img/Cursos/598-21.jpg" alt="Cursos deportivos" class="img-fluid rounded">
+
+          <img
+            src="../../img/Cursos/598-21.jpg"
+            alt="Cursos deportivos"
+            class="img-fluid rounded"
+          >
+
         </div>
+
       </div>
+
     </section>
 
     <section id="cursos" class="mb-5">
-      <h2 class="fw-semibold mb-4">Nuestros Cursos Deportivos</h2>
+
+      <h2 class="fw-semibold mb-4">
+        Nuestros Cursos Deportivos
+      </h2>
+
       <p class="text-muted mb-4">
-        Todos los cursos incluyen formación teórica y prácticas con supervisión de instructores certificados.
+        Todos los cursos incluyen formación teórica y prácticas
+        con supervisión de instructores certificados.
       </p>
 
       <div class="row g-4 mb-4" id="coursesGrid"></div>
+
     </section>
 
     <section class="mt-5 pt-4 border-top border-secondary">
+
       <div class="row">
+
         <div class="col-md-6">
+
           <a href="./apnea.html" class="btn btn-outline-light w-100 mb-3">
-            <i class="bi bi-arrow-left me-2"></i>Ver cursos de Apnea
+            <i class="bi bi-arrow-left me-2"></i>
+            Ver cursos de Apnea
           </a>
+
         </div>
+
         <div class="col-md-6">
+
           <a href="./emergencia.html" class="btn btn-outline-light w-100 mb-3">
-            Ver cursos de Emergencia<i class="bi bi-arrow-right ms-2"></i>
+            Ver cursos de Emergencia
+            <i class="bi bi-arrow-right ms-2"></i>
           </a>
+
         </div>
+
       </div>
+
     </section>
+
   </main>
 
   <div id="coursesModals"></div>
 
   <div id="siteFooter"></div>
+
   <script>
     fetch("/fragments/footer")
       .then(r => r.text())
@@ -104,74 +173,164 @@
   </script>
 
   <script>
+
     const cursosDeportivos = [
+
       ["try-scuba", "Try Scuba", "Primera experiencia de buceo con instructor.", "Principiante", "bg-secondary", "../../img/Cursos/598-21.jpg", "2-3 horas", "Hasta 5m"],
+
       ["basic-diver", "Basic Diver", "Bautismo ampliado con práctica guiada.", "Principiante", "bg-secondary", "../../img/Cursos/598-22.jpg", "Medio día", "Hasta 12m"],
+
       ["scuba-diver", "Scuba Diver", "Certificación inicial con supervisión profesional.", "Principiante", "bg-secondary", "../../img/Cursos/598-23.jpg", "2 días", "Hasta 12m"],
+
       ["open-water", "Open Water Diver", "Certificación completa para buceadores recreativos.", "Principiante", "bg-secondary", "../../img/Cursos/598-24.jpg", "3-4 días", "Hasta 18m"],
+
       ["advanced-adventurer", "Advanced Adventurer", "Prueba varias especialidades y avanza de nivel.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-25.jpg", "2 días", "Hasta 30m"],
+
       ["perfect-buoyancy", "Perfect Buoyancy", "Mejora tu flotabilidad y consumo de aire.", "Todos los niveles", "bg-primary", "../../img/Cursos/598-31.jpg", "1 día", "Según nivel"],
+
       ["nitrox", "Enriched Air Nitrox", "Bucea con mezclas enriquecidas de oxígeno.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-32.jpg", "1 día", "Según certificación"],
+
       ["deep-diving", "Deep Diving", "Formación para inmersiones profundas.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-33.jpg", "2 días", "Hasta 40m"],
+
       ["navigation", "Navigation", "Orientación submarina con brújula y referencias.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-35.jpg", "1-2 días", "Según nivel"],
+
       ["night-limited", "Night & Limited Visibility", "Buceo nocturno y con baja visibilidad.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-40.jpg", "1-2 días", "Según nivel"],
+
       ["wreck-diving", "Wreck Diving", "Exploración segura de pecios.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-42.jpg", "2 días", "Según nivel"],
+
       ["search-recovery", "Search & Recovery", "Búsqueda y recuperación de objetos.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-43.jpg", "2 días", "Según nivel"],
+
       ["photo-video", "Photo & Video", "Fotografía y vídeo submarino.", "Todos los niveles", "bg-primary", "../../img/Cursos/598-44.jpg", "1 día", "Según nivel"],
+
       ["boat-diving", "Boat Diving", "Buceo desde embarcación.", "Todos los niveles", "bg-primary", "../../img/Cursos/598-49.jpg", "1 día", "Según nivel"],
+
       ["waves-tides", "Waves, Tides & Currents", "Buceo con oleaje, mareas y corrientes.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-50.jpg", "1-2 días", "Según nivel"],
+
       ["dry-suit", "Dry Suit Diving", "Buceo con traje seco.", "Intermedio", "bg-warning text-dark", "../../img/Cursos/598-51.jpg", "1-2 días", "Según nivel"],
+
       ["stress-rescue", "Diver Stress & Rescue", "Prevención y gestión de estrés en buceo.", "Avanzado", "bg-danger", "../../img/Cursos/598-52.jpg", "2-3 días", "Según ejercicios"],
+
       ["master-diver", "Master Diver", "Reconocimiento de experiencia recreativa avanzada.", "Avanzado", "bg-danger", "../../img/Cursos/598-53.jpg", "Según especialidades", "Según certificaciones"]
+
     ];
 
     document.getElementById("coursesGrid").innerHTML = cursosDeportivos.map(curso => {
+
       const [id, titulo, resumen, nivel, badge, imagen] = curso;
 
       return `
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm cursor-pointer course-card" data-bs-toggle="modal" data-bs-target="#modal-${id}" role="button">
-            <img src="${imagen}" class="card-img-top" alt="${titulo}" style="height: 200px; object-fit: cover;">
+
+          <div
+            class="card h-100 shadow-sm cursor-pointer course-card"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-${id}"
+            role="button"
+          >
+
+            <img
+              src="${imagen}"
+              class="card-img-top"
+              alt="${titulo}"
+              style="height: 200px; object-fit: cover;"
+            >
+
             <div class="card-body">
-              <span class="badge bg-success mb-2">DEPORTIVO</span>
-              <h5 class="card-title">${titulo}</h5>
-              <p class="card-text text-muted small">${resumen}</p>
+
+              <span class="badge bg-success mb-2">
+                DEPORTIVO
+              </span>
+
+              <h5 class="card-title">
+                ${titulo}
+              </h5>
+
+              <p class="card-text text-muted small">
+                ${resumen}
+              </p>
+
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge ${badge}">${nivel}</span>
+
+                <span class="badge ${badge}">
+                  ${nivel}
+                </span>
+
                 <i class="bi bi-box-arrow-up-right"></i>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       `;
     }).join("");
 
     document.getElementById("coursesModals").innerHTML = cursosDeportivos.map(curso => {
+
       const [id, titulo, resumen, nivel, badge, imagen, duracion, profundidad] = curso;
 
       return `
-        <div class="modal fade" id="modal-${id}" tabindex="-1" aria-hidden="true">
+        <div
+          class="modal fade"
+          id="modal-${id}"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+
           <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
             <div class="modal-content bg-dark text-white border-secondary">
+
               <div class="modal-header border-secondary">
+
                 <div>
-                  <h5 class="modal-title fw-bold">${titulo}</h5>
-                  <span class="badge ${badge}">${nivel}</span>
+
+                  <h5 class="modal-title fw-bold">
+                    ${titulo}
+                  </h5>
+
+                  <span class="badge ${badge}">
+                    ${nivel}
+                  </span>
+
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Cerrar"
+                ></button>
+
               </div>
 
               <div class="modal-body">
+
                 <div class="row g-4">
+
                   <div class="col-lg-8">
-                    <h4 class="text-primary mb-3">Descripción</h4>
-                    <p>${resumen}</p>
+
+                    <h4 class="text-primary mb-3">
+                      Descripción
+                    </h4>
+
                     <p>
-                      Curso diseñado para mejorar tu seguridad, autonomía y técnica bajo el agua,
-                      siempre con formación progresiva y supervisión de instructores certificados.
+                      ${resumen}
                     </p>
 
-                    <h4 class="text-primary mb-3 mt-4">Contenido del curso</h4>
+                    <p>
+                      Curso diseñado para mejorar tu seguridad,
+                      autonomía y técnica bajo el agua, siempre
+                      con formación progresiva y supervisión de
+                      instructores certificados.
+                    </p>
+
+                    <h4 class="text-primary mb-3 mt-4">
+                      Contenido del curso
+                    </h4>
+
                     <ul>
                       <li>Formación teórica del programa</li>
                       <li>Revisión y preparación del equipo</li>
@@ -180,34 +339,74 @@
                       <li>Prácticas en el agua según nivel</li>
                     </ul>
 
-                    <h4 class="text-primary mb-3 mt-4">Requisitos previos</h4>
+                    <h4 class="text-primary mb-3 mt-4">
+                      Requisitos previos
+                    </h4>
+
                     <ul>
                       <li>Tener la certificación requerida para el nivel del curso</li>
                       <li>Saber nadar con confianza</li>
                       <li>Completar formulario de salud</li>
                     </ul>
 
-                    <h4 class="text-primary mb-3 mt-4">Información adicional</h4>
+                    <h4 class="text-primary mb-3 mt-4">
+                      Información adicional
+                    </h4>
+
                     <ul class="list-unstyled">
-                      <li><i class="bi bi-clock me-2 text-primary"></i>Duración: ${duracion}</li>
-                      <li><i class="bi bi-bar-chart me-2 text-primary"></i>Nivel: ${nivel}</li>
-                      <li><i class="bi bi-water me-2 text-primary"></i>Profundidad máxima: ${profundidad}</li>
+                      <li>
+                        <i class="bi bi-clock me-2 text-primary"></i>
+                        Duración: ${duracion}
+                      </li>
+
+                      <li>
+                        <i class="bi bi-bar-chart me-2 text-primary"></i>
+                        Nivel: ${nivel}
+                      </li>
+
+                      <li>
+                        <i class="bi bi-water me-2 text-primary"></i>
+                        Profundidad máxima: ${profundidad}
+                      </li>
                     </ul>
+
                   </div>
 
                   <div class="col-lg-4">
+
                     <div class="card bg-secondary text-white p-4">
-                      <img src="${imagen}" alt="${titulo}" class="img-fluid rounded mb-3">
-                      <a href="/contacto/" class="btn btn-primary w-100">RESERVA / +INFO</a>
+
+                      <img
+                        src="${imagen}"
+                        alt="${titulo}"
+                        class="img-fluid rounded mb-3"
+                      >
+
+                      <!-- BOTÓN YA CORREGIDO -->
+                      <a
+                        href="/reservas"
+                        class="btn btn-primary w-100"
+                      >
+                        RESERVA / +INFO
+                      </a>
+
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       `;
     }).join("");
+
   </script>
+
 </body>
 </html>
