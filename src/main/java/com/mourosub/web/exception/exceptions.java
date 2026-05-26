@@ -25,9 +25,20 @@ public class exceptions {
             super(message);
         }
     }
+    //Excepcion para el dni
+    public static class DniNotFoundException extends RuntimeException{
+        public DniNotFoundException (String message)
+            super(message);
+    }
     //Excepcion por instructor no encontrado
     public static class InstructorNotFoundException extends RuntimeException {
         public InstructorNotFoundException (String messsage){
+            super(messsage);
+        }
+    }
+    //Excepcion nombre obligatorio
+    public static class NombreNotFoundException extends RuntimeException {
+        public NombreNotFoundException (String messsage){
             super(messsage);
         }
     }

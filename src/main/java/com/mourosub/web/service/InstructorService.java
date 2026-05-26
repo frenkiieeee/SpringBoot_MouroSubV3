@@ -1,6 +1,7 @@
 package com.mourosub.web.service;
 
 import com.mourosub.web.exception.exceptions.*;
+import com.mourosub.web.exception.exceptions.DniNotFoundException.NombreNotFoundException;
 import com.mourosub.web.model.*;
 import com.mourosub.web.repository.*;
 
@@ -22,10 +23,10 @@ public class InstructorService {
     public Instructor guardarInstructor(Instructor instructor) {
         // validacion basica antes de guardar en bd
         if (instructor.getDni() == null || instructor.getDni().isEmpty()) {
-            throw new RuntimeException("el dni del instructor es obligatorio");
+            throw new DniNotFoundException ("el dni del instructor es obligatorio");
         }
         if (instructor.getNombre() == null || instructor.getNombre().isEmpty()) {
-            throw new RuntimeException("el nombre del instructor es obligatorio");
+            throw new NombreNotFoundException ("el nombre del instructor es obligatorio");
         }
 
         // guardamos el instructor
