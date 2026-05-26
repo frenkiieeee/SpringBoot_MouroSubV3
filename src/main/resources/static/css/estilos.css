@@ -138,7 +138,6 @@ header {
   color: #ffffff;
   text-decoration: none;
   font-size: 17px;
-  font-family: 'Segoe UI';
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 16px 38px; /* El primero controla la altura (arriba/abajo) y el segundo controla el ancho (izquierda/derecha) */
