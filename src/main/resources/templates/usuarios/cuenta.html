@@ -72,12 +72,22 @@
   </div>
 
   <div class="d-flex flex-wrap gap-2 mt-3">
+    <!-- Boton para editar los datos personales (lleva al formulario auth/registro). -->
+    <a id="editProfileBtn" href="/cuenta/editar" class="btn btn-outline-primary">
+      <i class="bi bi-pencil-square"></i> Editar datos
+    </a>
+    <!-- Acceso al historial de reservas del usuario. -->
+    <a id="misReservasBtn" href="/reservas/mis-reservas" class="btn btn-outline-secondary d-none">
+      <i class="bi bi-calendar-check"></i> Mis reservas
+    </a>
+    <!-- Mis tickets y certificados solo se muestran a usuarios normales, no a admins. -->
     <a id="ticketsBtn" href="#" class="btn btn-outline-secondary d-none">
       <i class="bi bi-ticket-perforated"></i> Mis tickets
     </a>
     <a id="certBtn" href="/certificados" class="btn btn-outline-primary d-none">
       <i class="bi bi-file-earmark-arrow-up"></i> Subir certificados
     </a>
+    <!-- Boton al panel admin: solo se muestra a usuarios con isAdmin = true. -->
     <a id="adminPanelBtn" href="/admin" class="btn btn-primary d-none">
       <i class="bi bi-shield-lock"></i> Ir al panel admin
     </a>
@@ -100,9 +110,30 @@
   const adminPanelBtn = document.getElementById("adminPanelBtn");
   const ticketsBtn = document.getElementById("ticketsBtn");
 
-  if (ticketsBtn && userId) {
+  // Si el usuario no es admin enseñamos el boton para abrir sus tickets.
+  // Para admins lo mantenemos oculto porque la gestion se hace desde el panel.
+  if (ticketsBtn && userId && !isAdmin) {
     ticketsBtn.href = "/tickets/mis-tickets?supabaseUserId=" + encodeURIComponent(userId);
     ticketsBtn.classList.remove("d-none");
+  }
+
+  // Boton "Mis reservas": al hacer click traduce el id de Supabase al id interno
+  // via /auth/profile y redirige al endpoint que lista las reservas por id interno.
+  const misReservasBtn = document.getElementById("misReservasBtn");
+  if (misReservasBtn && userId) {
+    misReservasBtn.classList.remove("d-none");
+    misReservasBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      fetch("/auth/profile?supabaseUserId=" + encodeURIComponent(userId))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (profile) {
+          if (profile && profile.idUsuario) {
+            window.location.href = "/reservas/mis-reservas/" + profile.idUsuario;
+          } else {
+            window.location.href = "/login";
+          }
+        });
+    });
   }
 
   function text(value) {
@@ -121,7 +152,11 @@
     document.getElementById("accountCity").textContent = text(profile.localidad);
     document.getElementById("accountRole").textContent = profile.isAdmin ? "Admin" : "Usuario";
 
-    certBtn.classList.remove("d-none");
+    // El boton de subir certificados solo lo enseñamos a usuarios no admin.
+    // Los admins gestionan los certificados desde el panel.
+    if (!(profile.isAdmin || isAdmin)) {
+      certBtn.classList.remove("d-none");
+    }
     if (profile.isAdmin || isAdmin) adminPanelBtn.classList.remove("d-none");
   }
 

@@ -29,6 +29,7 @@
         <th>Telefono</th>
         <th>Localidad</th>
         <th>Rol</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -50,14 +51,36 @@
           <span th:unless="${usuario.admin}" class="badge text-bg-secondary">Usuario</span>
         </td>
         <td>
-          <!-- Enlace a la ficha detallada del usuario (datos + sus certificados). -->
+          <!-- Estado de baneo: badge rojo si esta baneado, gris claro si esta activo. -->
+          <span th:if="${usuario.banned}" class="badge text-bg-danger">Baneado</span>
+          <span th:unless="${usuario.banned}" class="badge text-bg-light">Activo</span>
+        </td>
+        <td class="text-nowrap">
+          <!-- Ver detalle: ficha con certificados del usuario. -->
           <a class="btn btn-sm btn-outline-primary"
-             th:href="@{/admin/usuarios/{id}(id=${usuario.getidUsuario()})}">Ver detalle</a>
+             th:href="@{/admin/usuarios/{id}(id=${usuario.getidUsuario()})}">Ver</a>
+
+          <!-- Editar: formulario admin para modificar los datos del usuario. -->
+          <a class="btn btn-sm btn-outline-secondary"
+             th:href="@{/admin/usuarios/{id}/editar(id=${usuario.getidUsuario()})}">Editar</a>
+
+          <!-- Banear / desbanear: mismo endpoint que conmuta el flag. -->
+          <form th:action="@{/admin/usuarios/{id}/ban(id=${usuario.getidUsuario()})}" method="post" class="d-inline">
+            <button type="submit"
+                    th:class="${usuario.banned} ? 'btn btn-sm btn-outline-success' : 'btn btn-sm btn-outline-warning'"
+                    th:text="${usuario.banned} ? 'Desbanear' : 'Banear'">Banear</button>
+          </form>
+
+          <!-- Eliminar: POST con confirm para evitar borrados accidentales. -->
+          <form th:action="@{/admin/usuarios/{id}/eliminar(id=${usuario.getidUsuario()})}" method="post" class="d-inline"
+                onsubmit="return confirm('Eliminar este usuario? Esta accion no se puede deshacer.');">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+          </form>
         </td>
       </tr>
       <!-- Fila que aparece solo si no hay ningun usuario -->
       <tr th:if="${#lists.isEmpty(usuarios)}">
-        <td colspan="9" class="text-muted">No hay usuarios registrados.</td>
+        <td colspan="10" class="text-muted">No hay usuarios registrados.</td>
       </tr>
     </tbody>
   </table>

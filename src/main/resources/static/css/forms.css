@@ -1,0 +1,177 @@
+/* Estilos compartidos por todos los formularios del sitio.
+   Centraliza las variables de color, el fondo oceanico y los componentes
+   .form-section / .form-row / .form-group / .btn-submit que ya usaba
+   reservas.css, de modo que cualquier form se vea identico al de
+   /reservas/actividades. */
+
+:root {
+  --dark-bg: #0b1120;
+  --card-bg: rgba(17, 28, 53, 0.85);
+  --cyan: #00b4d8;
+  --cyan-bright: #00d4f5;
+  --white: #ffffff;
+  --muted: #7a8fb0;
+}
+
+/* Fondo comun: imagen del fondo oceanico aplicada con un pseudo-elemento fijo.
+   Pintarlo con ::before (en lugar de directamente en body) evita que en paginas
+   largas la zona inferior se quede en blanco/azul plano cuando el body crece. */
+body.form-page {
+  background: var(--dark-bg);
+  color: var(--white);
+  min-height: 100vh;
+  position: relative;
+}
+
+body.form-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(8, 18, 31, 0.85) 0%, rgba(11, 33, 56, 0.92) 100%),
+              url('/img/fondo-oceanico.webp') center/cover no-repeat;
+}
+
+/* Contenedor principal del formulario: una "tarjeta" centrada sobre el fondo. */
+.form-section {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+  text-align: left;
+}
+
+/* Etiqueta corta sobre el titulo, en mayusculas y color cyan. */
+.hero-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  margin-bottom: 0.9rem;
+  text-align: center;
+}
+
+.form-title {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.form-subtitle {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Cada bloque label+input ocupa una fila propia salvo cuando se ponen dentro de .form-row. */
+.form-group {
+  margin-bottom: 1.1rem;
+  flex: 1;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cyan);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 0.95rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+/* El <select> por defecto se ve casi igual que un input; añadimos una
+   flecha visible a la derecha para que se note que es desplegable. */
+.form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2300b4d8'%3e%3cpath d='M8 11.5l-5-5h10l-5 5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 14px 14px;
+  cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+  background-color: rgba(0, 180, 216, 0.07);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--muted);
+}
+
+.form-group input[readonly] {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Cuando hay dos campos en la misma fila los envolvemos en .form-row. */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Boton principal del form. */
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-top: 0.5rem;
+  background: var(--cyan);
+  color: #0b2138;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.btn-submit:hover {
+  background: var(--cyan-bright);
+}
+
+/* Enlace pequeno para volver atras debajo del form. */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.btn-volver:hover {
+  color: var(--white);
+}

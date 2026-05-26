@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" class="h-100" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,15 +7,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
   <link rel="stylesheet" th:href="@{/css/reservas.css}">
+  <link rel="stylesheet" th:href="@{/css/forms.css}">
   <title>Servicio Técnico | Mourosub</title>
 </head>
-<body>
-<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
+<body class="form-page">
+<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
 
-<section class="hero">
-  <p class="hero-label">● SERVICIO TÉCNICO</p>
-  <h1>Mantenimiento y <span>reparación</span></h1>
-  <p>Equipos de buceo revisados por técnicos certificados.</p>
+<main style="padding-top: 120px;">
+<section class="form-section" style="text-align:center; padding-bottom: 0;">
+  <p class="hero-label">SERVICIO TÉCNICO</p>
+  <h2 class="form-title">Mantenimiento y reparación</h2>
+  <p class="form-subtitle">Equipos de buceo revisados por técnicos certificados.</p>
 </section>
 
 <div class="cards-grid">
@@ -37,9 +39,6 @@
 
   <div class="alert alert-success" th:if="${ok}">Solicitud enviada correctamente.</div>
   <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
-  <div id="loginWarning" class="alert alert-warning d-none">
-    Necesitas iniciar sesion para enviar la solicitud.
-  </div>
 
   <form th:action="@{/servicios/tecnico/solicitud}" th:object="${ticket}" method="post" id="ticketForm">
     <input type="hidden" name="supabaseUserId" th:value="${supabaseUserId}" id="supabaseUserId">
@@ -92,28 +91,41 @@
     </button>
   </form>
 </div>
+</main>
 
-<div id="siteFooter" th:insert="~{Fragments/footerBlack :: footerBlack}"></div>
+<div id="siteFooter" th:insert="~{fragments/footerBlack :: footerBlack}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
+<script src="/js/login-required.js"></script>
 <script>if (window.initHeaderSession) window.initHeaderSession();</script>
 <script>
   const storedUserId = localStorage.getItem("supabaseUserId") || "";
   const supabaseInput = document.getElementById("supabaseUserId");
   const form = document.getElementById("ticketForm");
-  const warning = document.getElementById("loginWarning");
 
-  if (supabaseInput && storedUserId) {
+  // Si hay sesion precargamos los datos en readonly; si no, dejamos el form vacio.
+  if (storedUserId && supabaseInput) {
     supabaseInput.value = storedUserId;
+    fetch("/auth/profile?supabaseUserId=" + encodeURIComponent(storedUserId))
+      .then(r => r.ok ? r.json() : null)
+      .then(profile => {
+        if (!profile) return;
+        const setRO = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val) { el.value = val; el.readOnly = true; }
+        };
+        setRO("tec-nombre", (profile.nombre || "") + (profile.apellidos ? " " + profile.apellidos : ""));
+        setRO("tec-email", profile.email);
+        setRO("tec-telefono", profile.telefono);
+      });
   }
 
+  // El envio se valida por el popup global: si no hay sesion no se envia.
   if (form) {
-    form.addEventListener("submit", (event) => {
-      const currentId = supabaseInput ? supabaseInput.value.trim() : "";
-      if (!currentId) {
-        event.preventDefault();
-        warning.classList.remove("d-none");
+    form.addEventListener("submit", function (e) {
+      if (!window.requireLogin()) {
+        e.preventDefault();
       }
     });
   }

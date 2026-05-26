@@ -42,6 +42,8 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
                     <!-- Acceso a cuenta -->
                     <li><a class="dropdown-item" href="/cuenta">Ver mi cuenta</a></li>
+                    <!-- Historial de reservas del usuario. header.js completa el query con el id de Supabase. -->
+                    <li><a id="misReservasLink" class="dropdown-item" href="/reservas/mis-reservas">Mis reservas</a></li>
                     <!-- Acceso al panel admin (header.js lo oculta si el usuario no es admin) -->
                     <li><a id="adminLink" class="dropdown-item" href="/admin">Panel admin</a></li>
                     <!-- Cierre de sesion (lo maneja header.js) -->

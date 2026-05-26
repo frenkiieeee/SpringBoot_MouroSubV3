@@ -50,6 +50,13 @@ public class Usuario {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin = false;
 
+    // bandera para marcar al usuario como baneado desde el panel admin
+    // un usuario baneado conserva sus datos pero el admin lo tiene identificado en la lista
+    // columnDefinition con DEFAULT FALSE evita que Hibernate falle al añadir la columna
+    // a una tabla con filas existentes cuando ddl-auto=update aplica el cambio de esquema
+    @Column(name = "banned", nullable = false, columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
+    private boolean banned = false;
+
     // relacion de 1 a muchos porque un usuario puede tener muchisimos alquileres
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Alquileres> alquileres = new ArrayList<>();
@@ -82,6 +89,8 @@ public class Usuario {
     public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     public boolean isAdmin() { return isAdmin; }
     public void setAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
+    public boolean isBanned() { return banned; }
+    public void setBanned(boolean banned) { this.banned = banned; }
     public List<Reserva> getReservas() { return reservas; }
     public void setReservas(List<Reserva> reservas) { this.reservas = reservas; }
     public List<Alquileres> getAlquileres() { return alquileres; }

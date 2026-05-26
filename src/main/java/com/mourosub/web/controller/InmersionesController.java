@@ -48,6 +48,6 @@ public class InmersionesController {
 
     @GetMapping("/{id}/reservar")
     public String reservar(@PathVariable Long id) {
-        return "redirect:/reservas/nueva?idActividad=" + id;
+        return "redirect:/reservas/inmersiones?id=" + id;
     }
 }

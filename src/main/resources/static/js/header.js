@@ -14,6 +14,26 @@
     const accountLinkMobile = document.getElementById("accountLinkMobile");
     const adminLink = document.getElementById("adminLink");
     const adminLinkMobile = document.getElementById("adminLinkMobile");
+    const misReservasLink = document.getElementById("misReservasLink");
+
+    // El enlace "Mis reservas" del dropdown. Como el endpoint que lista las reservas
+    // necesita el id interno (Long) y no el de Supabase, al hacer click consultamos
+    // primero /auth/profile para traducirlo y despues redirigimos.
+    if (misReservasLink) {
+      misReservasLink.addEventListener("click", function (e) {
+        if (!storedUserId) return; // sin sesion el server devolvera lo que toque
+        e.preventDefault();
+        fetch("/auth/profile?supabaseUserId=" + encodeURIComponent(storedUserId))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (profile) {
+            if (profile && profile.idUsuario) {
+              window.location.href = "/reservas/mis-reservas/" + profile.idUsuario;
+            } else {
+              window.location.href = "/login";
+            }
+          });
+      });
+    }
 
     function toggleSessionUi(logged) {
       if (loginLink) {

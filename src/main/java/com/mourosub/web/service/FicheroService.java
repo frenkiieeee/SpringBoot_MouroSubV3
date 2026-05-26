@@ -57,6 +57,12 @@ public class FicheroService {
         return ficheroRepository.findAll();
     }
 
+    // Lista ficheros de un bucket (ej: imagenes) ordenados por fecha desc.
+    public List<Fichero> listarPorBucket(String bucket) {
+        if (bucket == null || bucket.isBlank()) return List.of();
+        return ficheroRepository.findByBucketOrderByFechaSubidaDesc(bucket.trim());
+    }
+
     // Busca un fichero por su id; lanza error si no existe.
     public Fichero buscarPorId(Long id) {
         return ficheroRepository.findById(id)
@@ -71,6 +77,27 @@ public class FicheroService {
         Fichero fichero = buscarPorId(id);
         fichero.setEstado(estado);
         ficheroRepository.save(fichero);
+    }
+
+    // Subida de imagen para contenido (admin): se guarda en bucket "imagenes".
+    public Fichero subirImagenAdmin(MultipartFile archivo) throws IOException {
+        if (archivo == null || archivo.isEmpty()) {
+            throw new IllegalArgumentException("Debes seleccionar una imagen.");
+        }
+        String tipo = archivo.getContentType() == null ? "" : archivo.getContentType().toLowerCase();
+        if (!tipo.startsWith("image/")) {
+            throw new IllegalArgumentException("El fichero debe ser una imagen.");
+        }
+
+        Fichero fichero = new Fichero();
+        fichero.setBucket("imagenes");
+        fichero.setNombre(archivo.getOriginalFilename());
+        fichero.setTipoContenido(archivo.getContentType());
+        fichero.setTamano(archivo.getSize());
+        fichero.setDatos(archivo.getBytes());
+        fichero.setEstado("VALIDO");
+        fichero.setFechaSubida(LocalDateTime.now());
+        return ficheroRepository.save(fichero);
     }
 
     // Resuelve el Usuario de la BD a partir de su id de Supabase. Lanza error si no hay sesion.

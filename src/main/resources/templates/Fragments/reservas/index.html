@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" th:href="@{/css/estilos.css}">
     <link rel="stylesheet" th:href="@{/css/reservas.css}">
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
 </head>
-<body>
+<body class="form-page">
 
   <div th:replace="~{fragments/header :: siteHeader}"></div>
 
@@ -88,7 +89,12 @@
         <h2 class="form-title" th:text="${titulo}">Reserva de Actividad</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
 
-        <form th:action="@{/reservas/guardar}" method="post">
+        <!-- Aviso si el usuario no ha iniciado sesion. El JS de abajo lo muestra/oculta. -->
+
+        <!-- Id pre-seleccionado que llega del controlador (puede ser null). Lo leemos desde JS. -->
+        <input type="hidden" id="seleccionadoId" th:value="${seleccionadoId}">
+
+        <form th:action="@{/reservas/guardar}" method="post" id="reservaForm">
 
             <div class="form-group">
                 <label for="idActividad">Actividad</label>
@@ -137,6 +143,9 @@
                 </div>
             </div>
 
+            <!-- Id del usuario logueado: el backend lo usa para asociar la reserva a su cuenta. -->
+            <input type="hidden" name="supabaseUserId" id="supabaseUserId">
+
             <div class="form-group">
                 <label for="Act-numParticipantes">Número de participantes</label>
                 <input id="Act-numParticipantes" type="number" name="numParticipantes" min="1" placeholder="1" required>
@@ -162,7 +171,10 @@
         <h2 class="form-title" th:text="${titulo}">Reserva de Inmersión</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
 
-        <form th:action="@{/reservas/guardar}" method="post">
+
+        <input type="hidden" id="seleccionadoId" th:value="${seleccionadoId}">
+
+        <form th:action="@{/reservas/guardar}" method="post" id="reservaForm">
 
             <div class="form-group">
                 <label for="idInmersion">Inmersión</label>
@@ -207,6 +219,8 @@
                 </div>
             </div>
 
+            <input type="hidden" name="supabaseUserId" id="supabaseUserId">
+
             <div class="form-group">
                 <label for="inm-numParticipantes">Número de participantes</label>
                 <input id="inm-numParticipantes" type="number" name="numParticipantes" min="1" placeholder="1" required>
@@ -232,7 +246,12 @@
         <h2 class="form-title" th:text="${titulo}">Reserva de Curso</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
 
-        <form th:action="@{/reservas/guardar}" method="post">
+
+        <!-- Id y categoria pre-seleccionados cuando el usuario llega desde una tarjeta concreta. -->
+        <input type="hidden" id="seleccionadoId" th:value="${seleccionadoId}">
+        <input type="hidden" id="seleccionadoCategoria" th:value="${seleccionadoCategoria}">
+
+        <form th:action="@{/reservas/guardar}" method="post" id="reservaForm">
 
             <div class="form-group">
                 <label for="categoriaSelect">Categoría de curso</label>
@@ -274,6 +293,11 @@
                 <input id="cur-dni" type="text" name="dni" placeholder="00000000X">
             </div>
 
+            <!-- Campos requeridos por el endpoint /reservas/guardar pero no editables por el usuario logueado. -->
+            <input type="hidden" name="codigoPostal" id="cur-codigoPostal" value="">
+            <input type="hidden" name="numParticipantes" value="1">
+            <input type="hidden" name="supabaseUserId" id="supabaseUserId">
+
             <button type="submit" class="btn-submit">
                 <i class="bi bi-check-circle"></i> Guardar reserva
             </button>
@@ -293,40 +317,226 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/header.js"></script>
+  <script src="/js/login-required.js"></script>
+  <script src="/js/reserva-prefill.js"></script>
   <script>if (window.initHeaderSession) window.initHeaderSession();</script>
 
-  <script th:inline="javascript" th:if="${cursosPorCategoria != null}">
-    const cursosData = /*[[${cursosPorCategoria}]]*/ {};
+  <!--
+    Datos de cursos serializados como elementos HTML invisibles (uno por curso).
+    Asi evitamos pasar el mapa completo de Curso a Thymeleaf-inline-JS, que rompe
+    cuando intenta serializar LocalDate y trunca la respuesta HTTP.
+  -->
+  <div id="cursosDataset" th:if="${cursosPorCategoria != null}" style="display:none">
+    <th:block th:each="entry : ${cursosPorCategoria}">
+      <span class="curso-data"
+            th:each="c : ${entry.value}"
+            th:attr="data-categoria=${entry.key}, data-id=${c.idCurso}, data-nombre=${c.nombre}, data-precio=${c.precio}"></span>
+    </th:block>
+  </div>
 
-    const categoriaSelect = document.getElementById("categoriaSelect");
-    const cursoSelectGroup = document.getElementById("cursoSelectGroup");
-    const idActividad = document.getElementById("idActividad");
+  <script th:if="${cursosPorCategoria != null}">
+    (function () {
+        // Leemos los datos de los <span> ocultos que renderizo Thymeleaf y los agrupamos por categoria.
+        const cursosData = {};
+        document.querySelectorAll("#cursosDataset .curso-data").forEach(function (el) {
+            const cat = el.dataset.categoria || "OTROS";
+            if (!cursosData[cat]) cursosData[cat] = [];
+            cursosData[cat].push({
+                idCurso: el.dataset.id,
+                nombre: el.dataset.nombre,
+                precio: el.dataset.precio
+            });
+        });
 
-    if (categoriaSelect) {
-        categoriaSelect.addEventListener("change", function () {
-            const categoria = this.value;
+        const categoriaSelect = document.getElementById("categoriaSelect");
+        const cursoSelectGroup = document.getElementById("cursoSelectGroup");
+        const idActividad = document.getElementById("idActividad");
+
+        function pintarCursosDeCategoria(categoria) {
             idActividad.innerHTML = '<option value="">Seleccione un curso</option>';
-
             if (!categoria || !cursosData[categoria]) {
                 cursoSelectGroup.style.display = "none";
                 idActividad.required = false;
                 return;
             }
-
-            cursosData[categoria].forEach(curso => {
+            cursosData[categoria].forEach(function (curso) {
                 const option = document.createElement("option");
                 option.value = curso.idCurso;
                 option.textContent = curso.nombre + ' — ' + curso.precio + ' €';
                 idActividad.appendChild(option);
             });
-
             cursoSelectGroup.style.display = "block";
             idActividad.required = true;
+        }
+
+        if (!categoriaSelect) return;
+        categoriaSelect.addEventListener("change", function () {
+            pintarCursosDeCategoria(this.value);
         });
-    }
+
+        // Pre-seleccion al llegar desde una tarjeta concreta (?id=X).
+        const catPre = document.getElementById("seleccionadoCategoria");
+        const idPre = document.getElementById("seleccionadoId");
+        if (catPre && catPre.value) {
+            categoriaSelect.value = catPre.value;
+            pintarCursosDeCategoria(catPre.value);
+            if (idPre && idPre.value) idActividad.value = idPre.value;
+        }
+    })();
   </script>
 
-  
+  <!--
+    Logica comun a los tres formularios (actividades, cursos, inmersiones):
+    1) Si hay sesion: precargamos nombre/email/dni/telefono/codPostal en readonly y autorizamos el envio.
+    2) Si NO hay sesion: dejamos el form visible pero el envio dispara el popup global de login.
+    3) Pre-seleccionamos el item que llegue por ?id=X (visible en el select).
+  -->
+  <script>
+    (function () {
+        const form = document.getElementById("reservaForm");
+        if (!form) return; // estamos en la vista 'inicio', no en un formulario
+
+        const supabaseInput = document.getElementById("supabaseUserId");
+        const storedUserId = localStorage.getItem("supabaseUserId") || "";
+        const storedEmail = localStorage.getItem("supabaseUserEmail") || "";
+
+        // Interceptamos el submit: si no hay sesion mostramos el popup global.
+        form.addEventListener("submit", function (e) {
+            if (!window.requireLogin()) {
+                e.preventDefault();
+            }
+        });
+
+        // Si no hay sesion no precargamos nada y dejamos el form vacio para que el usuario lo vea.
+        if (!storedUserId) return;
+
+        if (supabaseInput) supabaseInput.value = storedUserId;
+
+        // Precarga de datos del usuario en readonly.
+        function rellenarYBloquear(id, valor) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (valor) el.value = valor;
+            el.readOnly = true;
+        }
+
+        fetch("/auth/profile?supabaseUserId=" + encodeURIComponent(storedUserId))
+            .then(r => r.ok ? r.json() : null)
+            .then(profile => {
+                if (!profile) return;
+                // Cada formulario usa prefijos distintos en los ids (Act-, inm-, cur-).
+                ["Act-", "inm-", "cur-"].forEach(pref => {
+                    rellenarYBloquear(pref + "nombre", profile.nombre);
+                    rellenarYBloquear(pref + "apellidos", profile.apellidos);
+                    rellenarYBloquear(pref + "email", profile.email || storedEmail);
+                    rellenarYBloquear(pref + "telefono", profile.telefono);
+                    rellenarYBloquear(pref + "dni", profile.dni);
+                });
+                // El codigo postal solo existe como visible en actividades e inmersiones.
+                rellenarYBloquear("Act-CodigoPostal", profile.codPostal);
+                rellenarYBloquear("inm-codigoPostal", profile.codPostal);
+                // En cursos el campo es hidden pero igualmente le ponemos un valor.
+                const curCp = document.getElementById("cur-codigoPostal");
+                if (curCp && profile.codPostal) curCp.value = profile.codPostal;
+            });
+
+        // 3) Pre-seleccion del item desde ?id=X (solo para actividades e inmersiones;
+        //    cursos lo maneja el script anterior porque depende tambien de la categoria).
+        const seleccionadoId = (document.getElementById("seleccionadoId") || {}).value;
+        if (seleccionadoId) {
+            const selAct = document.getElementById("idActividad");
+            const selInm = document.getElementById("idInmersion");
+            if (selAct && selAct.querySelector('option[value="' + seleccionadoId + '"]')) {
+                selAct.value = seleccionadoId;
+            }
+            if (selInm && selInm.querySelector('option[value="' + seleccionadoId + '"]')) {
+                selInm.value = seleccionadoId;
+            }
+            if (window.clearReservaPrefill) window.clearReservaPrefill();
+            return;
+        }
+
+        // 4) Si no viene id por URL, intentamos preseleccionar por nombre/categoria
+        // guardado al pulsar "Reservar" en la pagina anterior.
+        const prefill = window.readReservaPrefill ? window.readReservaPrefill() : null;
+        if (!prefill) return;
+
+        const secAct = document.getElementById("idActividad");
+        const secInm = document.getElementById("idInmersion");
+        const secCat = document.getElementById("categoriaSelect");
+        const secCurso = document.getElementById("idActividad");
+        const lowerName = prefill.normalize(prefill.nombre || "");
+
+        // Actividades / Cursos: comparten idActividad, pero cursos además tiene categoriaSelect.
+        if (secCat && secCurso) {
+          function seleccionarCursoPorNombre(nombreNormalizado) {
+            for (const opt of Array.from(secCurso.options)) {
+              if (prefill.normalize(opt.textContent || "").includes(nombreNormalizado)) {
+                secCurso.value = opt.value;
+                return true;
+              }
+            }
+            return false;
+          }
+
+          let categoriaAplicada = false;
+          if (prefill.categoria) {
+            const lowerCat = prefill.normalize(prefill.categoria);
+            for (const opt of Array.from(secCat.options)) {
+              if (prefill.normalize(opt.textContent || "").includes(lowerCat)) {
+                secCat.value = opt.value;
+                secCat.dispatchEvent(new Event("change"));
+                categoriaAplicada = true;
+                break;
+              }
+            }
+          }
+
+          // Intento 1: con la categoria sugerida.
+          let cursoSeleccionado = false;
+          if (lowerName) cursoSeleccionado = seleccionarCursoPorNombre(lowerName);
+
+          // Intento 2: si no se encontro, recorrer todas las categorias hasta hallar el curso.
+          if (lowerName && !cursoSeleccionado) {
+            for (const catOpt of Array.from(secCat.options)) {
+              if (!catOpt.value) continue;
+              secCat.value = catOpt.value;
+              secCat.dispatchEvent(new Event("change"));
+              if (seleccionarCursoPorNombre(lowerName)) {
+                cursoSeleccionado = true;
+                categoriaAplicada = true;
+                break;
+              }
+            }
+          }
+
+          // Si no se encontro curso pero habia categoria sugerida, dejamos al menos categoria aplicada.
+          if (!cursoSeleccionado && !categoriaAplicada && secCat.options.length > 1) {
+            const firstReal = Array.from(secCat.options).find(o => o.value);
+            if (firstReal) {
+              secCat.value = firstReal.value;
+              secCat.dispatchEvent(new Event("change"));
+            }
+          }
+        } else if (secAct && lowerName) {
+          for (const opt of Array.from(secAct.options)) {
+            if (prefill.normalize(opt.textContent || "").includes(lowerName)) {
+              secAct.value = opt.value;
+              break;
+            }
+          }
+        } else if (secInm && lowerName) {
+          for (const opt of Array.from(secInm.options)) {
+            if (prefill.normalize(opt.textContent || "").includes(lowerName)) {
+              secInm.value = opt.value;
+              break;
+            }
+          }
+        }
+
+        if (window.clearReservaPrefill) window.clearReservaPrefill();
+    })();
+  </script>
 
 </body>
 

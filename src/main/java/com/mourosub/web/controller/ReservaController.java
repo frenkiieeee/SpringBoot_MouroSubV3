@@ -43,9 +43,19 @@ public class ReservaController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    // ruta base que solo carga el fragmento inicial de la pagina
+    // Ruta base. Si llega con un id de actividad/curso/inmersion redirigimos al
+    // sub-formulario correspondiente con ese id pre-seleccionado; si no, mostramos el menu.
     @GetMapping
-    public String index(Model model){
+    public String index(
+        @RequestParam(required = false) Long actividadId,
+        @RequestParam(required = false) Long cursoId,
+        @RequestParam(required = false) Long inmersionId,
+        Model model
+    ){
+        if (actividadId != null) return "redirect:/reservas/actividades?id=" + actividadId;
+        if (cursoId != null) return "redirect:/reservas/cursos?id=" + cursoId;
+        if (inmersionId != null) return "redirect:/reservas/inmersiones?id=" + inmersionId;
+
         model.addAttribute("seccion","inicio");
         return "fragments/reservas/index";
     }
@@ -69,31 +79,54 @@ public class ReservaController {
         return "fragments/reservas/index";
     }
 
-    // GET /reservas/cursos -> formulario de reserva para cursos.
+    // GET /reservas/cursos -> formulario de reserva para cursos. Si llega ?id=X pre-seleccionamos ese curso.
     @GetMapping("/cursos")
-    public String cursos(Model model){
+    public String cursos(@RequestParam(required = false) Long id, Model model){
         List<Curso> todosLosCursos = cursoRepository.findAllActive();
-        
+
+        // Mapa con los cursos agrupados por categoria. Lo usa la tabla principal del form.
         Map<String, List<Curso>> cursosPorCategoria = new LinkedHashMap<>();
+        // Version "ligera" del mapa anterior con solo idCurso, nombre y precio. La pasamos
+        // al JS porque Thymeleaf no puede serializar la entidad entera (LocalDate, lazy
+        // collections, etc) y trunca la respuesta cuando lo intenta.
+        Map<String, List<Map<String, Object>>> cursosJson = new LinkedHashMap<>();
+
         for (Curso curso : todosLosCursos) {
             String cat = curso.getCategoria() != null ? curso.getCategoria() : "OTROS";
             cursosPorCategoria.computeIfAbsent(cat, k -> new ArrayList<>()).add(curso);
+
+            Map<String, Object> resumen = new LinkedHashMap<>();
+            resumen.put("idCurso", curso.getIdCurso());
+            resumen.put("nombre", curso.getNombre());
+            resumen.put("precio", curso.getPrecio());
+            cursosJson.computeIfAbsent(cat, k -> new ArrayList<>()).add(resumen);
         }
-        
+
         List<String> categorias = new ArrayList<>(cursosPorCategoria.keySet());
 
         model.addAttribute("seccion","cursos");
         model.addAttribute("titulo", "Cursos");
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("cursosPorCategoria", cursosPorCategoria);
+        model.addAttribute("cursosJson", cursosJson);
         model.addAttribute("categorias", categorias);
+        // Id pre-seleccionado (puede ser null si entran al menu sin elegir nada).
+        model.addAttribute("seleccionadoId", id);
+        if (id != null) {
+            // Si el curso no tiene categoria asignada usamos "OTROS" para que coincida con
+            // la clave que se usa al agrupar cursosPorCategoria mas arriba.
+            cursoRepository.findById(id).ifPresent(c -> {
+                String cat = c.getCategoria() != null ? c.getCategoria() : "OTROS";
+                model.addAttribute("seleccionadoCategoria", cat);
+            });
+        }
 
         return "fragments/reservas/index";
     }
 
     // prepara el formulario filtrando lo puramente de ocio como inmersiones o paseos
     @GetMapping("/actividades")
-    public String actividades(Model model){
+    public String actividades(@RequestParam(required = false) Long id, Model model){
         List<Actividad> todas = actividadRepository.findByActivoTrueOrderByCategoriaAscNombreAsc();
 
         Map<String, List<Actividad>> actividadesPorCategoria = new LinkedHashMap<>();
@@ -106,16 +139,18 @@ public class ReservaController {
         model.addAttribute("titulo", "Actividades");
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("actividadesPorCategoria", actividadesPorCategoria);
+        model.addAttribute("seleccionadoId", id);
         return "fragments/reservas/index";
     }
 
     // formulario de reserva para inmersiones
     @GetMapping("/inmersiones")
-    public String inmersiones(Model model){
+    public String inmersiones(@RequestParam(required = false) Long id, Model model){
         model.addAttribute("seccion","inmersiones");
         model.addAttribute("titulo", "Inmersiones");
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmersiones", inmersionRepository.findByActivoTrue());
+        model.addAttribute("seleccionadoId", id);
         return "fragments/reservas/index";
     }
 
@@ -125,24 +160,28 @@ public class ReservaController {
         @RequestParam(required = false) Long idActividad,
         @RequestParam(required = false) Long idCurso,
         @RequestParam(required = false) Long idInmersion,
-        @RequestParam String nombre,
-        @RequestParam String apellidos,
-        @RequestParam String email,
-        @RequestParam String telefono,
+        @RequestParam(required = false) String nombre,
+        @RequestParam(required = false) String apellidos,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String telefono,
         @RequestParam (required = false) String dni,
-        @RequestParam String codigoPostal,
-        @RequestParam Integer numParticipantes
+        @RequestParam(required = false) String codigoPostal,
+        @RequestParam(required = false, defaultValue = "1") Integer numParticipantes,
+        @RequestParam(required = false) String supabaseUserId
     ) {
-        // creamos un usuario sobre la marcha generandole un uuid falso porque no pasa por el login oficial
-        Usuario usuario = new Usuario();
-        usuario.setSupabaseUserId(UUID.randomUUID());
-        usuario.setNombre(nombre);
-        usuario.setApellidos(apellidos);
-        usuario.setEmail(email);
-        usuario.setTelefono(telefono);
-        usuario.setDni(dni);
-        usuario.setCodPostal(codigoPostal);
-        usuarioRepository.save(usuario);
+        // Buscamos al usuario logueado por su id de Supabase. Si no llega o no existe
+        // mandamos al login (los formularios solo se pueden enviar con sesion iniciada).
+        if (supabaseUserId == null || supabaseUserId.isBlank()) {
+            return "redirect:/login";
+        }
+        UUID id;
+        try {
+            id = UUID.fromString(supabaseUserId);
+        } catch (IllegalArgumentException ex) {
+            return "redirect:/login";
+        }
+        Usuario usuario = usuarioRepository.findBySupabaseUserId(id).orElse(null);
+        if (usuario == null) return "redirect:/login";
 
         // buscamos la entidad correspondiente y montamos la reserva
         Reserva reserva = new Reserva();
@@ -169,11 +208,35 @@ public class ReservaController {
         return "redirect:/reservas/mis-reservas/" + usuario.getidUsuario();
     }
 
-    // lista el historial de reservas de un usuario buscando por su id
+    // lista el historial de reservas de un usuario buscando por su id interno
     @GetMapping("/mis-reservas/{idUsuario}")
     public String misReservas(@PathVariable Long idUsuario, Model model){
         model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(idUsuario));
-        return "Fragments/reservas/mis-reservas";
+        return "fragments/reservas/mis-reservas";
+    }
+
+    // Atajo desde el menu del header: el usuario solo necesita su id de Supabase, que
+    // ya guardamos en localStorage al iniciar sesion. Aqui lo traducimos al id interno
+    // y reutilizamos la misma vista de mis reservas.
+    @GetMapping("/mis-reservas")
+    public String misReservasPorSupabase(@RequestParam(required = false) String supabaseUserId, Model model) {
+        if (supabaseUserId == null || supabaseUserId.isBlank()) {
+            // sin id no hay nada que listar; el JS de la vista mostrara el aviso de login
+            model.addAttribute("reservas", new ArrayList<>());
+            return "fragments/reservas/mis-reservas";
+        }
+        try {
+            UUID supaId = UUID.fromString(supabaseUserId);
+            Usuario usuario = usuarioRepository.findBySupabaseUserId(supaId).orElse(null);
+            if (usuario == null) {
+                model.addAttribute("reservas", new ArrayList<>());
+            } else {
+                model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(usuario.getidUsuario()));
+            }
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("reservas", new ArrayList<>());
+        }
+        return "fragments/reservas/mis-reservas";
     }
 
     // ruta tonta que coge la id y se la manda al servicio para que ejecute la cancelacion

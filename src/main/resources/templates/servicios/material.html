@@ -183,6 +183,15 @@
 <div id="siteFooter" th:insert="~{fragments/footerBlack :: footerBlack}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
+<script src="/js/login-required.js"></script>
 <script>if (window.initHeaderSession) window.initHeaderSession();</script>
+<script>
+  // Los botones "Reservar" abren el popup de login si no hay sesion; si la hay, el form se envia normal.
+  document.querySelectorAll('form[action*="/alquileres"]').forEach(form => {
+    form.addEventListener("submit", (e) => {
+      if (!window.requireLogin()) e.preventDefault();
+    });
+  });
+</script>
 </body>
 </html>

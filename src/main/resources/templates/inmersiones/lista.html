@@ -30,7 +30,7 @@
       </thead>
       <tbody>
         <tr th:each="inmersion : ${inmersiones}">
-          <td th:text="${inmersion.idActividad}">1</td>
+          <td th:text="${inmersion.idInmersion}">1</td>
           <td th:text="${inmersion.nombre}">Nombre inmersión</td>
           <td th:text="${inmersion.tipo}">INMERSION</td>
           <td th:text="${#temporals.format(inmersion.fechaActividad, 'yyyy-MM-dd')}">2026-06-01</td>
@@ -45,15 +45,15 @@
           </td>
           <td class="text-end">
             <a class="btn btn-sm btn-outline-secondary"
-               th:href="@{/inmersiones/editar/{id}(id=${inmersion.idActividad})}">
+               th:href="@{/inmersiones/editar/{id}(id=${inmersion.idInmersion})}">
               Editar
             </a>
             <a class="btn btn-sm btn-outline-success"
-               th:href="@{/inmersiones/{id}/reservar(id=${inmersion.idActividad})}">
+               th:href="@{/inmersiones/{id}/reservar(id=${inmersion.idInmersion})}">
               Reservar
             </a>
             <a class="btn btn-sm btn-outline-danger"
-               th:href="@{/inmersiones/eliminar/{id}(id=${inmersion.idActividad})}"
+               th:href="@{/inmersiones/eliminar/{id}(id=${inmersion.idInmersion})}"
                onclick="return confirm('Eliminar esta inmersión?');">
               Eliminar
             </a>

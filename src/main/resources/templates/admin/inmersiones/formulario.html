@@ -14,7 +14,8 @@
 <main class="container" style="padding-top: 120px;">
   <h1 class="fw-bold mb-4" th:text="${inmersion.idInmersion != null} ? 'Editar Inmersión' : 'Nueva Inmersión'">Formulario</h1>
 
-  <form th:action="@{/admin/inmersiones/guardar}" th:object="${inmersion}" method="post" class="row g-3">
+  <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
+  <form th:action="@{/admin/inmersiones/guardar}" th:object="${inmersion}" method="post" enctype="multipart/form-data" class="row g-3">
     <div class="col-md-6">
       <label class="form-label">Nombre</label>
       <input type="text" class="form-control" th:field="*{nombre}" required>
@@ -73,7 +74,7 @@
     </div>
     <div class="col-md-4">
       <label class="form-label">URL Imagen</label>
-      <input type="text" class="form-control" th:field="*{imagenUrl}" placeholder="https://...">
+      <input type="text" class="form-control" th:field="*{imagenUrl}" placeholder="/ficheros/ver/123 o https://...">
     </div>
     <div class="col-md-4">
       <label class="form-label">Duración (minutos)</label>
@@ -97,6 +98,17 @@
         <option value="true">Sí</option>
         <option value="false">No</option>
       </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Seleccionar imagen ya subida</label>
+      <select class="form-select" name="imagenExistenteId">
+        <option value="">-- No cambiar --</option>
+        <option th:each="img : ${imagenes}" th:value="${img.idFichero}" th:text="${img.nombre + ' (' + img.idFichero + ')'}"></option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Subir nueva imagen</label>
+      <input type="file" class="form-control" name="imagenArchivo" accept="image/*">
     </div>
     <input type="hidden" th:field="*{idInmersion}">
     <input type="hidden" th:field="*{tipo}" value="INMERSION">

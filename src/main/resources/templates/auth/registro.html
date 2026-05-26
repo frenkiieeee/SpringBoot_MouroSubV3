@@ -19,51 +19,52 @@
   </h1>
   <p class="text-muted">Mantén actualizada tu información de usuario.</p>
 
-  <form id="registroForm" class="row g-3">
+  <!-- th:object enlaza el form con el objeto 'usuario' para que th:field genere name e id correctos. -->
+  <form id="registroForm" class="row g-3" th:object="${usuario}">
 
     <div class="col-md-6">
       <label class="form-label">Nombre</label>
-      <input type="text" class="form-control" th:field="*{nombre}" required>
+      <input type="text" class="form-control" id="nombre" name="nombre" th:value="*{nombre}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Apellidos</label>
-      <input type="text" class="form-control" th:field="*{apellidos}" required>
+      <input type="text" class="form-control" id="apellidos" name="apellidos" th:value="*{apellidos}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Email</label>
-      <input type="email" class="form-control" th:field="*{email}" readonly required>
+      <input type="email" class="form-control" id="email" name="email" th:value="*{email}" readonly required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">DNI</label>
-      <input type="text" class="form-control" th:field="*{dni}" required>
+      <input type="text" class="form-control" id="dni" name="dni" th:value="*{dni}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Teléfono</label>
-      <input type="text" class="form-control" th:field="*{telefono}" required>
+      <input type="text" class="form-control" id="telefono" name="telefono" th:value="*{telefono}" required>
     </div>
 
     <div class="col-md-6">
       <label class="form-label">Fecha de nacimiento</label>
-      <input type="date" class="form-control" th:field="*{fechaNacimiento}" required>
+      <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" th:value="*{fechaNacimiento}" required>
     </div>
 
     <div class="col-md-8">
       <label class="form-label">Dirección</label>
-      <input type="text" class="form-control" th:field="*{direccion}" required>
+      <input type="text" class="form-control" id="direccion" name="direccion" th:value="*{direccion}" required>
     </div>
 
     <div class="col-md-4">
       <label class="form-label">Código postal</label>
-      <input type="text" class="form-control" th:field="*{codPostal}" required>
+      <input type="text" class="form-control" id="codPostal" name="codPostal" th:value="*{codPostal}" required>
     </div>
 
     <div class="col-12">
       <label class="form-label">Localidad</label>
-      <input type="text" class="form-control" th:field="*{localidad}" required>
+      <input type="text" class="form-control" id="localidad" name="localidad" th:value="*{localidad}" required>
     </div>
 
     <div class="col-12 d-flex gap-2">
@@ -79,17 +80,40 @@
 
 if (window.initHeaderSession) window.initHeaderSession();
 
-  // Autocompleta el email desde Supabase si es un registro nuevo y está vacío
-  const emailInput = document.getElementById('emailInput');
-  if (!emailInput.value) {
-      emailInput.value = localStorage.getItem('supabaseUserEmail') || '';
+  // Cargamos los datos personales actuales desde /auth/profile cuando el usuario ya tiene sesion.
+  // Sirve tanto para registro nuevo (autocompletar email) como para edicion (precargar todo).
+  const storedUserId = localStorage.getItem('supabaseUserId');
+  const storedEmail = localStorage.getItem('supabaseUserEmail') || '';
+  const emailInput = document.getElementById('email');
+  if (emailInput && !emailInput.value) emailInput.value = storedEmail;
+
+  // Si hay sesion intentamos rellenar el resto de campos con lo que ya hay en la base de datos.
+  if (storedUserId) {
+    fetch('/auth/profile?supabaseUserId=' + encodeURIComponent(storedUserId))
+      .then(r => r.ok ? r.json() : null)
+      .then(profile => {
+        if (!profile) return;
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && !el.value && val) el.value = val;
+        };
+        setVal('nombre', profile.nombre);
+        setVal('apellidos', profile.apellidos);
+        setVal('email', profile.email);
+        setVal('dni', profile.dni);
+        setVal('telefono', profile.telefono);
+        setVal('fechaNacimiento', profile.fechaNacimiento);
+        setVal('direccion', profile.direccion);
+        setVal('codPostal', profile.codPostal);
+        setVal('localidad', profile.localidad);
+      });
   }
 
   // Intercepta el formulario para mandarlo al AuthController
   document.getElementById('registroForm').addEventListener('submit', async function(e) {
     e.preventDefault(); 
 
-    const supabaseUserId = localStorage.getItem('supabaseUserId');
+    const supabaseUserId = storedUserId;
     if (!supabaseUserId) {
         alert("Error: No estás autenticado.");
         return;

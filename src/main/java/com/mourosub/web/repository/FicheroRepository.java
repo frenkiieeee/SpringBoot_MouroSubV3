@@ -13,6 +13,7 @@ public interface FicheroRepository extends JpaRepository<Fichero, Long> {
     // Devuelve todos los ficheros de un bucket concreto.
     // Spring genera la consulta a partir del nombre: "ByBucket" -> WHERE bucket = ?
     List<Fichero> findByBucket(String bucket);
+    List<Fichero> findByBucketOrderByFechaSubidaDesc(String bucket);
 
     // Devuelve todos los ficheros subidos por un usuario concreto.
     // Navega la relacion Fichero.usuario -> Usuario.idUsuario.
