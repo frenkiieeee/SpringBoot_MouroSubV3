@@ -25,7 +25,7 @@ public class AdminCursosController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("curso", new Curso());
-        return "admin/cursos/formulario";
+        return "template/cursosLista/lista";
     }
 
     @PostMapping("/guardar")

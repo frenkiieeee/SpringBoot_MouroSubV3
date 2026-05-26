@@ -291,7 +291,6 @@
 
   <div th:replace="~{fragments/footerBlack :: footerBlack}"></div>
 
-<<<<<<< Updated upstream
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/header.js"></script>
   <script>if (window.initHeaderSession) window.initHeaderSession();</script>
@@ -305,80 +304,6 @@
 
     if (categoriaSelect) {
         categoriaSelect.addEventListener("change", function () {
-=======
-    const actividadesPorCategoria = {
-        "ninos-buceo": [
-            "Niños y Buceo",
-            "Bautismo infantil",
-            "Actividades acuáticas infantiles"
-        ],
-        snorkel: [
-            "Snorkel",
-            "Ruta de snorkel",
-            "Snorkel desde barco"
-        ],
-        "bautismos-buceo": [
-            "Bautismo de buceo",
-            "Bautismo de buceo en mar",
-            "Bautismo de buceo en grupo"
-        ],
-        "rutas-barco": [
-            "Ruta en barco",
-            "Ruta por la bahía",
-            "Ruta alrededor de la Isla de Mouro"
-        ],
-        "naturaleza-medio-ambiente": [
-            "Actividad de naturaleza",
-            "Actividad de medio ambiente",
-            "Divulgación marina"
-        ],
-        "talleres-tecnicos": [
-            "Taller técnico",
-            "Taller de material",
-            "Taller de seguridad"
-        ]
-    };
-    //Busca en el HTML el elemento con idCurso
-    const tipoCurso = document.getElementById("idCurso");
-    //Busca el div que contenga  id=cursoDetalleGroup, que este envuelve al selector oculto
-    const cursoDetalleGroup = document.getElementById("cursoDetalleGroup");
-    //Busca el id=cursoDetalle, que nos sertvira para si se cumple la constante anterior, que aparezcan las opciones de cada curso
-    const cursoDetalle = document.getElementById("cursoDetalle");
-    //Aqui indicamos que si alguno de los elementos no 0existe en el HTML, es decir, los valores serian null
-    if (tipoCurso && cursoDetalleGroup && cursoDetalle) {
-        //Aqui le indicamos al servidor que cuando el usuario cambie la opcion de tipoCurso, que ejecute la siguiente funcion
-    tipoCurso.addEventListener("change", function () {
-        //Con el this hacemos referencia a tipoCurso y obtenemos el valor con el value, y despues se guarda el la constate "categoria"
-        const categoria = this.value;
-        //COn esto le idnciamos a que cada vez que el usuario cambia la categoria, borra todas las opciones anteriores del segundo selector y deja solo el placeholder por defecto
-        cursoDetalle.innerHTML = '<option value="">Seleccione una opción</option>';
-        //Si se cumple n o mostraqra nada, es deci
-        if (!categoria || !cursosPorCategoria[categoria]) {
-            cursoDetalleGroup.style.display = "none";
-            cursoDetalle.required = false;
-            return;
-        }
-
-        cursosPorCategoria[categoria].forEach(curso => {
-            const option = document.createElement("option");
-            //Crea un nuevo elemento "option"
-            option.value = curso;
-            option.textContent = curso;
-            cursoDetalle.appendChild(option);
-        });
-        //Inserta los options de cada curso
-        cursoDetalleGroup.style.display = "block";
-        cursoDetalle.required = true;
-    });
-    }
-
-    const tipoActividad = document.getElementById("tipoActividad");
-    const actividadDetalleGroup = document.getElementById("actividadDetalleGroup");
-    const actividadDetalle = document.getElementById("actividadDetalle");
-
-    if (tipoActividad && actividadDetalleGroup && actividadDetalle) {
-        tipoActividad.addEventListener("change", function () {
->>>>>>> Stashed changes
             const categoria = this.value;
             idActividad.innerHTML = '<option value="">Seleccione un curso</option>';
 
