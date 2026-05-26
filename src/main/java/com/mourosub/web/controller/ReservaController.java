@@ -13,6 +13,7 @@ import com.mourosub.web.service.ReservaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 // controller devuelve paginas web html y mapea todas las rutas bajo barra reservas
 @Controller
@@ -167,42 +168,60 @@ public class ReservaController {
         @RequestParam (required = false) String dni,
         @RequestParam(required = false) String codigoPostal,
         @RequestParam(required = false, defaultValue = "1") Integer numParticipantes,
-        @RequestParam(required = false) String supabaseUserId
+        @RequestParam(required = false) String supabaseUserId,
+        RedirectAttributes ra
     ) {
         // Buscamos al usuario logueado por su id de Supabase. Si no llega o no existe
         // mandamos al login (los formularios solo se pueden enviar con sesion iniciada).
         if (supabaseUserId == null || supabaseUserId.isBlank()) {
+            ra.addFlashAttribute("error", "Necesitas iniciar sesion para reservar.");
             return "redirect:/login";
         }
         UUID id;
         try {
             id = UUID.fromString(supabaseUserId);
         } catch (IllegalArgumentException ex) {
+            ra.addFlashAttribute("error", "Sesion no valida. Vuelve a iniciar sesion.");
             return "redirect:/login";
         }
         Usuario usuario = usuarioRepository.findBySupabaseUserId(id).orElse(null);
-        if (usuario == null) return "redirect:/login";
+        if (usuario == null) {
+            ra.addFlashAttribute("error", "No existe tu usuario interno. Vuelve a iniciar sesion.");
+            return "redirect:/login";
+        }
 
         // buscamos la entidad correspondiente y montamos la reserva
         Reserva reserva = new Reserva();
         reserva.setNumParticipantes(numParticipantes);
 
-        if (idActividad != null) {
-            Actividad actividad = actividadRepository.findById(idActividad)
-                .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
-            reserva.setActividad(actividad);
-        } else if (idCurso != null) {
-            Curso curso = cursoRepository.findById(idCurso)
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-            reserva.setCurso(curso);
-        } else if (idInmersion != null) {
-            Inmersiones inmersion = inmersionRepository.findById(idInmersion)
-                .orElseThrow(() -> new RuntimeException("Inmersion no encontrada"));
-            reserva.setInmersion(inmersion);
-        }
+        String redirectBack = "redirect:/reservas";
+        try {
+            if (idActividad != null) {
+                Actividad actividad = actividadRepository.findById(idActividad)
+                    .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
+                reserva.setActividad(actividad);
+                redirectBack = "redirect:/reservas/actividades?id=" + idActividad;
+            } else if (idCurso != null) {
+                Curso curso = cursoRepository.findById(idCurso)
+                    .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+                reserva.setCurso(curso);
+                redirectBack = "redirect:/reservas/cursos?id=" + idCurso;
+            } else if (idInmersion != null) {
+                Inmersiones inmersion = inmersionRepository.findById(idInmersion)
+                    .orElseThrow(() -> new RuntimeException("Inmersion no encontrada"));
+                reserva.setInmersion(inmersion);
+                redirectBack = "redirect:/reservas/inmersiones?id=" + idInmersion;
+            } else {
+                ra.addFlashAttribute("error", "Debes seleccionar una opcion antes de reservar.");
+                return "redirect:/reservas";
+            }
 
-        // le pasamos la bola al servicio para que haga los calculos asigne instructor y guarde en bd
-        reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
+            // le pasamos la bola al servicio para que haga los calculos asigne instructor y guarde en bd
+            reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));
+        } catch (RuntimeException ex) {
+            ra.addFlashAttribute("error", ex.getMessage());
+            return redirectBack;
+        }
 
         // redirigimos a la vista de sus propias reservas para que vea que se ha guardado
         return "redirect:/reservas/mis-reservas/" + usuario.getidUsuario();

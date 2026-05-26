@@ -89,6 +89,7 @@
         <p class="hero-label">NUEVA RESERVA</p>
         <h2 class="form-title" th:text="${titulo}">Reserva de Actividad</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
 
         <!-- Aviso si el usuario no ha iniciado sesion. El JS de abajo lo muestra/oculta. -->
 
@@ -171,6 +172,7 @@
         <p class="hero-label">NUEVA RESERVA</p>
         <h2 class="form-title" th:text="${titulo}">Reserva de Inmersión</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
 
 
         <input type="hidden" id="seleccionadoId" th:value="${seleccionadoId}">
@@ -246,6 +248,7 @@
         <p class="hero-label">NUEVA RESERVA</p>
         <h2 class="form-title" th:text="${titulo}">Reserva de Curso</h2>
         <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
 
 
         <!-- Id y categoria pre-seleccionados cuando el usuario llega desde una tarjeta concreta. -->
