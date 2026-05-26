@@ -40,13 +40,13 @@
       </thead>
       <tbody>
         <tr th:each="inmersion : ${inmersiones}">
-          <td th:text="${inmersion.idActividad}">1</td>
+          <td th:text="${inmersion.idInmersion}">1</td>
           <td th:text="${inmersion.nombre}">Nombre</td>
           <td th:text="${inmersion.ubicacion != null ? inmersion.ubicacion : '-'}">Ubicación</td>
           <td th:text="${inmersion.nivelReq}">Nivel</td>
           <td th:text="${inmersion.dificultad != null ? inmersion.dificultad : '-'}">Dificultad</td>
           <td th:text="${inmersion.profundidadMax != null ? inmersion.profundidadMax + 'm' : '-'}">Profundidad</td>
-          <td th:text="${'€' + #numbers.formatDecimal(inmersion.precio, 1, 2)}">0.00</td>
+          <td th:text="${inmersion.precio != null ? '€' + #numbers.formatDecimal(inmersion.precio, 1, 2) : '-'}">0.00</td>
           <td>
             <span th:text="${inmersion.plazasOcupadas}">0</span> /
             <span th:text="${inmersion.plazasMax}">10</span>
@@ -55,8 +55,8 @@
             <span th:text="${inmersion.activo ? 'Sí' : 'No'}" th:class="${inmersion.activo ? 'text-success' : 'text-danger'}">Sí</span>
           </td>
           <td class="text-end">
-            <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/inmersiones/editar/{id}(id=${inmersion.idActividad})}">Editar</a>
-            <a class="btn btn-sm btn-outline-danger" th:href="@{/admin/inmersiones/eliminar/{id}(id=${inmersion.idActividad})}"
+            <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/inmersiones/editar/{id}(id=${inmersion.idInmersion})}">Editar</a>
+            <a class="btn btn-sm btn-outline-danger" th:href="@{/admin/inmersiones/eliminar/{id}(id=${inmersion.idInmersion})}"
                onclick="return confirm('¿Eliminar esta inmersión?');">Eliminar</a>
           </td>
         </tr>

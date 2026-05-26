@@ -12,7 +12,7 @@
 <div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
 
 <main class="container" style="padding-top: 120px;">
-  <h1 class="fw-bold mb-4" th:text="${inmersion.idActividad != null} ? 'Editar Inmersión' : 'Nueva Inmersión'">Formulario</h1>
+  <h1 class="fw-bold mb-4" th:text="${inmersion.idInmersion != null} ? 'Editar Inmersión' : 'Nueva Inmersión'">Formulario</h1>
 
   <form th:action="@{/admin/inmersiones/guardar}" th:object="${inmersion}" method="post" class="row g-3">
     <div class="col-md-6">
@@ -92,20 +92,13 @@
       <input type="date" class="form-control" th:field="*{fechaActividad}">
     </div>
     <div class="col-md-4">
-      <label class="form-label">Requiere nivel</label>
-      <select class="form-select" th:field="*{requiereNivel}">
-        <option value="false">No</option>
-        <option value="true">Sí</option>
-      </select>
-    </div>
-    <div class="col-md-4">
       <label class="form-label">Activo</label>
       <select class="form-select" th:field="*{activo}">
         <option value="true">Sí</option>
         <option value="false">No</option>
       </select>
     </div>
-    <input type="hidden" th:field="*{idActividad}">
+    <input type="hidden" th:field="*{idInmersion}">
     <input type="hidden" th:field="*{tipo}" value="INMERSION">
     <input type="hidden" th:field="*{plazasOcupadas}">
     <div class="col-12">

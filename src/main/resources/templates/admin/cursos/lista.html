@@ -36,12 +36,12 @@
       </thead>
       <tbody>
         <tr th:each="curso : ${cursos}">
-          <td th:text="${curso.idActividad}">1</td>
+          <td th:text="${curso.idCurso}">1</td>
           <td th:text="${curso.nombre}">Nombre del curso</td>
           <td th:text="${curso.categoria != null ? curso.categoria : '-'}">Categoría</td>
           <td th:text="${curso.nivelRequerido}">Ninguno</td>
           <td th:text="${curso.duracionHoras}">0</td>
-          <td th:text="${'€' + #numbers.formatDecimal(curso.precio, 1, 2)}">0.00</td>
+          <td th:text="${curso.precio != null ? '€' + #numbers.formatDecimal(curso.precio, 1, 2) : '-'}">0.00</td>
           <td>
             <span th:text="${curso.plazasOcupadas}">0</span> /
             <span th:text="${curso.plazasMax}">10</span>
@@ -50,8 +50,8 @@
             <span th:text="${curso.activo ? 'Sí' : 'No'}" th:class="${curso.activo ? 'text-success' : 'text-danger'}">Sí</span>
           </td>
           <td class="text-end">
-            <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/cursos/editar/{id}(id=${curso.idActividad})}">Editar</a>
-            <a class="btn btn-sm btn-outline-danger" th:href="@{/admin/cursos/eliminar/{id}(id=${curso.idActividad})}"
+            <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/cursos/editar/{id}(id=${curso.idCurso})}">Editar</a>
+            <a class="btn btn-sm btn-outline-danger" th:href="@{/admin/cursos/eliminar/{id}(id=${curso.idCurso})}"
                onclick="return confirm('¿Eliminar este curso?');">Eliminar</a>
           </td>
         </tr>

@@ -106,15 +106,15 @@ public class ReservaService {
         // incrementamos plazas ocupadas segun el tipo
         if (servicio instanceof Actividad) {
             Actividad a = (Actividad) servicio;
-            a.setplazasOcupadas(a.getplazasOcupadas() + reserva.getNumParticipantes());
+            a.setPlazasOcupadas(a.getPlazasOcupadas() + reserva.getNumParticipantes());
             actividadRepo.save(a);
         } else if (servicio instanceof Curso) {
             Curso c = (Curso) servicio;
-            c.setplazasOcupadas(c.getplazasOcupadas() + reserva.getNumParticipantes());
+            c.setPlazasOcupadas(c.getPlazasOcupadas() + reserva.getNumParticipantes());
             cursoRepo.save(c);
         } else if (servicio instanceof Inmersiones) {
             Inmersiones i = (Inmersiones) servicio;
-            i.setplazasOcupadas(i.getplazasOcupadas() + reserva.getNumParticipantes());
+            i.setPlazasOcupadas(i.getPlazasOcupadas() + reserva.getNumParticipantes());
             inmersionRepo.save(i);
         }
 
@@ -141,15 +141,15 @@ public class ReservaService {
         // decrementamos plazas segun el tipo de servicio
         if (reserva.getActividad() != null) {
             Actividad actividad = reserva.getActividad();
-            actividad.setplazasOcupadas(Math.max(0, actividad.getplazasOcupadas() - plazasLiberadas));
+            actividad.setPlazasOcupadas(Math.max(0, actividad.getPlazasOcupadas() - plazasLiberadas));
             actividadRepo.save(actividad);
         } else if (reserva.getCurso() != null) {
             Curso curso = reserva.getCurso();
-            curso.setplazasOcupadas(Math.max(0, curso.getplazasOcupadas() - plazasLiberadas));
+            curso.setPlazasOcupadas(Math.max(0, curso.getPlazasOcupadas() - plazasLiberadas));
             cursoRepo.save(curso);
         } else if (reserva.getInmersion() != null) {
             Inmersiones inmersion = reserva.getInmersion();
-            inmersion.setplazasOcupadas(Math.max(0, inmersion.getplazasOcupadas() - plazasLiberadas));
+            inmersion.setPlazasOcupadas(Math.max(0, inmersion.getPlazasOcupadas() - plazasLiberadas));
             inmersionRepo.save(inmersion);
         }
 
@@ -168,7 +168,7 @@ public class ReservaService {
 
     // funcion simple que resta el maximo menos las ocupadas a ver si caben los nuevos
     public boolean comprobarDisponibilidad(Actividad actividad, int participantes) {
-        return actividad.getPlazasMax() - actividad.getplazasOcupadas() >= participantes;
+        return actividad.getPlazasMax() - actividad.getPlazasOcupadas() >= participantes;
     }
 
     // pilla a todos los instructores y filtra al primero que este libre ese dia
@@ -207,11 +207,11 @@ public class ReservaService {
     }
 
     public boolean comprobarDisponibilidadCurso(Curso curso, int participantes) {
-        return curso.getPlazasMax() - curso.getplazasOcupadas() >= participantes;
+        return curso.getPlazasMax() - curso.getPlazasOcupadas() >= participantes;
     }
 
     public boolean comprobarDisponibilidadInmersion(Inmersiones inmersion, int participantes) {
-        return inmersion.getPlazasMax() - inmersion.getplazasOcupadas() >= participantes;
+        return inmersion.getPlazasMax() - inmersion.getPlazasOcupadas() >= participantes;
     }
 
     // comprobaciones basicas de que todo este en orden antes de intentar guardar nada

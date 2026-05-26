@@ -113,8 +113,8 @@ public class Inmersiones {
     public Integer getPlazasMax() { return plazasMax; }
     public void setPlazasMax(Integer plazasMax) { this.plazasMax = plazasMax; }
 
-    public int getplazasOcupadas() { return plazasOcupadas; }
-    public void setplazasOcupadas(int plazasOcupadas) { this.plazasOcupadas = plazasOcupadas; }
+    public int getPlazasOcupadas() { return plazasOcupadas; }
+    public void setPlazasOcupadas(int plazasOcupadas) { this.plazasOcupadas = plazasOcupadas; }
 
     public BigDecimal getPrecio() { return precio; }
     public void setPrecio(BigDecimal precio) { this.precio = precio; }

@@ -80,7 +80,7 @@ public class DataLoader implements CommandLineRunner {
             i1.setRequisitos("Certificación básica de buceo o bautismo previo");
             i1.setPrecio(new BigDecimal("65.00"));
             i1.setPlazasMax(8);
-            i1.setplazasOcupadas(0);
+            i1.setPlazasOcupadas(0);
             i1.setFechaActividad(LocalDate.now().plusDays(7));
             i1.setDuracionMinutos(45);
             i1.setActivo(true);
@@ -101,7 +101,7 @@ public class DataLoader implements CommandLineRunner {
             i2.setRequisitos("Open Water o equivalente con al menos 10 inmersiones");
             i2.setPrecio(new BigDecimal("75.00"));
             i2.setPlazasMax(6);
-            i2.setplazasOcupadas(0);
+            i2.setPlazasOcupadas(0);
             i2.setFechaActividad(LocalDate.now().plusDays(10));
             i2.setDuracionMinutos(50);
             i2.setActivo(true);
@@ -122,7 +122,7 @@ public class DataLoader implements CommandLineRunner {
             i3.setRequisitos("Ninguno - perfecta para principiantes");
             i3.setPrecio(new BigDecimal("60.00"));
             i3.setPlazasMax(10);
-            i3.setplazasOcupadas(0);
+            i3.setPlazasOcupadas(0);
             i3.setFechaActividad(LocalDate.now().plusDays(14));
             i3.setDuracionMinutos(40);
             i3.setActivo(true);
@@ -143,7 +143,7 @@ public class DataLoader implements CommandLineRunner {
             i4.setRequisitos("Advanced Open Water, +50 inmersiones, traje seco");
             i4.setPrecio(new BigDecimal("85.00"));
             i4.setPlazasMax(4);
-            i4.setplazasOcupadas(0);
+            i4.setPlazasOcupadas(0);
             i4.setFechaActividad(LocalDate.now().plusDays(18));
             i4.setDuracionMinutos(55);
             i4.setActivo(true);
@@ -164,7 +164,7 @@ public class DataLoader implements CommandLineRunner {
             i5.setRequisitos("Open Water con 20+ inmersiones");
             i5.setPrecio(new BigDecimal("70.00"));
             i5.setPlazasMax(6);
-            i5.setplazasOcupadas(0);
+            i5.setPlazasOcupadas(0);
             i5.setFechaActividad(LocalDate.now().plusDays(21));
             i5.setDuracionMinutos(45);
             i5.setActivo(true);
@@ -185,7 +185,7 @@ public class DataLoader implements CommandLineRunner {
             i6.setRequisitos("Rescue Diver, +100 inmersiones,-nitrox recomendado");
             i6.setPrecio(new BigDecimal("90.00"));
             i6.setPlazasMax(4);
-            i6.setplazasOcupadas(0);
+            i6.setPlazasOcupadas(0);
             i6.setFechaActividad(LocalDate.now().plusDays(25));
             i6.setDuracionMinutos(60);
             i6.setActivo(true);
@@ -202,7 +202,7 @@ public class DataLoader implements CommandLineRunner {
             a1.setDescripcion("Actividades diseñadas para introducir a los más pequeños en el mundo submarino. Una experiencia educativa y divertida para descubrir el entorno marino mediante juegos y actividades adaptadas. Todas las actividades están supervisadas por profesionales especializados.");
             a1.setPrecio(new BigDecimal("75.00"));
             a1.setPlazasMax(6);
-            a1.setplazasOcupadas(0);
+            a1.setPlazasOcupadas(0);
             a1.setFechaActividad(LocalDate.now().plusDays(7));
             a1.setDuracionMinutos(120);
             a1.setActivo(true);
@@ -216,7 +216,7 @@ public class DataLoader implements CommandLineRunner {
             a2.setDescripcion("Explora la costa y descubre la fauna marina desde la superficie. Una actividad perfecta para todas las edades y niveles que quieran disfrutar del mar. Descubrirás zonas de gran biodiversidad acompañado por profesionales.");
             a2.setPrecio(new BigDecimal("45.00"));
             a2.setPlazasMax(12);
-            a2.setplazasOcupadas(0);
+            a2.setPlazasOcupadas(0);
             a2.setFechaActividad(LocalDate.now().plusDays(5));
             a2.setDuracionMinutos(120);
             a2.setActivo(true);
@@ -230,7 +230,7 @@ public class DataLoader implements CommandLineRunner {
             a3.setDescripcion("Vive tu primera inmersión respirando bajo el agua. Descubre el submarinismo de forma segura acompañado por instructores especializados. Una experiencia emocionante para iniciarse en el buceo.");
             a3.setPrecio(new BigDecimal("89.00"));
             a3.setPlazasMax(8);
-            a3.setplazasOcupadas(0);
+            a3.setPlazasOcupadas(0);
             a3.setFechaActividad(LocalDate.now().plusDays(3));
             a3.setDuracionMinutos(180);
             a3.setActivo(true);
@@ -244,7 +244,7 @@ public class DataLoader implements CommandLineRunner {
             a4.setDescripcion("Comparte experiencias y forma parte de nuestra comunidad submarina. Participa en actividades, inmersiones y encuentros durante todo el año. Un espacio para seguir aprendiendo y disfrutando del mar.");
             a4.setPrecio(new BigDecimal("50.00"));
             a4.setPlazasMax(20);
-            a4.setplazasOcupadas(0);
+            a4.setPlazasOcupadas(0);
             a4.setFechaActividad(LocalDate.now().plusDays(1));
             a4.setDuracionMinutos(240);
             a4.setActivo(true);
@@ -258,7 +258,7 @@ public class DataLoader implements CommandLineRunner {
             a5.setDescripcion("Navega y descubre espacios únicos del Cantábrico. Disfruta de rutas guiadas por la bahía y el littoral. Una experiencia perfecta para familias y grupos.");
             a5.setPrecio(new BigDecimal("65.00"));
             a5.setPlazasMax(10);
-            a5.setplazasOcupadas(0);
+            a5.setPlazasOcupadas(0);
             a5.setFechaActividad(LocalDate.now().plusDays(6));
             a5.setDuracionMinutos(180);
             a5.setActivo(true);
@@ -272,7 +272,7 @@ public class DataLoader implements CommandLineRunner {
             a6.setDescripcion("Conservación y divulgación marina para todas las edades. Descubre la biodiversidad marina mediante actividades educativas. Aprende sobre protección y conservación del entorno marino.");
             a6.setPrecio(new BigDecimal("40.00"));
             a6.setPlazasMax(15);
-            a6.setplazasOcupadas(0);
+            a6.setPlazasOcupadas(0);
             a6.setFechaActividad(LocalDate.now().plusDays(8));
             a6.setDuracionMinutos(120);
             a6.setActivo(true);
@@ -286,7 +286,7 @@ public class DataLoader implements CommandLineRunner {
             a7.setDescripcion("Aprende técnicas, seguridad y mantenimiento especializado. Talleres prácticos impartidos por profesionales especializados. Formación para mejorar conocimientos y habilidades técnicas.");
             a7.setPrecio(new BigDecimal("55.00"));
             a7.setPlazasMax(8);
-            a7.setplazasOcupadas(0);
+            a7.setPlazasOcupadas(0);
             a7.setFechaActividad(LocalDate.now().plusDays(10));
             a7.setDuracionMinutos(180);
             a7.setActivo(true);
@@ -306,7 +306,7 @@ public class DataLoader implements CommandLineRunner {
         c1.setDescripcion("Programa de introducción a la apnea SSI. Aprende los conceptos básicos de la apnea en un entorno seguro y controlado mientras te diviertes.");
         c1.setPrecio(new BigDecimal("80.00"));
         c1.setPlazasMax(6);
-        c1.setplazasOcupadas(0);
+        c1.setPlazasOcupadas(0);
         c1.setFechaActividad(LocalDate.now().plusDays(5));
         c1.setDuracionMinutos(240);
         c1.setActivo(true);
@@ -327,7 +327,7 @@ public class DataLoader implements CommandLineRunner {
         c2.setDescripcion("Habilidades para realizar inmersiones en apnea hasta 5 metros en piscina. Incluye técnicas de respiración correcta, control de la flotabilidad y seguridad básica.");
         c2.setPrecio(new BigDecimal("180.00"));
         c2.setPlazasMax(8);
-        c2.setplazasOcupadas(0);
+        c2.setPlazasOcupadas(0);
         c2.setFechaActividad(LocalDate.now().plusDays(10));
         c2.setDuracionMinutos(480);
         c2.setActivo(true);
@@ -348,7 +348,7 @@ public class DataLoader implements CommandLineRunner {
         c3.setDescripcion("Cualifica para inmersiones hasta 20 metros en aguas abiertas. Combina formación teórica sobre física y fisiología de la apnea con prácticas intensas.");
         c3.setPrecio(new BigDecimal("280.00"));
         c3.setPlazasMax(8);
-        c3.setplazasOcupadas(0);
+        c3.setPlazasOcupadas(0);
         c3.setFechaActividad(LocalDate.now().plusDays(15));
         c3.setDuracionMinutos(960);
         c3.setActivo(true);
@@ -369,7 +369,7 @@ public class DataLoader implements CommandLineRunner {
         c4.setDescripcion("Cualifica para inmersiones hasta 30 metros. Profundiza en técnicas de relajamiento profundo, recuperación entre inmersiones y protocolos de seguridad avanzados.");
         c4.setPrecio(new BigDecimal("380.00"));
         c4.setPlazasMax(6);
-        c4.setplazasOcupadas(0);
+        c4.setPlazasOcupadas(0);
         c4.setFechaActividad(LocalDate.now().plusDays(20));
         c4.setDuracionMinutos(1440);
         c4.setActivo(true);
@@ -390,7 +390,7 @@ public class DataLoader implements CommandLineRunner {
         c5.setDescripcion("Nivel más alto de formación recreativa en apnea SSI, hasta 40 metros. Requiere dominio absoluto de técnicas de equalización, control del reflejo de inmersión y gestión del estrés fisiológico.");
         c5.setPrecio(new BigDecimal("480.00"));
         c5.setPlazasMax(4);
-        c5.setplazasOcupadas(0);
+        c5.setPlazasOcupadas(0);
         c5.setFechaActividad(LocalDate.now().plusDays(25));
         c5.setDuracionMinutos(1920);
         c5.setActivo(true);
@@ -412,7 +412,7 @@ public class DataLoader implements CommandLineRunner {
         c6.setDescripcion("Certificación internacional que permite bucear hasta 18 metros. Formación teórica online + prácticas en agua.");
         c6.setPrecio(new BigDecimal("450.00"));
         c6.setPlazasMax(6);
-        c6.setplazasOcupadas(0);
+        c6.setPlazasOcupadas(0);
         c6.setFechaActividad(LocalDate.now().plusDays(12));
         c6.setDuracionMinutos(1440);
         c6.setActivo(true);
@@ -433,7 +433,7 @@ public class DataLoader implements CommandLineRunner {
         c7.setDescripcion("Certificación avanzada para buceadores con experiencia. 5 inmersiones de especialización y formación teórica avanzada.");
         c7.setPrecio(new BigDecimal("400.00"));
         c7.setPlazasMax(6);
-        c7.setplazasOcupadas(0);
+        c7.setPlazasOcupadas(0);
         c7.setFechaActividad(LocalDate.now().plusDays(25));
         c7.setDuracionMinutos(960);
         c7.setActivo(true);
@@ -454,7 +454,7 @@ public class DataLoader implements CommandLineRunner {
         c8.setDescripcion("Aprende a prevenir y gestionar emergencias bajo el agua. Te convierte en un buceador consciente y responsable, capaz de ayudar a otros.");
         c8.setPrecio(new BigDecimal("420.00"));
         c8.setPlazasMax(6);
-        c8.setplazasOcupadas(0);
+        c8.setPlazasOcupadas(0);
         c8.setFechaActividad(LocalDate.now().plusDays(22));
         c8.setDuracionMinutos(1200);
         c8.setActivo(true);
@@ -475,7 +475,7 @@ public class DataLoader implements CommandLineRunner {
         c9.setDescripcion("Especialízate en áreas específicas del buceo: profundidad, navegación, fotografía, nitrox y más.");
         c9.setPrecio(new BigDecimal("250.00"));
         c9.setPlazasMax(8);
-        c9.setplazasOcupadas(0);
+        c9.setPlazasOcupadas(0);
         c9.setFechaActividad(LocalDate.now().plusDays(18));
         c9.setDuracionMinutos(960);
         c9.setActivo(true);
@@ -496,7 +496,7 @@ public class DataLoader implements CommandLineRunner {
         c10.setDescripcion("Certificación para bucear con mezclas de oxígeno superiores al aire. Reduce los tiempos de recuperación y aumenta los límites de profundidad.");
         c10.setPrecio(new BigDecimal("220.00"));
         c10.setPlazasMax(8);
-        c10.setplazasOcupadas(0);
+        c10.setPlazasOcupadas(0);
         c10.setFechaActividad(LocalDate.now().plusDays(8));
         c10.setDuracionMinutos(480);
         c10.setActivo(true);
@@ -519,7 +519,7 @@ public class DataLoader implements CommandLineRunner {
         e1.setDescripcion("Programa integral de primeros auxilios y respuesta a emergencias. Certificación reconocida internacionalmente para buceadores.");
         e1.setPrecio(new BigDecimal("150.00"));
         e1.setPlazasMax(10);
-        e1.setplazasOcupadas(0);
+        e1.setPlazasOcupadas(0);
         e1.setFechaActividad(LocalDate.now().plusDays(5));
         e1.setDuracionMinutos(480);
         e1.setActivo(true);
@@ -540,7 +540,7 @@ public class DataLoader implements CommandLineRunner {
         e2.setDescripcion("Soporte vital básico con énfasis en situaciones acuáticas. Técnicas de RCP y manejo de vías respiratorias.");
         e2.setPrecio(new BigDecimal("120.00"));
         e2.setPlazasMax(12);
-        e2.setplazasOcupadas(0);
+        e2.setPlazasOcupadas(0);
         e2.setFechaActividad(LocalDate.now().plusDays(6));
         e2.setDuracionMinutos(360);
         e2.setActivo(true);
@@ -561,7 +561,7 @@ public class DataLoader implements CommandLineRunner {
         e3.setDescripcion("Primeros auxilios con oxígeno para lesiones de buceo. Tratamiento de enfermedades de descompresión.");
         e3.setPrecio(new BigDecimal("200.00"));
         e3.setPlazasMax(8);
-        e3.setplazasOcupadas(0);
+        e3.setPlazasOcupadas(0);
         e3.setFechaActividad(LocalDate.now().plusDays(8));
         e3.setDuracionMinutos(480);
         e3.setActivo(true);
@@ -583,7 +583,7 @@ public class DataLoader implements CommandLineRunner {
         t1.setDescripcion("Introducción al buceo técnico con nitrox. Formación para extensiones de rango hasta 40 metros con mezclas de aire enriquecido.");
         t1.setPrecio(new BigDecimal("450.00"));
         t1.setPlazasMax(4);
-        t1.setplazasOcupadas(0);
+        t1.setPlazasOcupadas(0);
         t1.setFechaActividad(LocalDate.now().plusDays(15));
         t1.setDuracionMinutos(1440);
         t1.setActivo(true);
@@ -605,7 +605,7 @@ public class DataLoader implements CommandLineRunner {
         t2.setDescripcion("Certificación para buceo técnico extendido hasta 50 metros. Manejo de múltiples gases y planificación de inmersiones técnicas.");
         t2.setPrecio(new BigDecimal("650.00"));
         t2.setPlazasMax(4);
-        t2.setplazasOcupadas(0);
+        t2.setPlazasOcupadas(0);
         t2.setFechaActividad(LocalDate.now().plusDays(20));
         t2.setDuracionMinutos(1920);
         t2.setActivo(true);
@@ -627,7 +627,7 @@ public class DataLoader implements CommandLineRunner {
         t3.setDescripcion("Mezclas trimix para profundidades técnicas. Aprende a planificar y ejecutar inmersiones con gases hipotóxicos.");
         t3.setPrecio(new BigDecimal("750.00"));
         t3.setPlazasMax(4);
-        t3.setplazasOcupadas(0);
+        t3.setPlazasOcupadas(0);
         t3.setFechaActividad(LocalDate.now().plusDays(22));
         t3.setDuracionMinutos(1920);
         t3.setActivo(true);
@@ -650,7 +650,7 @@ public class DataLoader implements CommandLineRunner {
         p1.setDescripcion("Introducción a la liderazgo de buceo. Aprende a guiar grupos de buceadores en entornos controlados.");
         p1.setPrecio(new BigDecimal("500.00"));
         p1.setPlazasMax(6);
-        p1.setplazasOcupadas(0);
+        p1.setPlazasOcupadas(0);
         p1.setFechaActividad(LocalDate.now().plusDays(20));
         p1.setDuracionMinutos(1440);
         p1.setActivo(true);
@@ -672,7 +672,7 @@ public class DataLoader implements CommandLineRunner {
         p2.setDescripcion("Certificación profesional para control y supervisión de actividades de buceo. Gestión de grupos, resolución de problemas y seguridad.");
         p2.setPrecio(new BigDecimal("600.00"));
         p2.setPlazasMax(6);
-        p2.setplazasOcupadas(0);
+        p2.setPlazasOcupadas(0);
         p2.setFechaActividad(LocalDate.now().plusDays(25));
         p2.setDuracionMinutos(1680);
         p2.setActivo(true);
@@ -694,7 +694,7 @@ public class DataLoader implements CommandLineRunner {
         p3.setDescripcion("Curso de formación de instructores SSI. Preparación para la certificación de instructor de buceo.");
         p3.setPrecio(new BigDecimal("1200.00"));
         p3.setPlazasMax(4);
-        p3.setplazasOcupadas(0);
+        p3.setPlazasOcupadas(0);
         p3.setFechaActividad(LocalDate.now().plusDays(30));
         p3.setDuracionMinutos(2400);
         p3.setActivo(true);

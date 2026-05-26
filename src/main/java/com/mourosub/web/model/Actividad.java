@@ -130,8 +130,8 @@ public class Actividad {
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 
-    public int getplazasOcupadas () {return plazasOcupadas;}
-    public void setplazasOcupadas (int plazasOcupadas){this.plazasOcupadas = plazasOcupadas;}
+    public int getPlazasOcupadas () {return plazasOcupadas;}
+    public void setPlazasOcupadas (int plazasOcupadas){this.plazasOcupadas = plazasOcupadas;}
 
 public LocalDate getFechaActividad () {return fechaActividad;}
     public void setFechaActividad (LocalDate fechaActividad){this.fechaActividad = fechaActividad;}
