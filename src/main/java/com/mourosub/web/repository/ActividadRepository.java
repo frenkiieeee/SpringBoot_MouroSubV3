@@ -9,4 +9,7 @@ import java.util.List;
 
 public interface ActividadRepository extends JpaRepository<Actividad, Long> {
     List<Actividad> findByTipoIn (List<String> tipos);
+    List<Actividad> findByCategoriaAndActivoTrue(String categoria);
+    List<Actividad> findByCategoriaAndActivoTrueOrderByNombreAsc(String categoria);
+    List<Actividad> findByActivoTrueOrderByCategoriaAscNombreAsc();
 }

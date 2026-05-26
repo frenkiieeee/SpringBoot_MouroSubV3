@@ -19,43 +19,73 @@ public class ReservaService {
     private final ActividadRepository actividadRepo;
     private final UsuarioRepository usuarioRepo;
     private final InstructorRepository instructorRepo;
+    private final CursoRepository cursoRepo;
+    private final InmersionRepository inmersionRepo;
 
     // constructor para que spring meta los repositorios automaticamente
     public ReservaService(ReservaRepository reservaRepo,
                           ActividadRepository actividadRepo,
                           UsuarioRepository usuarioRepo,
-                          InstructorRepository instructorRepo) {
+                          InstructorRepository instructorRepo,
+                          CursoRepository cursoRepo,
+                          InmersionRepository inmersionRepo) {
         this.reservaRepo = reservaRepo;
         this.actividadRepo = actividadRepo;
         this.usuarioRepo = usuarioRepo;
         this.instructorRepo = instructorRepo;
+        this.cursoRepo = cursoRepo;
+        this.inmersionRepo = inmersionRepo;
     }
 
     // transactional asegura que si algo peta a medias no se guarde nada roto en la base de datos
     @Transactional
     public Reserva crearReserva(Reserva reserva, List<Long> usuarioIds) {
-        // pillamos la actividad de la bd y si no existe reventamos con una excepcion
-        Actividad actividad = actividadRepo.findById(reserva.getActividad().getIdActividad())
-            .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+        Object servicio = null;
+        String tipo = null;
 
-        // rellenamos los datos de la reserva copiandolos de la actividad
-        reserva.setActividad(actividad);
-        reserva.setTipoServicio(actividad.getTipo());
-        reserva.setRefServicio(actividad.getNombre());
-        reserva.setRefServicioId(String.valueOf(actividad.getIdActividad()));
-        reserva.setFechaActividad(actividad.getFechaActividad());
-
-        // pasamos los filtros de seguridad basicos y los de tipo de actividad
-        validarReservaBasica(reserva, actividad);
-        validarReglasTipoActividad(actividad);
-
-        // comprobamos que haya hueco para esa cantidad de gente
-        if (!comprobarDisponibilidad(actividad, reserva.getNumParticipantes())) {
-            throw new RuntimeException("No hay plazas disponibles");
+        if (reserva.getActividad() != null) {
+            Actividad actividad = actividadRepo.findById(reserva.getActividad().getIdActividad())
+                .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
+            reserva.setActividad(actividad);
+            reserva.setTipoServicio(actividad.getTipo());
+            reserva.setRefServicio(actividad.getNombre());
+            reserva.setRefServicioId(String.valueOf(actividad.getIdActividad()));
+            reserva.setFechaActividad(actividad.getFechaActividad());
+            validarReservaBasica(reserva, actividad);
+            if (!comprobarDisponibilidad(actividad, reserva.getNumParticipantes())) {
+                throw new RuntimeException("No hay plazas disponibles");
+            }
+            servicio = actividad;
+        } else if (reserva.getCurso() != null) {
+            Curso curso = cursoRepo.findById(reserva.getCurso().getIdCurso())
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+            reserva.setCurso(curso);
+            reserva.setTipoServicio("CURSO");
+            reserva.setRefServicio(curso.getNombre());
+            reserva.setRefServicioId(String.valueOf(curso.getIdCurso()));
+            reserva.setFechaActividad(curso.getFechaActividad());
+            if (!comprobarDisponibilidadCurso(curso, reserva.getNumParticipantes())) {
+                throw new RuntimeException("No hay plazas disponibles");
+            }
+            servicio = curso;
+        } else if (reserva.getInmersion() != null) {
+            Inmersiones inmersion = inmersionRepo.findById(reserva.getInmersion().getIdInmersion())
+                .orElseThrow(() -> new RuntimeException("Inmersion no encontrada"));
+            reserva.setInmersion(inmersion);
+            reserva.setTipoServicio("INMERSION");
+            reserva.setRefServicio(inmersion.getNombre());
+            reserva.setRefServicioId(String.valueOf(inmersion.getIdInmersion()));
+            reserva.setFechaActividad(inmersion.getFechaActividad());
+            if (!comprobarDisponibilidadInmersion(inmersion, reserva.getNumParticipantes())) {
+                throw new RuntimeException("No hay plazas disponibles");
+            }
+            servicio = inmersion;
+        } else {
+            throw new RuntimeException("La reserva no tiene ningun servicio asociado");
         }
 
         // buscamos a un instructor que no tenga curro ese dia y se lo asignamos
-        Instructor instructor = asignarInstructorDisponible(actividad);
+        Instructor instructor = asignarInstructorDisponible(reserva.getFechaActividad());
         if (reserva.getInstructores() == null) {
             reserva.setInstructores(new ArrayList<>());
         }
@@ -69,13 +99,24 @@ public class ReservaService {
         reserva.setUsuarios(usuarios);
 
         // calculamos la pasta multiplicando el precio base por los participantes
-        reserva.setPrecioTotal(calcularPrecio(actividad, reserva.getNumParticipantes()));
+        reserva.setPrecioTotal(calcularPrecio(servicio, reserva.getNumParticipantes()));
         reserva.setEstado("ACTIVA");
         reserva.setFechaReserva(LocalDate.now());
 
-        // sumamos los participantes a las plazas ocupadas y guardamos la actividad actualizada
-        actividad.setplazasOcupadas(actividad.getplazasOcupadas() + reserva.getNumParticipantes());
-        actividadRepo.save(actividad);
+        // incrementamos plazas ocupadas segun el tipo
+        if (servicio instanceof Actividad) {
+            Actividad a = (Actividad) servicio;
+            a.setplazasOcupadas(a.getplazasOcupadas() + reserva.getNumParticipantes());
+            actividadRepo.save(a);
+        } else if (servicio instanceof Curso) {
+            Curso c = (Curso) servicio;
+            c.setplazasOcupadas(c.getplazasOcupadas() + reserva.getNumParticipantes());
+            cursoRepo.save(c);
+        } else if (servicio instanceof Inmersiones) {
+            Inmersiones i = (Inmersiones) servicio;
+            i.setplazasOcupadas(i.getplazasOcupadas() + reserva.getNumParticipantes());
+            inmersionRepo.save(i);
+        }
 
         // guardamos la reserva completa en la bd
         return reservaRepo.save(reserva);
@@ -93,13 +134,26 @@ public class ReservaService {
             throw new ReservaYaCanceladaException("Esta reserva esta cancelada");
         }
 
-        // seguro anti despistes por si la reserva perdio su conexion con la actividad
-        if (reserva.getActividad() == null) {
-            throw new RuntimeException("La reserva no tiene actividad asociada");
+        // buscamos el servicio y la fecha de la actividad
+        LocalDate fechaActividad = reserva.getFechaActividad();
+        int plazasLiberadas = reserva.getNumParticipantes();
+
+        // decrementamos plazas segun el tipo de servicio
+        if (reserva.getActividad() != null) {
+            Actividad actividad = reserva.getActividad();
+            actividad.setplazasOcupadas(Math.max(0, actividad.getplazasOcupadas() - plazasLiberadas));
+            actividadRepo.save(actividad);
+        } else if (reserva.getCurso() != null) {
+            Curso curso = reserva.getCurso();
+            curso.setplazasOcupadas(Math.max(0, curso.getplazasOcupadas() - plazasLiberadas));
+            cursoRepo.save(curso);
+        } else if (reserva.getInmersion() != null) {
+            Inmersiones inmersion = reserva.getInmersion();
+            inmersion.setplazasOcupadas(Math.max(0, inmersion.getplazasOcupadas() - plazasLiberadas));
+            inmersionRepo.save(inmersion);
         }
 
         // regla de negocio vital para que no cancelen con menos de 24 horas de margen
-        LocalDate fechaActividad = reserva.getActividad().getFechaActividad();
         if (fechaActividad.isBefore(LocalDate.now().plusDays(1))) {
             throw new FueraDePlazoException("No se puede cancelar la reserva con menos de 24h de antelacion");
         }
@@ -108,13 +162,7 @@ public class ReservaService {
         reserva.setEstado("CANCELADA");
         reserva.getInstructores().clear();
 
-        // restamos a la gente de las plazas ocupadas asegurandonos de no bajar de cero
-        Actividad actividad = reserva.getActividad();
-        int plazasLiberadas = reserva.getNumParticipantes();
-        actividad.setplazasOcupadas(Math.max(0, actividad.getplazasOcupadas() - plazasLiberadas));
-        
-        // guardamos actividad y reserva actualizadas
-        actividadRepo.save(actividad);
+        // guardamos reserva actualizada
         reservaRepo.save(reserva);
     }
 
@@ -124,11 +172,11 @@ public class ReservaService {
     }
 
     // pilla a todos los instructores y filtra al primero que este libre ese dia
-    public Instructor asignarInstructorDisponible(Actividad actividad) {
+    public Instructor asignarInstructorDisponible(LocalDate fechaActividad) {
         List<Instructor> instructores = instructorRepo.findAll();
 
         return instructores.stream()
-            .filter(instructor -> estaDisponible(instructor, actividad.getFechaActividad()))
+            .filter(instructor -> estaDisponible(instructor, fechaActividad))
             .findFirst()
             .orElseThrow(() -> new RuntimeException("No hay instructores disponibles"));
     }
@@ -143,8 +191,27 @@ public class ReservaService {
     }
 
     // multiplica el precio unitario por las personas usando bigdecimal para no perder precision
-    public BigDecimal calcularPrecio(Actividad actividad, int participantes) {
-        return actividad.getPrecio().multiply(BigDecimal.valueOf(participantes));
+    public BigDecimal calcularPrecio(Object servicio, int participantes) {
+        BigDecimal precio = null;
+        if (servicio instanceof Actividad) {
+            precio = ((Actividad) servicio).getPrecio();
+        } else if (servicio instanceof Curso) {
+            precio = ((Curso) servicio).getPrecio();
+        } else if (servicio instanceof Inmersiones) {
+            precio = ((Inmersiones) servicio).getPrecio();
+        }
+        if (precio == null) {
+            throw new RuntimeException("No se pudo determinar el precio del servicio");
+        }
+        return precio.multiply(BigDecimal.valueOf(participantes));
+    }
+
+    public boolean comprobarDisponibilidadCurso(Curso curso, int participantes) {
+        return curso.getPlazasMax() - curso.getplazasOcupadas() >= participantes;
+    }
+
+    public boolean comprobarDisponibilidadInmersion(Inmersiones inmersion, int participantes) {
+        return inmersion.getPlazasMax() - inmersion.getplazasOcupadas() >= participantes;
     }
 
     // comprobaciones basicas de que todo este en orden antes de intentar guardar nada
@@ -162,10 +229,5 @@ public class ReservaService {
 
     // logica extra preparada por si la actividad exige tener un nivel de buceo especifico
     private void validarReglasTipoActividad(Actividad actividad) {
-        if (actividad instanceof Inmersiones inmersion) {
-            if (inmersion.getNivelReq() != null && !inmersion.getNivelReq().isBlank()) {
-                // logica que se hara por otro lado
-            }
-        }
     }
 }

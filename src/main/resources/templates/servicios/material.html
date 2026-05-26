@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <title>Material | Mourosub</title>
+  <style>
+    :root {
+      --dark-bg: #0b1120;
+      --card-bg: #111c35;
+      --cyan: #00b4d8;
+      --cyan-bright: #00d4f5;
+      --white: #ffffff;
+      --muted: #7a8fb0;
+    }
+    body { background: var(--dark-bg); color: var(--white); }
+
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1rem 2.5rem;
+    }
+    .hero-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--cyan);
+      margin-bottom: 0.9rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--cyan-bright); }
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .materiales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 3rem;
+    }
+    .material-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .material-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cyan);
+    }
+    .material-nombre {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .material-marca {
+      color: var(--cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .material-info {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+    .material-info i {
+      margin-right: 0.4rem;
+    }
+    .material-precio {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--cyan-bright);
+      margin-top: 1rem;
+    }
+    .material-precio span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .btn-reservar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: var(--cyan);
+      color: #0b2138;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s;
+    }
+    .btn-reservar:hover { background: var(--cyan-bright); color: #0b2138; }
+    .btn-volver {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .btn-volver:hover { color: var(--white); }
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+    }
+    .categoria-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(0,180,216,0.15);
+      border: 1px solid rgba(0,180,216,0.3);
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: var(--cyan);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+
+<div class="hero">
+  <p class="hero-label">● MATERIAL</p>
+  <h1>Alquila tu <span>equipo</span></h1>
+  <p>Equipamiento de alta gama para tu experiencia de buceo.</p>
+</div>
+
+<div class="container">
+  <div th:if="${#lists.isEmpty(materiales)}" class="empty-state">
+    <i class="bi bi-box-seam" style="font-size: 3rem;"></i>
+    <p>No hay material disponible en este momento.</p>
+  </div>
+
+  <div class="materiales-grid">
+    <div th:each="mat : ${materiales}" class="material-card">
+      <span class="categoria-badge" th:text="${mat.categoria}">Categoría</span>
+      <div class="material-nombre" th:text="${mat.nombre}">Nombre del material</div>
+      <div class="material-marca" th:text="${mat.marca + ' - ' + mat.modelo}">Marca - Modelo</div>
+      <div class="material-info"><i class="bi bi-tag"></i><span th:text="${mat.estadoConservacion}">Estado</span></div>
+      <div class="material-precio">
+        <span th:text="${#numbers.formatDecimal(mat.precioPorDia, 1, 2)}">0.00</span> €
+        <span>/día</span>
+      </div>
+      <form th:action="@{/alquileres}" method="post">
+        <input type="hidden" name="materialId" th:value="${mat.idMaterial}">
+        <input type="hidden" name="idAlquiler" value="">
+        <button type="submit" class="btn-reservar"><i class="bi bi-cart-plus"></i> Reservar</button>
+      </form>
+    </div>
+  </div>
+
+  <a class="btn-volver" th:href="@{/servicios/alquiler}">← Volver</a>
+</div>
+
+<div id="siteFooter" th:insert="~{fragments/footerBlack :: footerBlack}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+</body>
+</html>

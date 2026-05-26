@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="es" class="h-100" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 
-<!--Hacer thymeleaf de reservas y corregir posibles errores-->
-
 <head>
     <meta charset="UTF-8">
     <title>Reservas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
     <link rel="stylesheet" th:href="@{/css/reservas.css}">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  
-
 </head>
-
 <body>
-    <div id="siteHeader"></div>
-    <section th:if="${seccion == 'inicio'}">
+
+  <div th:replace="~{fragments/header :: siteHeader}"></div>
+
+  <main style="padding-top: 120px;">
+
+  <section th:if="${seccion == 'inicio'}">
 
     <!-- HERO -->
     <div class="hero">
-        <p class="hero-label">● ELIGE TU EXPERIENCIA</p>
         <h1>Reserva tu <span>aventura</span></h1>
-        <p>Dinos cuál es tu nivel actual para recomendarte la mejor opción.</p>
     </div>
 
     <!-- CARDS GRID -->
@@ -60,18 +55,34 @@
             </div>
         </a>
 
+        <!-- Card Inmersiones -->
+        <a th:href="@{/reservas/inmersiones}" class="card">
+            <img class="card-img"
+                 th:src="@{/img/Inmersiones/Imagen1.jpg}"
+                 alt="Inmersiones">
+            <div class="card-overlay"></div>
+            <div class="card-content">
+                <span class="badge badge-cyan">
+                    <i class="bi bi-water"></i> INMERSIONES
+                </span>
+                <div class="card-title">Inmersiones</div>
+                <span class="card-btn">Reservar Inmersion →</span>
+            </div>
+        </a>
+
     </div>
 
     <!-- Enlace de ayuda -->
     <p style="text-align:center; color: var(--muted); font-size: 0.85rem; padding-bottom: 2rem;">
-        ○ ¿No estás seguro de qué elegir? 
+        ○ ¿No estás seguro de qué elegir?
         <a href="/contacto" style="color: var(--cyan);">Contáctanos</a>
     </p>
 
-</section>
-    <!--========== Forumulario de actividades ===============-->
-    <section th:if="${seccion == 'actividades'}">
-    <div class="form-section">
+  </section><!-- end seccion == inicio -->
+
+  <!--========== Forumulario de actividades ===============-->
+  <section th:if="${seccion == 'actividades'}">
+    <div class="form-section" style="padding-top: 130px;">
 
         <p class="hero-label">NUEVA RESERVA</p>
         <h2 class="form-title" th:text="${titulo}">Reserva de Actividad</h2>
@@ -80,26 +91,17 @@
         <form th:action="@{/reservas/guardar}" method="post">
 
             <div class="form-group">
-                <label for="tipoActividad">Tipo de actividad</label>
-                <select id="tipoActividad" name="tipoActividad" required>
+                <label for="idActividad">Actividad</label>
+                <select id="idActividad" name="idActividad" required>
                     <option value="">Seleccione una opción</option>
-                    <option value="ninos-buceo">Niños y Buceo</option>
-                    <option value="snorkel">Snorkel</option>
-                    <option value="bautismos-buceo">Bautismos de Buceo</option>
-                    <option value="club-mourosub">Club Mourosub</option>
-                    <option value="rutas-barco">Rutas en barco</option>
-                    <option value="naturaleza-medio-ambiente">Naturaleza y medio ambiente</option>
-                    <option value="talleres-tecnicos">Talleres técnicos</option>
-                    <option th:each="actividad : ${actividades}"
-                            th:value="${actividad.idActividad}"
-                            th:text="${actividad.nombre + ' — ' + actividad.precio + ' €'}">
-                    </option>
-                </select>
-            </div>
-            <div class="form-group" id="actividadDetalleGroup" style="display: none;">
-                <label for="actividadDetalle">Actividad concreta</label>
-                <select id="actividadDetalle" name="actividadDetalle">
-                <option value="">Seleccione una opción</option>
+                    <th:block th:each="entry : ${actividadesPorCategoria}">
+                        <optgroup th:label="${entry.key}">
+                            <option th:each="actividad : ${entry.value}"
+                                    th:value="${actividad.idActividad}"
+                                    th:text="${actividad.nombre + ' — ' + actividad.precio + ' €'}">
+                            </option>
+                        </optgroup>
+                    </th:block>
                 </select>
             </div>
             <div class="form-row">
@@ -151,9 +153,80 @@
         </a>
 
     </div>
-</section>
-<section th:if="${seccion == 'cursos'|| seccion == 'formulario'}">
-    <div class="form-section">
+  </section>
+
+  <section th:if="${seccion == 'inmersiones'}">
+    <div class="form-section" style="padding-top: 130px;">
+
+        <p class="hero-label">NUEVA RESERVA</p>
+        <h2 class="form-title" th:text="${titulo}">Reserva de Inmersión</h2>
+        <p class="form-subtitle">Completa los datos para confirmar tu plaza.</p>
+
+        <form th:action="@{/reservas/guardar}" method="post">
+
+            <div class="form-group">
+                <label for="idInmersion">Inmersión</label>
+                <select id="idInmersion" name="idInmersion" required>
+                    <option value="">Seleccione una opción</option>
+                    <option th:each="inmersion : ${inmersiones}"
+                            th:value="${inmersion.idInmersion}"
+                            th:text="${inmersion.nombre + ' — ' + inmersion.precio + ' €'}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="inm-nombre">Nombre</label>
+                    <input id="inm-nombre" type="text" name="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="inm-apellidos">Apellidos</label>
+                    <input id="inm-apellidos" type="text" name="apellidos" placeholder="Tus apellidos" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="inm-email">Email</label>
+                    <input id="inm-email" type="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="inm-telefono">Teléfono</label>
+                    <input id="inm-telefono" type="text" name="telefono" placeholder="612 345 678" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="inm-dni">DNI</label>
+                    <input id="inm-dni" type="text" name="dni" placeholder="00000000X">
+                </div>
+                <div class="form-group">
+                    <label for="inm-codigoPostal">Código postal</label>
+                    <input id="inm-codigoPostal" type="text" name="codigoPostal" placeholder="39000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inm-numParticipantes">Número de participantes</label>
+                <input id="inm-numParticipantes" type="number" name="numParticipantes" min="1" placeholder="1" required>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-check-circle"></i> Guardar reserva
+            </button>
+
+        </form>
+
+        <a th:href="@{/reservas}" class="btn-volver">
+            ← Volver a reservas
+        </a>
+
+    </div>
+  </section>
+
+  <section th:if="${seccion == 'cursos'|| seccion == 'formulario'}">
+    <div class="form-section" style="padding-top: 130px;">
 
         <p class="hero-label">NUEVA RESERVA</p>
         <h2 class="form-title" th:text="${titulo}">Reserva de Curso</h2>
@@ -162,24 +235,16 @@
         <form th:action="@{/reservas/guardar}" method="post">
 
             <div class="form-group">
-                <label for="idCurso">Curso</label>
-                <select id="idCurso" name="idCurso" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="apnea">Cursos de apnea</option>
-                    <option value="deportivos">Cursos Deportivos y Especialidad</option>
-                    <option value="emergencia">Formación de Emergencia y Primeros Auxilios</option>
-                    <option value="xr">Técnicos XR</option>
-                    <option value="profesionales">Profesionales</option>
-                    <option th:each="curso : ${cursos}"
-                            th:value="${curso.idCurso}"
-                            th:text="${curso.nombre + ' — ' + curso.tipo + ' — ' + curso.precio + ' €'}">
-                    </option>
+                <label for="categoriaSelect">Categoría de curso</label>
+                <select id="categoriaSelect" required>
+                    <option value="">Seleccione una categoría</option>
+                    <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat}"></option>
                 </select>
             </div>
-            <div class="form-group" id="cursoDetalleGroup" style="display: none;">
-                <label for="cursoDetalle">Curso concreto</label>
-                <select id="cursoDetalle" name="cursoDetalle">
-                <option value="">Seleccione una opción</option>
+            <div class="form-group" id="cursoSelectGroup" style="display: none;">
+                <label for="idActividad">Curso</label>
+                <select id="idActividad" name="idCurso" required>
+                    <option value="">Seleccione un curso</option>
                 </select>
             </div>
             <div class="form-row">
@@ -220,181 +285,48 @@
         </a>
 
     </div>
-</section>
-    <div id="siteFooter"></div>
-    <script src="js/header.js"></script>
-    <script>
-        // cargar cabecera con control de errores
-        fetch("/fragments/header")
-            .then(r => {
-                if (!r.ok) throw new Error("Error al cargar header: " + r.status);
-                return r.text();
-            })
-            .then(html => {
-                document.getElementById("siteHeader").innerHTML = html;
-                if (window.initHeaderSession) window.initHeaderSession();
-            })
-            .catch(err => console.error(err));
+  </section>
 
-        // cargar pie de pagina con control de errores
-        fetch("/fragments/footerBlack")
-            .then(r => {
-                if (!r.ok) throw new Error("Error al cargar footer: " + r.status);
-                return r.text();
-            })
-            .then(html => {
-                document.getElementById("siteFooter").innerHTML = html;
-            })
-            .catch(err => console.error(err));
-    </script>
+  </main><!-- end main -->
 
-    <script>
-    const cursosPorCategoria = {
-        apnea: [
-            "Try Freediving",
-            "Apnea básica",
-            "Apnea Nivel 1",
-            "Apnea Nivel 2",
-            "Apnea Nivel 3"
-        ],
-        deportivos: [
-            "Open Water Diver",
-            "Speciality Diver",
-            "Buceador Stress & Rescue",
-            "Advanced Adventurer",
-            "Advanced Open Water Diver",
-            "Master Diver",
-            "Flotabilidad Perfecta",
-            "Buceo Profundo",
-            "Orientación",
-            "Búsqueda y Recuperación",
-            "Aire Enriquecido Nitrox",
-            "Buceo en Pecios",
-            "Recreational Sidemount Diving",
-            "La Ciencia del Buceo",
-            "Buceo Nocturno y Visibilidad Limitada",
-            "Técnicas de Equipamiento",
-            "Foto y Vídeo",
-            "Buceo con Traje Seco"
-        ],
-        emergencia: [
-            "React Right",
-            "Basic Life Support DAN",
-            "First Aid DAN",
-            "Automated External Defibrillation DAN",
-            "Oxygen First Aid for Aquatic Emergencies DAN",
-            "Oxygen First Aid for Scuba Diving Injuries DAN",
-            "Advanced Oxygen First Aid for Scuba Diving Injuries DAN",
-            "On-Site Neurological Assessment for Divers DAN",
-            "Hazardous Marine Life Injuries DAN"
-        ],
-        xr: [
-            "Extended Range Nitrox Diving",
-            "Extended Range",
-            "Technical Extended Range",
-            "Trimix Hipóxico",
-            "CCR Technical Extended Range",
-            "Extended Range Gas Blender",
-            "Advanced Wreck Diving",
-            "Buceo en Cavernas"
-        ],
-        profesionales: [
-            "Dive Guide",
-            "Dive Control Specialist",
-            "Snorkeling Instructor",
-            "Instructor Training Course",
-            "Divemaster Instructor",
-            "Dive Control Specialist Instructor"
-        ]
-    };
+  <div th:replace="~{fragments/footerBlack :: footerBlack}"></div>
 
-    const actividadesPorCategoria = {
-        "ninos-buceo": [
-            "Niños y Buceo",
-            "Bautismo infantil",
-            "Actividades acuáticas infantiles"
-        ],
-        snorkel: [
-            "Snorkel",
-            "Ruta de snorkel",
-            "Snorkel desde barco"
-        ],
-        "bautismos-buceo": [
-            "Bautismo de buceo",
-            "Bautismo de buceo en mar",
-            "Bautismo de buceo en grupo"
-        ],
-        "rutas-barco": [
-            "Ruta en barco",
-            "Ruta por la bahía",
-            "Ruta alrededor de la Isla de Mouro"
-        ],
-        "naturaleza-medio-ambiente": [
-            "Actividad de naturaleza",
-            "Actividad de medio ambiente",
-            "Divulgación marina"
-        ],
-        "talleres-tecnicos": [
-            "Taller técnico",
-            "Taller de material",
-            "Taller de seguridad"
-        ]
-    };
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script>if (window.initHeaderSession) window.initHeaderSession();</script>
 
-    const tipoCurso = document.getElementById("idCurso");
-    const cursoDetalleGroup = document.getElementById("cursoDetalleGroup");
-    const cursoDetalle = document.getElementById("cursoDetalle");
+  <script th:inline="javascript" th:if="${cursosPorCategoria != null}">
+    const cursosData = /*[[${cursosPorCategoria}]]*/ {};
 
-    if (tipoCurso && cursoDetalleGroup && cursoDetalle) {
-    tipoCurso.addEventListener("change", function () {
-        const categoria = this.value;
-        cursoDetalle.innerHTML = '<option value="">Seleccione una opción</option>';
+    const categoriaSelect = document.getElementById("categoriaSelect");
+    const cursoSelectGroup = document.getElementById("cursoSelectGroup");
+    const idActividad = document.getElementById("idActividad");
 
-        if (!categoria || !cursosPorCategoria[categoria]) {
-            cursoDetalleGroup.style.display = "none";
-            cursoDetalle.required = false;
-            return;
-        }
-
-        cursosPorCategoria[categoria].forEach(curso => {
-            const option = document.createElement("option");
-            option.value = curso;
-            option.textContent = curso;
-            cursoDetalle.appendChild(option);
-        });
-
-        cursoDetalleGroup.style.display = "block";
-        cursoDetalle.required = true;
-    });
-    }
-
-    const tipoActividad = document.getElementById("tipoActividad");
-    const actividadDetalleGroup = document.getElementById("actividadDetalleGroup");
-    const actividadDetalle = document.getElementById("actividadDetalle");
-
-    if (tipoActividad && actividadDetalleGroup && actividadDetalle) {
-        tipoActividad.addEventListener("change", function () {
+    if (categoriaSelect) {
+        categoriaSelect.addEventListener("change", function () {
             const categoria = this.value;
-            actividadDetalle.innerHTML = '<option value="">Seleccione una opción</option>';
+            idActividad.innerHTML = '<option value="">Seleccione un curso</option>';
 
-            if (!categoria || !actividadesPorCategoria[categoria]) {
-                actividadDetalleGroup.style.display = "none";
-                actividadDetalle.required = false;
+            if (!categoria || !cursosData[categoria]) {
+                cursoSelectGroup.style.display = "none";
+                idActividad.required = false;
                 return;
             }
 
-            actividadesPorCategoria[categoria].forEach(actividad => {
+            cursosData[categoria].forEach(curso => {
                 const option = document.createElement("option");
-                option.value = actividad;
-                option.textContent = actividad;
-                actividadDetalle.appendChild(option);
+                option.value = curso.idCurso;
+                option.textContent = curso.nombre + ' — ' + curso.precio + ' €';
+                idActividad.appendChild(option);
             });
 
-            actividadDetalleGroup.style.display = "block";
-            actividadDetalle.required = true;
+            cursoSelectGroup.style.display = "block";
+            idActividad.required = true;
         });
     }
-</script>
+  </script>
+
+  
 
 </body>
 

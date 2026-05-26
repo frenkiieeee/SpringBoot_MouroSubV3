@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- xmlns:th habilita los atributos de Thymeleaf (th:*) -->
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -13,63 +12,75 @@
 
 <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
-
 <main class="container" style="padding-top: 120px;">
   <!-- Cabecera del panel: titulo a la izquierda y enlace de salida a la derecha -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="fw-bold">Panel admin</h1>
-    <!-- th:href="@{/}" -> enlace a la pagina de inicio del sitio -->
     <a class="btn btn-link" th:href="@{/}">Volver al sitio</a>
   </div>
-  <p class="text-muted">Gestion de reservas, servicio tecnico, usuarios y certificados.</p>
+  <p class="text-muted">Gestion de reservas, actividades, cursos, servicio tecnico, usuarios y certificados.</p>
 
-  <!-- Rejilla con las 4 secciones del panel. Cada columna ocupa media fila en
-       tablet (col-md-6) y un cuarto en escritorio (col-lg-3). -->
+  <!-- Seccion: Gestion -->
+  <h5 class="mt-4 mb-3">Gestion</h5>
   <div class="row g-3">
     <div class="col-md-6 col-lg-3">
       <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/reservas}">Reservas</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/tickets/admin/tickets}">Tickets</a>
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/actividades}">Actividades</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/tickets/servicio-tecnico}">Tickets servicio tecnico</a>
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/cursos}">Cursos</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/servicios/tecnico}">Servicios tecnicos</a>
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/inmersiones}">Inmersiones</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/usuarios}">Gestor de usuarios</a>
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/servicios/tecnico}">Servicios Tecnicos</a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/instructores}">Instructores</a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/materiales}">Materiales</a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/seguros}">Seguros</a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/usuarios}">Usuarios</a>
     </div>
     <div class="col-md-6 col-lg-3">
       <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/certificados}">Certificados</a>
     </div>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/tickets/admin/tickets}">Tickets</a>
+    </div>
   </div>
-  <br>
-  <div>
-    <p class="text-muted">Creacion</p>
-  </div>
+
+  <!-- Seccion: Creacion -->
+  <h5 class="mt-4 mb-3">Creacion</h5>
   <div class="row g-3">
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/actividades/nueva}">Actividades</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/actividades/nueva}">Nueva Actividad</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/tickets/admin/tickets}">Cursos</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/cursos/nuevo}">Nuevo Curso</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/tickets/servicio-tecnico}">Inmersiones</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/inmersiones/nueva}">Nueva Inmersión</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/servicios/tecnico}">Instructores</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/admin/servicios/tecnico/nuevo}">Nuevo Servicio Tecnico</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/usuarios}">Materiales</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/instructores/nuevo}">Nuevo Instructor</a>
     </div>
     <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/certificados}">Seguros</a>
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/materiales/nuevo}">Nuevo Material</a>
     </div>
-        <div class="col-md-6 col-lg-3">
-      <a class="btn btn-outline-primary w-100 py-3" th:href="@{/admin/certificados}">Servicios</a>
+    <div class="col-md-6 col-lg-3">
+      <a class="btn btn-outline-secondary w-100 py-3" th:href="@{/seguros/nuevo}">Nuevo Seguro</a>
     </div>
   </div>
 
@@ -78,7 +89,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
 <script>if (window.initHeaderSession) window.initHeaderSession();</script>
-
 
 </body>
 </html>

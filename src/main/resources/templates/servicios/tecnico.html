@@ -1,150 +1,122 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Servicio tecnico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <link rel="stylesheet" th:href="@{/css/reservas.css}">
+  <title>Servicio Técnico | Mourosub</title>
 </head>
-
 <body>
+<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
-  <!-- Inserta el fragmento del header dentro del div #siteHeader (espaciador del header fijo) -->
-  <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
+<section class="hero">
+  <p class="hero-label">● SERVICIO TÉCNICO</p>
+  <h1>Mantenimiento y <span>reparación</span></h1>
+  <p>Equipos de buceo revisados por técnicos certificados.</p>
+</section>
 
-  <main class="container" style="padding-top: 120px;">
-    <!-- Seccion 1: presentacion del servicio (texto + imagen) -->
-    <section class="mb-5">
-      <div class="row align-items-center g-4">
-        <div class="col-lg-6">
-          <h1 class="fw-bold">Servicio Técnico</h1>
-          <p class="text-muted">Mantenimiento, revision y reparacion de equipos de buceo. Contenido editable desde el
-            panel admin.</p>
-        </div>
-        <div class="col-lg-6 text-center">
-          <!-- th:src="@{/...}" calcula la ruta correcta de la imagen -->
-          <img th:src="@{/img/Servicio_Tecnico/Imagen23.jpgç.png}" alt="Servicio Tecnico" class="img-fluid rounded">
-        </div>
+<div class="cards-grid">
+  <div class="card" th:each="servicio : ${servicios}">
+    <img th:src="@{/img/Servicio_Tecnico/Imagen20.jpg}" alt="Servicio">
+    <div class="card-overlay"></div>
+    <div class="card-content">
+      <span class="badge badge-cyan"><i class="bi bi-tools"></i> <span th:text="${servicio.categoria}">Categoria</span></span>
+      <div class="card-title" th:text="${servicio.titulo}">Servicio</div>
+      <p class="text-white small" th:text="${servicio.descripcion}">Descripcion</p>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <p class="hero-label">SOLICITUD</p>
+  <h2 class="form-title">Solicitar servicio técnico</h2>
+  <p class="form-subtitle">Completa los datos para enviar tu solicitud.</p>
+
+  <div class="alert alert-success" th:if="${ok}">Solicitud enviada correctamente.</div>
+  <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
+  <div id="loginWarning" class="alert alert-warning d-none">
+    Necesitas iniciar sesion para enviar la solicitud.
+  </div>
+
+  <form th:action="@{/servicios/tecnico/solicitud}" th:object="${ticket}" method="post" id="ticketForm">
+    <input type="hidden" name="supabaseUserId" th:value="${supabaseUserId}" id="supabaseUserId">
+
+    <div class="form-group">
+      <label for="tec-nombre">Nombre</label>
+      <input type="text" id="tec-nombre" th:field="*{nombre}" placeholder="Tu nombre" required>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tec-email">Email</label>
+        <input type="email" id="tec-email" th:field="*{email}" placeholder="correo@ejemplo.com" required>
       </div>
-    </section>
-
-    <!-- Seccion 2: catalogo de servicios tecnicos disponibles -->
-    <section class="mb-5">
-      <h2 class="fw-semibold mb-3">Catalogo de servicios</h2>
-      <div class="row g-4">
-        <!-- th:each crea una tarjeta por cada servicio de la lista ${servicios} -->
-        <div class="col-12 col-md-6 col-lg-4" th:each="servicio : ${servicios}">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title" th:text="${servicio.titulo}">Servicio</h5>
-              <p class="card-text" th:text="${servicio.descripcion}">Descripcion</p>
-              <span class="badge text-bg-primary" th:text="${servicio.categoria}">Categoria</span>
-            </div>
-          </div>
-        </div>
-        <!-- Mensaje que aparece solo si la lista de servicios esta vacia -->
-        <div class="col-12" th:if="${#lists.isEmpty(servicios)}">
-          <div class="alert alert-secondary">No hay servicios tecnicos activos todavia.</div>
-        </div>
+      <div class="form-group">
+        <label for="tec-telefono">Teléfono</label>
+        <input type="text" id="tec-telefono" th:field="*{telefono}" placeholder="612 345 678">
       </div>
-    </section>
+    </div>
 
-    <!-- Seccion 3: formulario para solicitar un servicio tecnico -->
-    <section class="mb-5">
-      <h2 class="fw-semibold mb-3">Solicitar servicio tecnico</h2>
-
-      <!-- Avisos: exito si ${ok} es true; error si ${error} trae un mensaje -->
-      <div class="alert alert-success" th:if="${ok}">Solicitud enviada correctamente.</div>
-      <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
-      <!-- Aviso de "inicia sesion": empieza oculto; el JS de abajo lo muestra si hace falta -->
-      <div id="loginWarning" class="alert alert-warning d-none">
-        Necesitas iniciar sesion para enviar la solicitud.
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tec-equipo">Equipo</label>
+        <input type="text" id="tec-equipo" th:field="*{equipo}" placeholder="Tipo de equipo">
       </div>
+      <div class="form-group">
+        <label for="tec-marca">Marca</label>
+        <input type="text" id="tec-marca" th:field="*{marca}" placeholder="Marca del equipo">
+      </div>
+    </div>
 
-      <!-- th:object="${ticket}" enlaza el formulario con el objeto ticket;
-        cada th:field="*{campo}" conecta un input con un campo de ese objeto. -->
-      <form th:action="@{/servicios/tecnico/solicitud}" th:object="${ticket}" method="post" class="row g-3"
-        id="ticketForm">
-        <!-- Campo oculto con el id del usuario de Supabase; lo rellena el JS de abajo -->
-        <input type="hidden" name="supabaseUserId" th:value="${supabaseUserId}" id="supabaseUserId">
-        <div class="col-md-6">
-          <label class="form-label">Nombre</label>
-          <input type="text" class="form-control" th:field="*{nombre}" required>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" th:field="*{email}" required>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Telefono</label>
-          <input type="text" class="form-control" th:field="*{telefono}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Equipo</label>
-          <input type="text" class="form-control" th:field="*{equipo}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Marca</label>
-          <input type="text" class="form-control" th:field="*{marca}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Modelo</label>
-          <input type="text" class="form-control" th:field="*{modelo}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Numero de serie</label>
-          <input type="text" class="form-control" th:field="*{numeroSerie}">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Categoria</label>
-          <input type="text" class="form-control" th:field="*{categoria}" placeholder="Opcional">
-        </div>
-        <div class="col-12">
-          <label class="form-label">Descripcion del problema</label>
-          <textarea class="form-control" th:field="*{descripcionProblema}" rows="5" required></textarea>
-        </div>
-        <div class="col-12">
-          <button class="btn btn-primary" type="submit">Enviar solicitud</button>
-        </div>
-      </form>
-    </section>
-  </main>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tec-modelo">Modelo</label>
+        <input type="text" id="tec-modelo" th:field="*{modelo}" placeholder="Modelo">
+      </div>
+      <div class="form-group">
+        <label for="tec-serie">Número de serie</label>
+        <input type="text" id="tec-serie" th:field="*{numeroSerie}" placeholder="Número de serie">
+      </div>
+    </div>
 
-  <!-- Inserta el fragmento del footer -->
-  <div id="siteFooter" th:insert="~{Fragments/footer :: footer}"></div>
+    <div class="form-group">
+      <label for="tec-problema">Descripción del problema</label>
+      <textarea id="tec-problema" th:field="*{descripcionProblema}" rows="5" placeholder="Describe el problema..." required></textarea>
+    </div>
 
-  <!-- Bootstrap (menu desplegable) y header.js (estado de sesion en el header) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/header.js"></script>
-  <script>
-  <!-- Activa el estado de sesion del header (icono de cuenta vs boton de login) -->
-    if (window.initHeaderSession) window.initHeaderSession();
+    <button type="submit" class="btn-submit">
+      <i class="bi bi-send"></i> Enviar solicitud
+    </button>
+  </form>
+</div>
 
-    <!-- Usa el usuario guardado tras el login Supabase. -->
-    const storedUserId = localStorage.getItem("supabaseUserId") || "";
-    const supabaseInput = document.getElementById("supabaseUserId");
-    const form = document.getElementById("ticketForm");
-    const warning = document.getElementById("loginWarning");
+<div id="siteFooter" th:insert="~{Fragments/footerBlack :: footerBlack}"></div>
 
-    <!-- Si hay un usuario guardado, lo metemos en el campo oculto del formulario -->
-    if (supabaseInput && storedUserId) {
-      supabaseInput.value = storedUserId;
-    }
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+<script>
+  const storedUserId = localStorage.getItem("supabaseUserId") || "";
+  const supabaseInput = document.getElementById("supabaseUserId");
+  const form = document.getElementById("ticketForm");
+  const warning = document.getElementById("loginWarning");
 
-    <!-- Antes de enviar: si no hay usuario, cancelamos el envio y mostramos el aviso -->
-    if (form) {
-      form.addEventListener("submit", (event) => {
-        const currentId = supabaseInput ? supabaseInput.value.trim() : "";
-        if (!currentId) {
-          event.preventDefault();
-          warning.classList.remove("d-none");
-        }
-      });
-    }
-  </script>
+  if (supabaseInput && storedUserId) {
+    supabaseInput.value = storedUserId;
+  }
+
+  if (form) {
+    form.addEventListener("submit", (event) => {
+      const currentId = supabaseInput ? supabaseInput.value.trim() : "";
+      if (!currentId) {
+        event.preventDefault();
+        warning.classList.remove("d-none");
+      }
+    });
+  }
+</script>
 </body>
-
 </html>

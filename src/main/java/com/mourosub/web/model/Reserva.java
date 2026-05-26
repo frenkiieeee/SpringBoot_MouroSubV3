@@ -71,6 +71,14 @@ public class Reserva {
     @JoinColumn(name = "id_actividad")
     private Actividad actividad;
 
+    @ManyToOne
+    @JoinColumn(name = "id_curso")
+    private Curso curso;
+
+    @ManyToOne
+    @JoinColumn(name = "id_inmersion")
+    private Inmersiones inmersion;
+
     // el constructor vacio que exige jpa para funcionar por debajo
     public Reserva() {}
 
@@ -114,4 +122,8 @@ public class Reserva {
     public void setInstructores(List<Instructor> instructores) { this.instructores = instructores; }
     public Actividad getActividad() { return actividad; }
     public void setActividad(Actividad actividad) { this.actividad = actividad; }
+    public Curso getCurso() { return curso; }
+    public void setCurso(Curso curso) { this.curso = curso; }
+    public Inmersiones getInmersion() { return inmersion; }
+    public void setInmersion(Inmersiones inmersion) { this.inmersion = inmersion; }
 }

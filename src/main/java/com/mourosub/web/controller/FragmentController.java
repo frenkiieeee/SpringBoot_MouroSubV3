@@ -30,28 +30,32 @@ public class FragmentController {
     }
 
     // GET /fragments/header -> devuelve el HTML del header
-    // produces = TEXT_HTML_VALUE: avisamos de que la respuesta es HTML
     @GetMapping(value = "/fragments/header", produces = MediaType.TEXT_HTML_VALUE)
     public String header() throws IOException {
-        return readFragment("Fragments/header.html");
+        return readFragment("fragments/header.html");
     }
 
     // GET /fragments/footer -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footer", produces = MediaType.TEXT_HTML_VALUE)
     public String footer() throws IOException {
-        return readFragment("Fragments/footer.html");
+        return readFragment("fragments/footer.html");
     }
     // GET /fragments/footerBlack -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footerBlack", produces = MediaType.TEXT_HTML_VALUE)
     public String footerBlack() throws IOException {
-        return readFragment("Fragments/footerBlack.html");
+        return readFragment("fragments/footerBlack.html");
     }
 
     // Metodo auxiliar: abre el archivo indicado y devuelve su contenido como texto.
     private String readFragment(String relativePath) throws IOException {
-        // Construimos la ruta completa (base + ruta relativa) y abrimos el recurso.
-        Resource resource = resourceLoader.getResource(templatesBase + relativePath);
-        // Leemos todo el archivo a un String en UTF-8 y lo devolvemos.
+        String base = templatesBase;
+        if (!base.endsWith("/")) {
+            base = base + "/";
+        }
+        Resource resource = resourceLoader.getResource("file:" + System.getProperty("user.dir") + "/src/main/resources/templates/" + relativePath);
+        if (!resource.exists()) {
+            resource = resourceLoader.getResource("classpath:/templates/" + relativePath);
+        }
         return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
     }
 }

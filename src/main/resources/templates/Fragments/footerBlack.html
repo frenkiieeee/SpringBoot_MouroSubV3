@@ -4,6 +4,15 @@
      cualquier pagina con th:insert. Una sola copia para toda la web.
      ================================================================ -->
 <footer th:fragment="footerBlack" class="site-footer-negro">
+    <style>
+      .site-footer-negro a:not(.social-btn):not(.dropdown-item) {
+        color: rgba(255,255,255,0.55) !important;
+        text-decoration: none !important;
+      }
+      .site-footer-negro a:not(.social-btn):not(.dropdown-item):hover {
+        color: #fff !important;
+      }
+    </style>
     <div class="footer-top">
 
       <!-- Columna 1: enlaces de atencion al cliente -->

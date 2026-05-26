@@ -680,7 +680,7 @@ main {
 
   font-size: 2rem;
 
-  font-weight: 700;
+  font-weight: 400;
 
   margin-bottom: 0.8rem;
 }
@@ -695,24 +695,19 @@ main {
 
 .actividad-modal {
   background: #08121f;
-
-  border-radius: 24px;
-
+  border-radius: 8px;
   overflow: hidden;
-
-  border:
-    1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .actividad-modal-img {
   width: 100%;
-  height: 380px;
-
+  height: 220px;
   object-fit: cover;
 }
 
 .actividad-modal-body {
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .actividad-modal-body h2 {

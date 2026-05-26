@@ -16,12 +16,22 @@
     const adminLinkMobile = document.getElementById("adminLinkMobile");
 
     function toggleSessionUi(logged) {
-      // El boton de login y el menu de usuario llevan d-md-inline-flex (con !important),
-      // que anula d-none en escritorio. Por eso alternamos d-md-inline-flex, no d-none.
-      if (loginLink) loginLink.classList.toggle("d-md-inline-flex", !logged);
+      if (loginLink) {
+        if (logged) {
+          loginLink.classList.add("d-none");
+          loginLink.classList.remove("d-md-inline-flex");
+        } else {
+          loginLink.classList.remove("d-none");
+          loginLink.classList.add("d-md-inline-flex");
+        }
+      }
       if (userMenu) {
         userMenu.hidden = !logged;
-        userMenu.classList.toggle("d-md-inline-flex", logged);
+        if (logged) {
+          userMenu.classList.add("d-md-inline-flex");
+        } else {
+          userMenu.classList.remove("d-md-inline-flex");
+        }
       }
       if (loginLinkMobile) loginLinkMobile.classList.toggle("d-none", logged);
       if (logoutBtnMobile) {

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <title>Actividades | Mourosub</title>
+  <style>
+    :root {
+      --dark-bg: #0b1120;
+      --card-bg: #111c35;
+      --cyan: #00b4d8;
+      --cyan-bright: #00d4f5;
+      --white: #ffffff;
+      --muted: #7a8fb0;
+    }
+    body { background: var(--dark-bg); color: var(--white); }
+
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1rem 2.5rem;
+    }
+    .hero-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--cyan);
+      margin-bottom: 0.9rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--cyan-bright); }
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .actividades-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 3rem;
+    }
+    .actividad-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .actividad-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cyan);
+    }
+    .actividad-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .actividad-body {
+      padding: 1.5rem;
+    }
+    .actividad-nombre {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .actividad-tipo {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(0,180,216,0.15);
+      border: 1px solid rgba(0,180,216,0.3);
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: var(--cyan);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .actividad-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .actividad-info {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+    .actividad-info i {
+      margin-right: 0.4rem;
+      color: var(--cyan);
+    }
+    .actividad-precio {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--cyan-bright);
+      margin-top: 1rem;
+    }
+    .actividad-precio span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .btn-reservar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: var(--cyan);
+      color: #0b2138;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s;
+    }
+    .btn-reservar:hover { background: var(--cyan-bright); color: #0b2138; }
+    .btn-volver {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding-bottom: 3rem;
+    }
+    .btn-volver:hover { color: var(--white); }
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+    }
+    .duracion-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+
+<div class="hero">
+  <p class="hero-label">● ACTIVIDADES</p>
+  <h1>Actividades <span>náuticas</span></h1>
+  <p>Experiencias diseñadas para disfrutar del mar, la aventura y el entorno marino.</p>
+</div>
+
+<div class="container">
+  <div th:if="${#lists.isEmpty(actividades)}" class="empty-state">
+    <i class="bi bi-water" style="font-size: 3rem;"></i>
+    <p>No hay actividades disponibles en este momento.</p>
+  </div>
+
+  <div class="actividades-grid">
+    <div th:each="act : ${actividades}" class="actividad-card">
+      <img th:if="${act.imagenUrl != null and !act.imagenUrl.isEmpty()}"
+           th:src="${act.imagenUrl}"
+           class="actividad-img"
+           alt="${act.nombre}">
+      <img th:unless="${act.imagenUrl != null and !act.imagenUrl.isEmpty()}"
+           src="https://placehold.co/600x400/0b2138/00b4d8?text=Actividad"
+           class="actividad-img"
+           alt="${act.nombre}">
+      <div class="actividad-body">
+        <span class="actividad-tipo" th:text="${act.tipo}">ACTIVIDAD</span>
+        <div class="actividad-nombre" th:text="${act.nombre}">Nombre de la actividad</div>
+        <p class="actividad-desc" th:text="${act.descripcion != null ? act.descripcion : 'Descripción de la actividad'}">Descripción</p>
+        <div class="actividad-info" th:if="${act.duracionMinutos != null}">
+          <i class="bi bi-clock"></i><span class="duracion-badge" th:text="${act.duracionMinutos + ' minutos'}">90 min</span>
+        </div>
+        <div class="actividad-info" th:if="${act.plazasMax != null}">
+          <i class="bi bi-people"></i><span th:text="${act.plazasMax + ' plazas máximo'}">10 plazas</span>
+        </div>
+        <div class="actividad-precio">
+          <span th:text="${#numbers.formatDecimal(act.precio, 1, 2)}">0.00</span> €
+        </div>
+        <form th:action="@{/reservas}" method="get">
+          <input type="hidden" name="actividadId" th:value="${act.idActividad}">
+          <button type="submit" class="btn-reservar"><i class="bi bi-calendar-check"></i> Reservar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <a class="btn-volver" th:href="@{/page/servicios/index.html}">← Volver a servicios</a>
+</div>
+
+<div id="siteFooter" th:insert="~{fragments/footerBlack :: footerBlack}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/header.js"></script>
+<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+</body>
+</html>

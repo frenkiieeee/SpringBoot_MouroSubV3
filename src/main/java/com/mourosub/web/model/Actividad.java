@@ -6,56 +6,51 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-// le decimos a spring que esta clase es una tabla de la base de datos
 @Entity
 @Table(name = "actividades")
-@Inheritance(strategy = InheritanceType.JOINED)
-// Estrategia JOINED: cada subclase tiene su tabla y comparte la PK con actividades.
 public class Actividad {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idActividad;
 
-    @Id   // marcamos este campo como la clave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // esto es el equivalente al auto increment
-    private Long idActividad; // long es un INT con mas limite
-
-    // es una columna obligatoria y de maximo 150 caracteres
     @Column(nullable = false, length = 150)
     private String nombre;
 
-    // lo definimos como text para poder escribir parrafos largos
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    // columna para guardar si es infantil o de otro tipo
     @Column(nullable = false, length = 50)
     private String tipo;
 
-    // si no ponemos anotacion spring lo crea como un numero normal
+    @Column(length = 50)
+    private String categoria;
+
     private Integer duracionMinutos;
 
-    // establecemos que por defecto el limite son 10 plazas
     @Column(nullable = false)
     private Integer plazasMax = 10;
 
     @Column(nullable = false)
     private int plazasOcupadas;
-    // bigdecimal es la mejor clase de java para manejar dinero
+
     @Column(nullable = false)
     private BigDecimal precio;
+
     @Column(nullable = false)
     private LocalDate fechaActividad;
-    // un booleano para el true o false de si exige nivel
+
     @Column(nullable = false)
     private Boolean requiereNivel = false;
 
-    // sirve para dar de baja la actividad sin borrarla del todo
     @Column(nullable = false)
     private Boolean activo = true;
-    @OneToMany(mappedBy = "actividad")
-    // Relacion 1:N con reservas; la FK vive en Reserva.
-    private List<Reserva> reservas = new ArrayList<>();
 
-    // getter y setters
+    @Column(name = "imagen_url", length = 500)
+    private String imagenUrl;
+
+    @OneToMany(mappedBy = "actividad")
+    private List<Reserva> reservas = new ArrayList<>();
 
     public Long getIdActividad() {
         return idActividad;
@@ -88,6 +83,9 @@ public class Actividad {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
 
     public Integer getDuracionMinutos() {
         return duracionMinutos;
@@ -129,9 +127,12 @@ public class Actividad {
         this.activo = activo;
     }
 
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+
     public int getplazasOcupadas () {return plazasOcupadas;}
     public void setplazasOcupadas (int plazasOcupadas){this.plazasOcupadas = plazasOcupadas;}
 
-    public LocalDate getFechaActividad () {return fechaActividad;}
-    public void setFechaActividad (LocalDate fechaActividad){this.fechaActividad = fechaActividad;}       
+public LocalDate getFechaActividad () {return fechaActividad;}
+    public void setFechaActividad (LocalDate fechaActividad){this.fechaActividad = fechaActividad;}
 }

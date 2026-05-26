@@ -1,6 +1,6 @@
 package com.mourosub.web.dto;
 import java.time.*;
-
+//Añadir una targeta de red nueva, añdir una ip nueva nat y hacer un puente ( buscar una solucion), ajustar el DTP
 public class AlquileresFormDTO {
     private Long productoId;
     private Long servicioId;

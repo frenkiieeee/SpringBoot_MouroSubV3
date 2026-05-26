@@ -27,19 +27,19 @@
         <div class="header-right">
 
             <!-- Login: visible cuando NO hay sesion. header.js lo oculta si hay sesion. -->
-            <a id="loginLink" href="/login" th:href="@{/login}" class="btn-reservar d-none d-md-inline-flex">Iniciar sesion / Registrarse</a>
+            <a id="loginLink" href="/login" th:href="@{/login}" class="btn-reservar d-none">Iniciar sesion / Registrarse</a>
 
             <!-- Menu de usuario: oculto por defecto (d-none); header.js lo muestra si hay sesion -->
-            <div id="userMenu" class="dropdown d-none">
+            <div id="userMenu" class="dropdown d-none d-md-inline-flex">
 
                 <!-- Boton con icono de usuario; data-bs-toggle="dropdown" lo gestiona Bootstrap -->
-                <button class="btn-reservar dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                <button class="btn-reservar dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static"
                     aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
                 </button>
 
                 <!-- Opciones del menu de usuario -->
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
                     <!-- Acceso a cuenta -->
                     <li><a class="dropdown-item" href="/cuenta">Ver mi cuenta</a></li>
                     <!-- Acceso al panel admin (header.js lo oculta si el usuario no es admin) -->
@@ -67,7 +67,7 @@
                 <li><a href="page/inmersiones/index.html" th:href="@{/page/inmersiones/index.html}">Inmersiones</a></li>
                 <li><a href="page/Cursos/Cursos.html" th:href="@{/page/Cursos/Cursos.html}">Cursos</a></li>
                 <li><a href="page/servicios/index.html" th:href="@{/page/servicios/index.html}">Servicios</a></li>
-                <li><a id="loginLinkMobile" href="/login" th:href="@{/login}">Iniciar sesion / Registrarse</a></li>
+                <li><a id="loginLinkMobile" href="/login" th:href="@{/login}" class="d-none">Iniciar sesion / Registrarse</a></li>
             </ul>
         </nav>
     </div>

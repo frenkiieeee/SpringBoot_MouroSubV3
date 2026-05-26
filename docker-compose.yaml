@@ -197,7 +197,7 @@ services:
       ANON_KEY: ${ANON_KEY}
       SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mourosub.com}
-      APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
+      APP_SEED_ENABLED: ${APP_SEED_ENABLED:-true}
       SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL:-false}
       # Sirve el front desde los volumenes montados: los cambios se ven sin reconstruir.
       STATIC_LOCATIONS: file:/app/static/

@@ -73,7 +73,7 @@
             </a>
 
             <a class="btn btn-outline-light" href="/reservas">
-              RESERVA / +INFO
+              Reservar
             </a>
 
           </div>
@@ -349,7 +349,7 @@
           </p>
 
           <a href="/reservas" class="btn btn-primary mt-3">
-            RESERVA / +INFO
+            Reservar
           </a>
 
         </div>
@@ -370,5 +370,13 @@
 
   </main>
 
+  <div id="siteFooter"></div>
+  <script>
+    fetch("/fragments/footer")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("siteFooter").innerHTML = html;
+      });
+  </script>
 </body>
 </html>

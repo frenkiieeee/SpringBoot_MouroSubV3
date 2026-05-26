@@ -5,6 +5,8 @@ import com.mourosub.web.exception.exceptions.ActividadNotFoundException;
 import com.mourosub.web.model.*;
 import com.mourosub.web.dto.ReservaFormDTO;
 import com.mourosub.web.repository.ActividadRepository;
+import com.mourosub.web.repository.CursoRepository;
+import com.mourosub.web.repository.InmersionRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
 import com.mourosub.web.service.ReservaService;
@@ -21,17 +23,23 @@ public class ReservaController {
     private final ReservaService reservaService;
     private final ReservaRepository reservaRepository;
     private final ActividadRepository actividadRepository;
+    private final CursoRepository cursoRepository;
+    private final InmersionRepository inmersionRepository;
     private final UsuarioRepository usuarioRepository;
 
     public ReservaController(
         ReservaService reservaService,
         ReservaRepository reservaRepository,
         ActividadRepository actividadRepository,
+        CursoRepository cursoRepository,
+        InmersionRepository inmersionRepository,
         UsuarioRepository usuarioRepository
     ){
         this.reservaService = reservaService;
         this.reservaRepository = reservaRepository;
         this.actividadRepository = actividadRepository;
+        this.cursoRepository = cursoRepository;
+        this.inmersionRepository = inmersionRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -64,14 +72,21 @@ public class ReservaController {
     // GET /reservas/cursos -> formulario de reserva para cursos.
     @GetMapping("/cursos")
     public String cursos(Model model){
-        // La plantilla mostrara el formulario.
+        List<Curso> todosLosCursos = cursoRepository.findAllActive();
+        
+        Map<String, List<Curso>> cursosPorCategoria = new LinkedHashMap<>();
+        for (Curso curso : todosLosCursos) {
+            String cat = curso.getCategoria() != null ? curso.getCategoria() : "OTROS";
+            cursosPorCategoria.computeIfAbsent(cat, k -> new ArrayList<>()).add(curso);
+        }
+        
+        List<String> categorias = new ArrayList<>(cursosPorCategoria.keySet());
+
         model.addAttribute("seccion","cursos");
         model.addAttribute("titulo", "Cursos");
-        // Objeto vacio (DTO) que recogera los datos del formulario.
         model.addAttribute("reserva", new Reserva());
-        // Solo las actividades de tipo CURSO, para el desplegable.
-        model.addAttribute("cursos",actividadRepository.findByTipoIn(List.of( "CURSO")));
-        // Lista de usuarios disponible para la vista.
+        model.addAttribute("cursosPorCategoria", cursosPorCategoria);
+        model.addAttribute("categorias", categorias);
 
         return "fragments/reservas/index";
     }
@@ -79,17 +94,37 @@ public class ReservaController {
     // prepara el formulario filtrando lo puramente de ocio como inmersiones o paseos
     @GetMapping("/actividades")
     public String actividades(Model model){
+        List<Actividad> todas = actividadRepository.findByActivoTrueOrderByCategoriaAscNombreAsc();
+
+        Map<String, List<Actividad>> actividadesPorCategoria = new LinkedHashMap<>();
+        for (Actividad a : todas) {
+            String cat = a.getCategoria() != null ? a.getCategoria() : "OTROS";
+            actividadesPorCategoria.computeIfAbsent(cat, k -> new ArrayList<>()).add(a);
+        }
+
         model.addAttribute("seccion","actividades");
         model.addAttribute("titulo", "Actividades");
         model.addAttribute("reserva", new Reserva());
-        model.addAttribute("actividades", actividadRepository.findByTipoIn(List.of("INMERSION", "SNORKEL", "PASEO_BARCO")));
+        model.addAttribute("actividadesPorCategoria", actividadesPorCategoria);
+        return "fragments/reservas/index";
+    }
+
+    // formulario de reserva para inmersiones
+    @GetMapping("/inmersiones")
+    public String inmersiones(Model model){
+        model.addAttribute("seccion","inmersiones");
+        model.addAttribute("titulo", "Inmersiones");
+        model.addAttribute("reserva", new Reserva());
+        model.addAttribute("inmersiones", inmersionRepository.findByActivoTrue());
         return "fragments/reservas/index";
     }
 
     // aqui llega el formulario relleno con metodo post para que lo guardemos
     @PostMapping("/guardar")
     public String guardar(
-        @RequestParam Long idActividad,
+        @RequestParam(required = false) Long idActividad,
+        @RequestParam(required = false) Long idCurso,
+        @RequestParam(required = false) Long idInmersion,
         @RequestParam String nombre,
         @RequestParam String apellidos,
         @RequestParam String email,
@@ -109,13 +144,23 @@ public class ReservaController {
         usuario.setCodPostal(codigoPostal);
         usuarioRepository.save(usuario);
 
-        // buscamos la actividad y montamos el esqueleto de la reserva
-        Actividad actividad = actividadRepository.findById(idActividad)
-            .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
-            
-        Reserva reserva = new Reserva ();
-        reserva.setActividad(actividad);
+        // buscamos la entidad correspondiente y montamos la reserva
+        Reserva reserva = new Reserva();
         reserva.setNumParticipantes(numParticipantes);
+
+        if (idActividad != null) {
+            Actividad actividad = actividadRepository.findById(idActividad)
+                .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
+            reserva.setActividad(actividad);
+        } else if (idCurso != null) {
+            Curso curso = cursoRepository.findById(idCurso)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+            reserva.setCurso(curso);
+        } else if (idInmersion != null) {
+            Inmersiones inmersion = inmersionRepository.findById(idInmersion)
+                .orElseThrow(() -> new RuntimeException("Inmersion no encontrada"));
+            reserva.setInmersion(inmersion);
+        }
 
         // le pasamos la bola al servicio para que haga los calculos asigne instructor y guarde en bd
         reservaService.crearReserva(reserva, List.of(usuario.getidUsuario()));

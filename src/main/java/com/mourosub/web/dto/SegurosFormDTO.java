@@ -1,78 +1,28 @@
 package com.mourosub.web.dto;
 
-import java.time.LocalDate;
-
 public class SegurosFormDTO {
+    private Long idSeguro;
     private String nombre;
-    private String apellido;
-    private String email;
-    private String dni;
-    private String direccion;
-    private String codPostal;
-    private String localidad;
-    private LocalDate fechaNacimiento;
+    private String compania;
+    private Double coberturaGastos;
+    private String descripcion;
+    private Boolean activo;
 
-    public String getNombre() {
-        return nombre;
-    }
+    public Long getIdSeguro() { return idSeguro; }
+    public void setIdSeguro(Long idSeguro) { this.idSeguro = idSeguro; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getApellido() {
-        return apellido;
-    }
+    public String getCompania() { return compania; }
+    public void setCompania(String compania) { this.compania = compania; }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    public Double getCoberturaGastos() { return coberturaGastos; }
+    public void setCoberturaGastos(Double coberturaGastos) { this.coberturaGastos = coberturaGastos; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getCodPostal() {
-        return codPostal;
-    }
-
-    public void setCodPostal(String codPostal) {
-        this.codPostal = codPostal;
-    }
-
-    public String getLocalidad() {
-        return localidad;
-    }
-
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+    public Boolean getActivo() { return activo; }
+    public void setActivo(Boolean activo) { this.activo = activo; }
 }
