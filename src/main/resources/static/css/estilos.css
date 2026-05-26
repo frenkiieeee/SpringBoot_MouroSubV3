@@ -128,6 +128,57 @@ header {
   color: #fff;
 }
 
+
+/* boton de conocenos */
+.btn-conocer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(224, 119, 32);
+  color: #fff;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 400;
+  font-family: 'Segoe UI';
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 16px 38px; /* El primero controla la altura (arriba/abajo) y el segundo controla el ancho (izquierda/derecha) */
+  border-radius: 90px;
+  border: none;
+  box-shadow: 0 4px 15px rgb(7, 255, 48); /* Deplazamiento horizontal, Vertical y Blur */
+  white-space: nowrap;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  font-weight: bold;
+}
+.btn-conocer:hover {
+  background: rgb(0, 255, 21);
+  box-shadow: 0 6px 20px rgb(255, 0, 242);
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.btn-conocer-movil {
+  display: inline-block;
+  margin-top: 20px;
+  background: var(--ocean);
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 16px 48px;
+  border-radius: 12px;
+}
+
+.btn-conocer-movil:hover {
+  background: var(--ocean-mid);
+  color: #fff;
+}
+
+
+
 /* menu movil y hamburguesa */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.3);
