@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" class="h-100" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -93,7 +93,7 @@
       color: var(--muted);
       font-weight: 400;
     }
-    .btn-reservar {
+    .btn-reserva-card {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -112,7 +112,7 @@
       text-decoration: none;
       transition: background 0.25s;
     }
-    .btn-reservar:hover { background: var(--cyan-bright); color: #0b2138; }
+    .btn-reserva-card:hover { background: var(--cyan-bright); color: #0b2138; }
     .btn-volver {
       display: inline-flex;
       align-items: center;
@@ -172,7 +172,7 @@
       <form th:action="@{/alquileres}" method="post">
         <input type="hidden" name="materialId" th:value="${mat.idMaterial}">
         <input type="hidden" name="idAlquiler" value="">
-        <button type="submit" class="btn-reservar"><i class="bi bi-cart-plus"></i> Reservar</button>
+        <button type="submit" class="btn-reserva-card"><i class="bi bi-cart-plus"></i> Reservar</button>
       </form>
     </div>
   </div>
