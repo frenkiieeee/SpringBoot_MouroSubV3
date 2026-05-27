@@ -601,6 +601,12 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: linear-gradient(rgba(8, 18, 31, 0.72), rgba(8, 18, 31, 0.72)),
+              url('../img/fondo_mourosub.png') center/cover fixed no-repeat;
+}
+
+body.plain-page {
+  background: var(--bs-body-bg) !important;
 }
 
 main {
