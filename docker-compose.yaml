@@ -160,7 +160,8 @@ services:
     networks:
       - mourosub-net
 
-  # Gateway Nginx (punto de entrada Supabase API) 
+  # Gateway Nginx (punto de entrada Supabase API)
+  # Escucha en 8000 internamente. El puerto externo se define con SUPABASE_GATEWAY_PORT.
   supabase-gateway:
     image: nginx:1.27-alpine
     container_name: supabase-gateway
