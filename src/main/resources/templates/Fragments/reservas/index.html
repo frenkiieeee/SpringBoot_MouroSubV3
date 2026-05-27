@@ -400,6 +400,13 @@
         const form = document.getElementById("reservaForm");
         if (!form) return; // estamos en la vista 'inicio', no en un formulario
 
+        // Si el usuario no tiene sesion, al entrar a cualquier form de reserva
+        // lo mandamos directamente al login para evitar intentos anonimos.
+        if (window.isLoggedIn && !window.isLoggedIn()) {
+            window.location.href = "/login";
+            return;
+        }
+
         const supabaseInput = document.getElementById("supabaseUserId");
         const storedUserId = localStorage.getItem("supabaseUserId") || "";
         const storedEmail = localStorage.getItem("supabaseUserEmail") || "";

@@ -158,7 +158,7 @@ public class AuthController {
     private Map<String, Object> toUsuarioPayload(Usuario usuario) {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("idUsuario", usuario.getidUsuario());
-        payload.put("supabaseUserId", usuario.getSupabaseUserId().toString());
+        payload.put("supabaseUserId", usuario.getSupabaseUserId() != null ? usuario.getSupabaseUserId().toString() : null);
         payload.put("email", usuario.getEmail());
         payload.put("nombre", usuario.getNombre());
         payload.put("apellidos", usuario.getApellidos());
