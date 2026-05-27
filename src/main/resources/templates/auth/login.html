@@ -12,7 +12,7 @@
 </head>
 <body class="d-flex flex-column h-100 plain-page">
 
-  <div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+  <div id="siteHeader"></div>
 
   <main id="authMain" class="container" style="padding-top: 140px; max-width: 520px; flex-shrink: 0;">
     <h1 class="fw-bold mb-3" id="title">Iniciar sesión</h1>
@@ -88,6 +88,17 @@
   <script src="/js/header.js"></script>
 
   <script>
+    fetch("/fragments/header")
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (html) {
+        if (!html) return;
+        document.getElementById("siteHeader").innerHTML = html;
+        if (window.initHeaderSession) window.initHeaderSession();
+      })
+      .catch(function () {
+        // si falla el fragmento no bloqueamos el login
+      });
+
     async function initLogin() {
       const cfg = await fetch("/api/config").then(r => r.json());
       const supabaseClient = window.supabase.createClient(cfg.supabaseUrl, cfg.anonKey);
@@ -272,7 +283,6 @@
     }
 
     initLogin();
-    if (window.initHeaderSession) window.initHeaderSession();
   </script>
 </body>
 </html>
