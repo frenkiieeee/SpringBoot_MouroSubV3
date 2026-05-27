@@ -584,3 +584,34 @@ main {
     flex-wrap: wrap; 
   }
 }
+
+
+/* ======================================== */
+/* HERO CONOCENOS */
+/* ======================================== */
+
+.hero-conocenos {
+  padding:
+    5rem 0 4rem;
+
+  text-align: center;
+}
+
+.hero-conocenos .hero-kicker {
+  color: #7ce0ff;
+
+  font-size: 0.85rem;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 1rem;
+}
+
+.conocenos-title {
+  color: #ffffff;
+  font-size: clamp(3rem, 6vw, 6rem); 
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
