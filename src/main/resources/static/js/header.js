@@ -48,8 +48,10 @@
       if (userMenu) {
         userMenu.hidden = !logged;
         if (logged) {
+          userMenu.classList.remove("d-none");
           userMenu.classList.add("d-md-inline-flex");
         } else {
+          userMenu.classList.add("d-none");
           userMenu.classList.remove("d-md-inline-flex");
         }
       }
@@ -77,7 +79,6 @@
       localStorage.removeItem("supabaseUserId");
       localStorage.removeItem("supabaseUserEmail");
       localStorage.removeItem("supabaseIsAdmin");
-      document.cookie = "supabaseUserId=; path=/; max-age=0; samesite=lax";
       document.cookie = "sb_access_token=; path=/; max-age=0";
       window.location.href = "/login";
     }

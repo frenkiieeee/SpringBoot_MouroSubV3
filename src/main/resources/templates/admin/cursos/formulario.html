@@ -9,8 +9,8 @@
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
   <title>Admin - Cursos - Formulario</title>
 </head>
-<body class="plain-page">
-<div id="siteHeader" th:insert="~{fragments/header :: siteHeader}"></div>
+<body>
+<div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
 <main class="container" style="padding-top: 120px;">
   <h1 class="fw-bold mb-4" th:text="${curso.idCurso != null} ? 'Editar Curso' : 'Nuevo Curso'">Formulario</h1>

@@ -16,11 +16,11 @@ public class ConfigController {
 
     // @Value lee una variable de entorno / propiedad y la guarda aqui.
     // SUPABASE_PUBLIC_URL = direccion publica de Supabase.
-    @Value("${SUPABASE_PUBLIC_URL}")
+    @Value("${SUPABASE_PUBLIC_URL:}")
     private String supabaseUrl;
 
     // Puerto del gateway de Supabase (expuesto en el host).
-    @Value("${SUPABASE_GATEWAY_PORT}")
+    @Value("${SUPABASE_GATEWAY_PORT:0}")
     private int gatewayPort;
 
     // ANON_KEY = clave publica ("anonima") de Supabase, valida para usar desde el navegador.
@@ -31,21 +31,26 @@ public class ConfigController {
     // Usa el Host de la peticion para que funcione desde cualquier IP/dominio.
     @GetMapping("/api/config")
     public Map<String, String> config(HttpServletRequest request) {
+        if (gatewayPort <= 0 && supabaseUrl != null && !supabaseUrl.isBlank()) {
+            return Map.of(
+                "supabaseUrl", supabaseUrl.trim(),
+                "anonKey", anonKey
+            );
+        }
+
         String host = request.getHeader("Host");
         String scheme = request.getScheme();
         String baseHost;
-        int port;
 
         if (host == null || host.isEmpty()) {
             baseHost = "localhost";
-            port = gatewayPort;
         } else {
             String[] parts = host.split(":");
             baseHost = parts[0];
-            port = parts.length > 1 ? Integer.parseInt(parts[1]) : (request.getScheme().equals("https") ? 443 : 80);
         }
 
-        String publicUrl = scheme + "://" + baseHost + ":" + gatewayPort;
+        int resolvedGatewayPort = gatewayPort > 0 ? gatewayPort : 8000;
+        String publicUrl = scheme + "://" + baseHost + ":" + resolvedGatewayPort;
         return Map.of(
             "supabaseUrl", publicUrl,
             "anonKey", anonKey

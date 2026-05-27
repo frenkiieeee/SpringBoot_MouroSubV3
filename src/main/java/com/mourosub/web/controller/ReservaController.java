@@ -56,7 +56,6 @@ public class ReservaController {
         HttpServletRequest request,
         Model model
     ){
-        if (!isAuthenticated(request)) return "redirect:/login";
         if (actividadId != null) return "redirect:/reservas/actividades?id=" + actividadId;
         if (cursoId != null) return "redirect:/reservas/cursos?id=" + cursoId;
         if (inmersionId != null) return "redirect:/reservas/inmersiones?id=" + inmersionId;
@@ -87,7 +86,6 @@ public class ReservaController {
     // GET /reservas/cursos -> formulario de reserva para cursos. Si llega ?id=X pre-seleccionamos ese curso.
     @GetMapping("/cursos")
     public String cursos(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
-        if (!isAuthenticated(request)) return "redirect:/login";
         List<Curso> todosLosCursos = cursoRepository.findAllActive();
 
         // Mapa con los cursos agrupados por categoria. Lo usa la tabla principal del form.
@@ -133,7 +131,6 @@ public class ReservaController {
     // prepara el formulario filtrando lo puramente de ocio como inmersiones o paseos
     @GetMapping("/actividades")
     public String actividades(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
-        if (!isAuthenticated(request)) return "redirect:/login";
         List<Actividad> todas = actividadRepository.findByActivoTrueOrderByCategoriaAscNombreAsc();
 
         Map<String, List<Actividad>> actividadesPorCategoria = new LinkedHashMap<>();
@@ -153,7 +150,6 @@ public class ReservaController {
     // formulario de reserva para inmersiones
     @GetMapping("/inmersiones")
     public String inmersiones(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
-        if (!isAuthenticated(request)) return "redirect:/login";
         model.addAttribute("seccion","inmersiones");
         model.addAttribute("titulo", "Inmersiones");
         model.addAttribute("reserva", new Reserva());
