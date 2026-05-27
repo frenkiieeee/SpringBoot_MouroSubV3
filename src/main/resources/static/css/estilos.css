@@ -602,11 +602,22 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background: linear-gradient(rgba(8, 18, 31, 0.72), rgba(8, 18, 31, 0.72)),
-              url('../img/fondo_mourosub.png') center/cover fixed no-repeat;
+              url('../img/fondo_mourosub2.png.jpeg') center/cover fixed no-repeat;
 }
 
 body.plain-page {
-  background: var(--bs-body-bg) !important;
+  background: #ffffff !important;
+  color: #212529;
+}
+
+body.plain-page main,
+body.plain-page form,
+body.plain-page .card,
+body.plain-page .card-body,
+body.plain-page .table,
+body.plain-page .modal-content {
+  background-color: #ffffff;
+  color: #212529;
 }
 
 main {
