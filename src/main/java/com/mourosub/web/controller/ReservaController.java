@@ -10,6 +10,8 @@ import com.mourosub.web.repository.InmersionRepository;
 import com.mourosub.web.repository.ReservaRepository;
 import com.mourosub.web.repository.UsuarioRepository;
 import com.mourosub.web.service.ReservaService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +53,10 @@ public class ReservaController {
         @RequestParam(required = false) Long actividadId,
         @RequestParam(required = false) Long cursoId,
         @RequestParam(required = false) Long inmersionId,
+        HttpServletRequest request,
         Model model
     ){
+        if (!isAuthenticated(request)) return "redirect:/login";
         if (actividadId != null) return "redirect:/reservas/actividades?id=" + actividadId;
         if (cursoId != null) return "redirect:/reservas/cursos?id=" + cursoId;
         if (inmersionId != null) return "redirect:/reservas/inmersiones?id=" + inmersionId;
@@ -82,7 +86,8 @@ public class ReservaController {
 
     // GET /reservas/cursos -> formulario de reserva para cursos. Si llega ?id=X pre-seleccionamos ese curso.
     @GetMapping("/cursos")
-    public String cursos(@RequestParam(required = false) Long id, Model model){
+    public String cursos(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
+        if (!isAuthenticated(request)) return "redirect:/login";
         List<Curso> todosLosCursos = cursoRepository.findAllActive();
 
         // Mapa con los cursos agrupados por categoria. Lo usa la tabla principal del form.
@@ -127,7 +132,8 @@ public class ReservaController {
 
     // prepara el formulario filtrando lo puramente de ocio como inmersiones o paseos
     @GetMapping("/actividades")
-    public String actividades(@RequestParam(required = false) Long id, Model model){
+    public String actividades(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
+        if (!isAuthenticated(request)) return "redirect:/login";
         List<Actividad> todas = actividadRepository.findByActivoTrueOrderByCategoriaAscNombreAsc();
 
         Map<String, List<Actividad>> actividadesPorCategoria = new LinkedHashMap<>();
@@ -146,7 +152,8 @@ public class ReservaController {
 
     // formulario de reserva para inmersiones
     @GetMapping("/inmersiones")
-    public String inmersiones(@RequestParam(required = false) Long id, Model model){
+    public String inmersiones(@RequestParam(required = false) Long id, HttpServletRequest request, Model model){
+        if (!isAuthenticated(request)) return "redirect:/login";
         model.addAttribute("seccion","inmersiones");
         model.addAttribute("titulo", "Inmersiones");
         model.addAttribute("reserva", new Reserva());
@@ -263,5 +270,25 @@ public class ReservaController {
     public String cancelar (@PathVariable Long idReserva){
         reservaService.cancelarReserva(idReserva);
         return "redirect:/reservas";
+    }
+
+    private boolean isAuthenticated(HttpServletRequest request) {
+        String supabaseUserId = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("supabaseUserId".equals(cookie.getName())) {
+                    supabaseUserId = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        if (supabaseUserId == null || supabaseUserId.isBlank()) return false;
+        try {
+            UUID id = UUID.fromString(supabaseUserId);
+            return usuarioRepository.findBySupabaseUserId(id).isPresent();
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
     }
 }

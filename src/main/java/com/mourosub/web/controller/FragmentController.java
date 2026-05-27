@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,33 +32,41 @@ public class FragmentController {
 
     // GET /fragments/header -> devuelve el HTML del header
     @GetMapping(value = "/fragments/header", produces = MediaType.TEXT_HTML_VALUE)
-    public String header() throws IOException {
+    public ResponseEntity<String> header() throws IOException {
         return readFragment("fragments/header.html");
     }
 
     // GET /fragments/footer -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footer", produces = MediaType.TEXT_HTML_VALUE)
-    public String footer() throws IOException {
+    public ResponseEntity<String> footer() throws IOException {
         return readFragment("fragments/footer.html");
     }
     // GET /fragments/footerBlack -> devuelve el HTML del footer.
     @GetMapping(value = "/fragments/footerBlack", produces = MediaType.TEXT_HTML_VALUE)
-    public String footerBlack() throws IOException {
+    public ResponseEntity<String> footerBlack() throws IOException {
         return readFragment("fragments/footerBlack.html");
     }
 
     // Metodo auxiliar: abre el archivo indicado y devuelve su contenido como texto.
-private String readFragment(String relativePath) throws IOException {
+private ResponseEntity<String> readFragment(String relativePath) throws IOException {
     String base = templatesBase;
     if (!base.endsWith("/")) {
         base = base + "/";
     }
 
-    Resource resource = resourceLoader.getResource(base + relativePath);
-    if (!resource.exists()) {
-        resource = resourceLoader.getResource("classpath:/templates/" + relativePath);
-    }
+    String[] candidates = new String[] {
+            base + relativePath,
+            "classpath:/templates/" + relativePath,
+            "classpath:/templates/Fragments/" + relativePath.substring(relativePath.lastIndexOf('/') + 1)
+    };
 
-    return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    for (String candidate : candidates) {
+        Resource resource = resourceLoader.getResource(candidate);
+        if (resource.exists()) {
+            String html = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+            return ResponseEntity.ok(html);
+        }
+    }
+    return ResponseEntity.notFound().build();
 }
 }

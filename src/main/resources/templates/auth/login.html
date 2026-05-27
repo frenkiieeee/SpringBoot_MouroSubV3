@@ -241,6 +241,7 @@
 
           localStorage.setItem("supabaseUserId", userId);
           localStorage.setItem("supabaseUserEmail", userEmail);
+          document.cookie = "supabaseUserId=" + encodeURIComponent(userId) + "; path=/; max-age=2592000; samesite=lax";
           if (accessToken) {
             document.cookie = "sb_access_token=" + accessToken + "; path=/; max-age=3600; samesite=lax";
           }
@@ -261,6 +262,7 @@
       logoutBtn.addEventListener("click", async function() {
         await supabaseClient.auth.signOut();
         localStorage.clear();
+        document.cookie = "supabaseUserId=; path=/; max-age=0; samesite=lax";
         document.cookie = "sb_access_token=; path=/; max-age=0";
         showSuccess("Sesión cerrada.");
         setTimeout(() => window.location.href = "/", 800);
