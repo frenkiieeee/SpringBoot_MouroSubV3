@@ -53,11 +53,11 @@
           <div class="text-muted small">Fecha de nacimiento</div>
           <div class="fw-semibold" id="accountBirth">-</div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <div class="text-muted small">Dirección</div>
-          <div class="fw-semibold" id="accountAddress">-</div>
+          <div class="fw-semibold text-truncate" id="accountAddress" title="-">-</div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
           <div class="text-muted small">Código postal</div>
           <div class="fw-semibold" id="accountZip">-</div>
         </div>
@@ -168,7 +168,9 @@
     document.getElementById("accountDni").textContent = text(profile.dni);
     document.getElementById("accountPhone").textContent = text(profile.telefono);
     document.getElementById("accountBirth").textContent = text(profile.fechaNacimiento);
-    document.getElementById("accountAddress").textContent = text(profile.direccion);
+    const accountAddress = document.getElementById("accountAddress");
+    accountAddress.textContent = text(profile.direccion);
+    accountAddress.title = text(profile.direccion);
     document.getElementById("accountZip").textContent = text(profile.codPostal);
     document.getElementById("accountCity").textContent = text(profile.localidad);
     document.getElementById("accountRole").textContent = profile.isAdmin ? "Admin" : "Usuario";

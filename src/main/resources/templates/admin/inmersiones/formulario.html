@@ -9,7 +9,7 @@
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
   <title>Admin - Inmersiones - Formulario</title>
 </head>
-<body class="plain-page">
+<body>
 <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
 <main class="container" style="padding-top: 120px;">
@@ -116,7 +116,7 @@
     <input type="hidden" th:field="*{plazasOcupadas}">
     <div class="col-12">
       <button type="submit" class="btn btn-primary">Guardar</button>
-      <a class="btn btn-link" th:href="@{/admin/inmersiones}">Cancelar</a>
+      <a class="btn btn-link" th:href="@{/admin}">Cancelar</a>
     </div>
   </form>
 </main>
