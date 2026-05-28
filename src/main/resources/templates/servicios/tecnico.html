@@ -14,13 +14,6 @@
 <body class="form-page">
 <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
-<main style="padding-top: 120px;">
-<section class="form-section" style="text-align:center; padding-bottom: 0;">
-  <p class="hero-label">SERVICIO TÉCNICO</p>
-  <h2 class="form-title">Mantenimiento y reparación</h2>
-  <p class="form-subtitle">Equipos de buceo revisados por técnicos certificados.</p>
-</section>
-
 <div class="cards-grid">
   <div class="card" th:each="servicio : ${servicios}">
     <img th:src="@{/img/Servicio_Tecnico/Imagen20.jpg}" alt="Servicio">
