@@ -1,5 +1,6 @@
-/* Estilos compartidos por todos los formularios del sitio.
-   Centraliza las variables de color, el fondo oceanico y los componentes
+/* comentario: estilos comunes para formularios actualizados por mi para fondo y botones
+  Estilos compartidos por todos los formularios del sitio.
+  Centraliza las variables de color, el fondo oceanico y los componentes
    .form-section / .form-row / .form-group / .btn-submit que ya usaba
    reservas.css, de modo que cualquier form se vea identico al de
    /reservas/actividades. */
@@ -174,4 +175,43 @@ body.form-page::before {
 
 .btn-volver:hover {
   color: var(--white);
+}
+
+/* ============================================================
+   RESPONSIVE — FORMS GLOBALES
+   ============================================================ */
+@media (max-width: 767.98px) {
+  .form-section {
+    padding: 1.25rem 1rem 2.5rem;
+    max-width: 100%;
+  }
+  .form-title { font-size: 1.5rem; }
+  .form-subtitle { font-size: 0.9rem; margin-bottom: 1.25rem; }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+    padding: 0.85rem 1rem;
+    min-height: 46px;
+  }
+  .btn-submit {
+    padding: 1rem;
+    font-size: 0.95rem;
+    min-height: 50px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .form-section { padding: 1rem 0.85rem 2rem; }
+  .form-title { font-size: 1.35rem; }
+  .form-group { margin-bottom: 0.85rem; }
+}
+
+@media (max-width: 359px) {
+  .form-section { padding: 0.75rem 0.6rem 1.75rem; }
+  .form-title { font-size: 1.2rem; }
 }

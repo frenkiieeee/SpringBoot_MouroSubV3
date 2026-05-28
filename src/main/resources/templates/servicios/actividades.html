@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: vista de actividades ajustada por mi para usar footerBlack y prefill de reservas -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -19,9 +20,10 @@
     }
     body { background: var(--dark-bg); color: var(--white); }
 
+    /* #siteHeader ya reserva el alto del header fijo; con poco padding arriba basta. */
     .hero {
       text-align: center;
-      padding: 3.5rem 1rem 2.5rem;
+      padding: 1rem 1rem 2rem;
     }
     .hero-label {
       font-size: 0.78rem;

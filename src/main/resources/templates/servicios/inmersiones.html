@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: listado de inmersiones retocado por mi para enlaces a reservas y presentacion -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -12,7 +13,8 @@
 <body>
 <div id="siteHeader" th:insert="~{Fragments/header :: siteHeader}"></div>
 
-<main class="container py-5" style="padding-top: 120px;">
+<!-- Sin padding-top inline: #siteHeader ya reserva el espacio del header fijo. -->
+<main class="container pb-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="fw-bold mb-0">Inmersiones</h1>
     <a class="btn btn-outline-light" th:href="@{/reservas/inmersiones}">Ver formulario</a>

@@ -1,3 +1,4 @@
+/* comentario: ajustes globales de estilos aplicados por mi para plain pages y responsive */
 /* colores y valores globales */
 :root {
   --ocean:       #0a4a6e;
@@ -185,10 +186,33 @@ header {
 /* menu movil y hamburguesa */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.3);
+  padding: 6px 10px;
 }
 
 .navbar-toggler:focus {
   box-shadow: none;
+}
+
+/* Bootstrap solo pinta el icono del toggler dentro de un .navbar; como nuestro
+   header es un <header> propio, definimos aqui el SVG de las 3 lineas para que
+   el boton hamburguesa se vea SIEMPRE (tanto en fondo oscuro como en plain-page). */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.85%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  width: 1.4em;
+  height: 1.4em;
+  display: inline-block;
+}
+
+/* En paginas de fondo blanco las lineas blancas no se verian: las pintamos oscuras. */
+body.plain-page .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+body.plain-page .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 #menuMovil.show, 
@@ -605,8 +629,10 @@ body {
               url('../img/fondo_mourosub2.png.jpeg') center/cover fixed no-repeat;
 }
 
+html.plain-page,
 body.plain-page {
   background: #ffffff !important;
+  background-image: none !important;
   color: #212529;
 }
 
@@ -615,14 +641,23 @@ body.plain-page form,
 body.plain-page .card,
 body.plain-page .card-body,
 body.plain-page .table,
-body.plain-page .modal-content {
+body.plain-page .modal-content,
+body.plain-page .btn {
   background-color: #ffffff;
   color: #212529;
 }
 
+body.plain-page .card {
+  height: auto !important;
+  overflow: visible;
+}
+
 main {
   flex: 1 0 auto;
-  padding-top: 2rem !important; 
+  /* El espacio para el header fijo ya lo reserva #siteHeader (height: 94px),
+     asi que aqui solo dejamos un pequeno respiro. Antes habia doble compensacion
+     (#siteHeader + padding-top grande) y eso creaba un hueco enorme. */
+  padding-top: 1rem;
 }
 
 #siteFooter {
@@ -661,4 +696,248 @@ main {
   .d-flex.justify-content-center.gap-3 {
     flex-wrap: wrap; 
   }
+}
+
+/* ============================================================
+   RESPONSIVE GLOBAL — MOUROSUB
+   Cobertura mobile-first desde 320px (movil mini) hasta tablets
+   y portatiles. Solo CSS y media queries, sin librerias extra.
+   Breakpoints (max-width):
+     359px → moviles minusculos (iPhone SE 1, etc.)
+     575px → moviles pequenos y medianos
+     767px → moviles grandes y tablets en vertical
+     991px → tablets en horizontal / portatiles pequenos
+   A partir de 992px se aplican los estilos por defecto (desktop).
+
+   Usamos !important en algunos puntos porque las paginas /servicios/*
+   meten <style> inline al final del head, lo que tiene mas prioridad
+   que estilos.css al cargar despues. Es la unica forma simple de
+   sobreescribir esos grids sin tocar cada template uno a uno.
+   ============================================================ */
+
+/* ----- TABLETS Y PORTATILES PEQUENOS (<=991px) ----- */
+@media (max-width: 991.98px) {
+  /* Header compacto */
+  header {
+    padding: 12px 18px !important;
+    height: 78px !important;
+  }
+  #siteHeader { height: 78px; }
+  .header-logo img { height: 40px; }
+  /* El boton "Iniciar sesion" del header con texto largo se compacta */
+  .header-right .btn-reservar {
+    font-size: 13px !important;
+    padding: 8px 16px !important;
+  }
+  /* Footer en dos columnas */
+  .footer-top {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px;
+    padding: 36px 24px;
+  }
+}
+
+/* ----- MOVILES Y TABLETS EN VERTICAL (<=767px) ----- */
+@media (max-width: 767.98px) {
+  /* HEADER aun mas pequeno */
+  header {
+    padding: 10px 14px !important;
+    height: 70px !important;
+  }
+  #siteHeader { height: 70px; }
+  .header-logo img { height: 36px; }
+
+  /* #siteHeader ya reserva la altura del header; main solo deja un pequeno respiro. */
+  main { padding-top: 1rem; }
+
+  /* Container con padding lateral mas pequeno */
+  .container,
+  main.container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* HERO mas compacto */
+  .hero-section {
+    padding: 100px 16px 40px !important;
+    min-height: auto;
+  }
+  .hero-title { font-size: clamp(2rem, 7vw, 3.4rem); }
+  .hero-desc  { font-size: 0.95rem; }
+
+  /* GRIDS de cards: una sola columna ancha en movil para ver bien cada item */
+  .actividades-grid,
+  .materiales-grid,
+  .seguros-grid,
+  .cursos-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.9rem !important;
+    max-width: 100% !important;
+    padding: 0 0.5rem 2rem !important;
+  }
+  .actividades-grid > *,
+  .materiales-grid > *,
+  .seguros-grid > *,
+  .cursos-grid > * { width: 100%; }
+
+  /* Cards-grid (vista inicio de /reservas): tambien apilado */
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+    padding: 0 1rem 2rem !important;
+  }
+  .card { height: 200px; }
+
+  /* Card images mas bajas en movil */
+  .actividad-img,
+  .actividad-card img,
+  .material-card img,
+  .seguro-card img {
+    height: 150px !important;
+  }
+  .card-img-top { height: 180px !important; object-fit: cover; }
+
+  /* CARDS-FOTO (index, conocenos): altura reducida y se apilan */
+  .card-foto { height: 220px; }
+
+  /* FORM Bootstrap: inputs y selects mas grandes, font 16px (evita zoom iOS) */
+  .form-control,
+  .form-select,
+  textarea.form-control {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  /* FORM custom (.form-section): los pares de campos se apilan */
+  .form-section {
+    padding: 1.25rem 1rem 2.5rem !important;
+    max-width: 100% !important;
+  }
+  .form-title { font-size: 1.5rem !important; }
+  .form-subtitle { font-size: 0.9rem; }
+  .form-row {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px !important;
+    padding: 0.85rem 1rem !important;
+    min-height: 46px;
+  }
+  .btn-submit {
+    padding: 0.95rem 1rem !important;
+    font-size: 0.95rem;
+    min-height: 50px;
+  }
+
+  /* En forms de Bootstrap, los pares de botones (Guardar / Cancelar) se apilan */
+  form .d-flex.gap-2 {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+  }
+  form .btn-primary,
+  form button[type="submit"]:not(.btn-link):not(.btn-sm) {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  /* TABLES (admin): texto y padding mas pequenos para que entren mejor */
+  .table { font-size: 0.85rem; }
+  .table th,
+  .table td { padding: 0.5rem 0.4rem; }
+  /* Botones de accion en tablas mas pequenos */
+  .table .btn-sm {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.72rem;
+  }
+  /* Forzamos scroll horizontal a tablas grandes sin envolverlas en .table-responsive */
+  main .table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* MODAL: ocupa casi todo el viewport */
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+
+  /* Titulos generales */
+  main h1 { font-size: 1.75rem; }
+  main h2 { font-size: 1.4rem; }
+}
+
+/* ----- MOVILES PEQUENOS (<=575px) ----- */
+@media (max-width: 575.98px) {
+  header {
+    padding: 8px 12px !important;
+    height: 64px !important;
+  }
+  #siteHeader { height: 64px; }
+  .header-logo img { height: 30px; }
+  main { padding-top: 1rem; }
+
+  .hero-section { padding: 88px 12px 32px !important; }
+
+  /* Card del menu de reservas: mas baja */
+  .card { height: 180px; }
+  .card-content { padding: 0.9rem; }
+  .card-title { font-size: 1.2rem; }
+
+  /* Form section: padding minimo */
+  .form-section { padding: 1rem 0.85rem 2rem !important; }
+  .form-title { font-size: 1.35rem !important; }
+
+  /* Footer en una columna */
+  .footer-top {
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+    padding: 28px 18px;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    text-align: center;
+    gap: 8px;
+  }
+  /* Botones en linea (cta hero) se envuelven */
+  .d-flex.justify-content-center.gap-3 { flex-wrap: wrap; gap: 0.5rem !important; }
+  .btn-hero { padding: 10px 20px; font-size: 12px; }
+
+  /* Tabla aun mas compacta */
+  .table { font-size: 0.78rem; }
+  .table th,
+  .table td { padding: 0.4rem 0.3rem; }
+}
+
+/* ----- MOVILES MINI (<=359px, p.ej. iPhone SE 1st gen) ----- */
+@media (max-width: 359px) {
+  header {
+    padding: 6px 10px !important;
+    height: 60px !important;
+  }
+  #siteHeader { height: 60px; }
+  .header-logo img { height: 26px; }
+  main { padding-top: 1rem; }
+
+  .hero-section { padding: 80px 10px 28px !important; }
+  .hero-title { font-size: 1.85rem; }
+
+  .container,
+  main.container { padding-left: 10px; padding-right: 10px; }
+
+  main h1,
+  .form-title { font-size: 1.2rem !important; }
+
+  /* Tabla escondemos columnas no esenciales: no es trivial sin clases extra,
+     pero al menos forzamos overflow y reducimos al maximo el padding */
+  .table th,
+  .table td { padding: 0.3rem 0.25rem; font-size: 0.72rem; }
 }

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: vista ajustada para incluir supabaseUserId y mostrar mensajes de exito o error -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -156,6 +157,15 @@
 </div>
 
 <div class="container">
+  <div id="seguroSuccess" class="alert alert-success d-none" th:if="${ok}" th:text="${ok}">
+    Seguro contratado correctamente.
+  </div>
+  <div id="seguroError" class="alert alert-warning d-none" th:if="${error}" th:text="${error}">
+    Necesitas iniciar sesion para contratar.
+  </div>
+  <div id="seguroLoginInfo" class="alert alert-warning d-none">
+    Necesitas iniciar sesion para contratar un seguro.
+  </div>
   <div th:if="${#lists.isEmpty(seguros)}" class="empty-state">
     <i class="bi bi-shield-check" style="font-size: 3rem;"></i>
     <p>No hay seguros disponibles. Contacta con nosotros para más información.</p>
@@ -175,8 +185,9 @@
         <span th:text="${#numbers.formatDecimal(seguro.coberturaGastos, 1, 2)}">120.00</span> €
         <span>/año</span>
       </div>
-      <form th:action="@{/servicios/seguros/reservar}" method="post">
+      <form class="seguro-form" th:action="@{/servicios/seguros/reservar}" method="post">
         <input type="hidden" name="seguroId" th:value="${seguro.idSeguro}">
+        <input type="hidden" name="supabaseUserId" class="supabase-user-id" value="">
         <button type="submit" class="btn-contratar"><i class="bi bi-check-circle"></i> Contratar ahora</button>
       </form>
     </div>
@@ -188,6 +199,26 @@
 <div id="siteFooter" th:insert="~{Fragments/footerBlack :: footerBlack}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
-<script>if (window.initHeaderSession) window.initHeaderSession();</script>
+<script>
+  if (window.initHeaderSession) window.initHeaderSession();
+
+  const supabaseUserId = localStorage.getItem("supabaseUserId") || "";
+  document.querySelectorAll(".supabase-user-id").forEach(function (input) {
+    input.value = supabaseUserId;
+  });
+
+  if (!supabaseUserId) {
+    const loginInfo = document.getElementById("seguroLoginInfo");
+    if (loginInfo) loginInfo.classList.remove("d-none");
+    document.querySelectorAll(".seguro-form button").forEach(function (btn) {
+      btn.disabled = true;
+    });
+  }
+
+  const success = document.getElementById("seguroSuccess");
+  if (success && success.textContent.trim()) success.classList.remove("d-none");
+  const error = document.getElementById("seguroError");
+  if (error && error.textContent.trim()) error.classList.remove("d-none");
+</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" class="plain-page" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: panel de usuario actualizado por mi para cargar y mostrar los seguros contratados -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -81,6 +82,10 @@
     <a id="misReservasBtn" href="/reservas/mis-reservas" class="btn btn-outline-secondary d-none">
       <i class="bi bi-calendar-check"></i> Mis reservas
     </a>
+    <!-- Acceso a los seguros contratados por el usuario. -->
+    <a id="misSegurosBtn" href="/servicios/mis-seguros" class="btn btn-outline-secondary d-none">
+      <i class="bi bi-shield-check"></i> Mis seguros
+    </a>
     <!-- Mis tickets y certificados solo se muestran a usuarios normales, no a admins. -->
     <a id="ticketsBtn" href="#" class="btn btn-outline-secondary d-none">
       <i class="bi bi-ticket-perforated"></i> Mis tickets
@@ -92,6 +97,14 @@
     <a id="adminPanelBtn" href="/admin" class="btn btn-primary d-none">
       <i class="bi bi-shield-lock"></i> Ir al panel admin
     </a>
+  </div>
+
+  <div id="accountSeguros" class="card mt-3 d-none">
+    <div class="card-body">
+      <h2 class="h5 fw-bold mb-3">Mis seguros</h2>
+      <div id="accountSegurosEmpty" class="text-muted d-none">No tienes seguros contratados.</div>
+      <ul id="accountSegurosList" class="list-group list-group-flush"></ul>
+    </div>
   </div>
 </main>
 
@@ -135,6 +148,13 @@
           }
         });
     });
+  }
+
+  // Boton "Mis seguros": el endpoint acepta directamente el id de Supabase.
+  const misSegurosBtn = document.getElementById("misSegurosBtn");
+  if (misSegurosBtn && userId) {
+    misSegurosBtn.href = "/servicios/mis-seguros?supabaseUserId=" + encodeURIComponent(userId);
+    misSegurosBtn.classList.remove("d-none");
   }
 
   function text(value) {
@@ -196,10 +216,44 @@
     try {
       const profile = await fetchProfile();
       paintProfile(profile);
+      await loadAccountSeguros();
     } catch (err) {
       accountInfo.classList.add("d-none");
       accountError.classList.remove("d-none");
     }
+  }
+
+  async function loadAccountSeguros() {
+    if (!userId) return;
+    const panel = document.getElementById("accountSeguros");
+    const list = document.getElementById("accountSegurosList");
+    const empty = document.getElementById("accountSegurosEmpty");
+    if (!panel || !list || !empty) return;
+
+    const response = await fetch("/servicios/seguros/mis-seguros-json?supabaseUserId=" + encodeURIComponent(userId));
+    if (!response.ok) return;
+    const seguros = await response.json();
+    list.innerHTML = "";
+    panel.classList.remove("d-none");
+    if (!Array.isArray(seguros) || seguros.length === 0) {
+      empty.classList.remove("d-none");
+      return;
+    }
+    empty.classList.add("d-none");
+    seguros.forEach(function (s) {
+      const item = document.createElement("li");
+      item.className = "list-group-item d-flex flex-column";
+      const title = document.createElement("div");
+      title.className = "fw-semibold";
+      title.textContent = s.nombre || "Seguro";
+      const meta = document.createElement("div");
+      meta.className = "text-muted small";
+      const cobertura = s.coberturaGastos != null ? s.coberturaGastos + " €/año" : "-";
+      meta.textContent = (s.compania || "") + (s.compania ? " · " : "") + "Cobertura " + cobertura;
+      item.appendChild(title);
+      item.appendChild(meta);
+      list.appendChild(item);
+    });
   }
 
   loadProfile();

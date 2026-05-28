@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" class="plain-page" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: formulario instructor sin footer para que la vista quede consistente en plain page -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -48,7 +49,6 @@
   </div>
 </main>
 
-<div id="siteFooter" th:insert="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>
 <script>if (window.initHeaderSession) window.initHeaderSession();</script>

@@ -1,3 +1,14 @@
+:root {
+  --ocean:       #0a4a6e;
+  --ocean-mid:   #0e6fa8;
+  --ocean-light: #e8f4fc;
+  --sand:        #f5f0e8;
+  --text:        #1a2530;
+  --text-muted:  #5a7080;
+}
+
+/* comentario: estilos de actividades ajustados por mi para corregir overflow y layout */
+
 /* colores y valores globales */
 :root {
   --ocean:       #0a4a6e;
@@ -132,10 +143,22 @@ header {
 /* menu movil y hamburguesa */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.3);
+  padding: 6px 10px;
 }
 
 .navbar-toggler:focus {
   box-shadow: none;
+}
+
+/* Icono del toggler propio (Bootstrap solo lo pinta dentro de .navbar). */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.85%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  width: 1.4em;
+  height: 1.4em;
+  display: inline-block;
 }
 
 #menuMovil.show, 
@@ -546,7 +569,9 @@ body {
 
 main {
   flex: 1 0 auto;
-  padding-top: 2rem !important; 
+  /* #siteHeader (height: 94px) ya reserva el espacio del header fijo,
+     asi que aqui solo dejamos un pequeno respiro y evitamos el hueco doble. */
+  padding-top: 1rem;
 }
 
 #siteFooter {
@@ -558,36 +583,49 @@ main {
 }
 
 /* ajustes para movil */
+@media (max-width: 991.98px) {
+  header { padding: 12px 18px; }
+  .header-logo img { height: 40px; }
+  #siteHeader { height: 78px; }
+}
+
 @media (max-width: 768px) {
   header {
-    padding: 13px 20px; 
+    padding: 13px 20px;
   }
+  #siteHeader { height: 70px; }
+  .header-logo img { height: 36px; }
   .hero-title img {
     max-width: 100%;
   }
   .btn-hero {
     padding: 12px 24px;
   }
-  .footer-top { 
-    grid-template-columns: 1fr 1fr; 
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
+@media (max-width: 575.98px) {
+  #siteHeader { height: 64px; }
+  .header-logo img { height: 30px; }
+}
+
 @media (max-width: 480px) {
-  .footer-top { 
-    grid-template-columns: 1fr; 
-    padding: 32px 24px; 
+  .footer-top {
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
   }
-  .footer-bottom { 
-    flex-direction: column; 
-    text-align: center; 
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
   }
   .d-flex.justify-content-center.gap-3 {
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
 }
 .hero-actividades .container {
-  padding-top: 2rem;
+  padding-top: 0;
 }
 
 /* GRID */
@@ -739,8 +777,9 @@ main {
 
 @media (max-width: 768px) {
 
+  /* #siteHeader ya reserva el espacio del header; no necesitamos 6rem arriba. */
   .hero-actividades {
-    padding: 6rem 0 3rem;
+    padding: 1rem 0 2rem;
   }
 
   .actividad-card {

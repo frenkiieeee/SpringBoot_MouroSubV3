@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- comentario: formulario ajustado para enviar JSON a /auth/sync y evitar Unsupported Media Type -->
 <head>
   <link rel="icon" type="image/png" th:href="@{/favicon.png}" href="/favicon.png">
   <meta charset="UTF-8">
@@ -121,18 +122,20 @@ if (window.initHeaderSession) window.initHeaderSession();
     }
 
     const formData = new FormData(this);
-    formData.append("supabaseUserId", supabaseUserId);
+    const payload = Object.fromEntries(formData.entries());
+    payload.supabaseUserId = supabaseUserId;
 
     try {
-        const response = await fetch('/auth/sync', {
-            method: 'POST',
-            body: new URLSearchParams(formData)
-        });
+      const response = await fetch('/auth/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
         if (response.ok) {
             window.location.href = '/cuenta'; 
         } else {
-            const err = await response.json();
+            const err = await response.json().catch(() => ({}));
             alert("Error al guardar: " + (err.error || "Desconocido"));
         }
     } catch (error) {

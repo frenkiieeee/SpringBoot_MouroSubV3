@@ -1,5 +1,7 @@
 package com.mourosub.web.controller;
 
+/* comentario: controlador modificado para permitir reservar seguros sin redirigir al login y añadir endpoint JSON para mis seguros */
+
 import com.mourosub.web.model.Actividad;
 import com.mourosub.web.model.Alquileres;
 import com.mourosub.web.model.Curso;
@@ -18,9 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -83,6 +89,7 @@ public class ServiciosCatalogoController {
     public String seguros(Model model) {
         List<Seguros> segurosList = new java.util.ArrayList<>();
 
+        // Seguro por defecto (plantilla fija con id 0) que siempre se ofrece.
         Seguros defaultSeguro = new Seguros();
         defaultSeguro.setIdSeguro(0L);
         defaultSeguro.setNombre("Seguro Anual");
@@ -92,7 +99,9 @@ public class ServiciosCatalogoController {
         defaultSeguro.setActivo(true);
         segurosList.add(defaultSeguro);
 
-        segurosService.listarTodos().stream()
+        // Solo mostramos en el catalogo las plantillas (sin usuario asociado). Asi las
+        // copias contratadas por usuarios NO aparecen aqui y no se ve duplicado.
+        segurosService.listarPlantillas().stream()
                 .filter(Seguros::getActivo)
                 .filter(s -> s.getIdSeguro() != 0)
                 .forEach(segurosList::add);
@@ -110,7 +119,8 @@ public class ServiciosCatalogoController {
         // Sin sesion no se puede contratar; el popup de la vista cubre este caso pero
         // protegemos tambien el endpoint por si llega una peticion directa.
         if (supabaseUserId == null || supabaseUserId.isBlank()) {
-            return "redirect:/login";
+            flash.addFlashAttribute("error", "Necesitas iniciar sesion para contratar un seguro.");
+            return "redirect:/servicios/seguros";
         }
 
         Usuario usuario;
@@ -120,7 +130,8 @@ public class ServiciosCatalogoController {
             usuario = null;
         }
         if (usuario == null) {
-            return "redirect:/login";
+            flash.addFlashAttribute("error", "Necesitas iniciar sesion para contratar un seguro.");
+            return "redirect:/servicios/seguros";
         }
 
         // Buscamos el seguro plantilla. Si llega el id 0 (la opcion fija que añade el listado)
@@ -129,16 +140,24 @@ public class ServiciosCatalogoController {
                 ? segurosService.buscarPorId(seguroId)
                 : null;
 
+        String nombre = plantilla != null ? plantilla.getNombre() : "Seguro Anual";
+
+        // Evitamos duplicados: si el usuario ya tiene contratado un seguro con ese nombre,
+        // no creamos otra copia y avisamos.
+        if (segurosService.yaContratado(usuario.getidUsuario(), nombre)) {
+            flash.addFlashAttribute("error", "Ya tienes contratado el seguro \"" + nombre + "\".");
+            return "redirect:/servicios/seguros";
+        }
+
         Seguros contratado = new Seguros();
         contratado.setUsuario(usuario);
         contratado.setActivo(true);
+        contratado.setNombre(nombre);
         if (plantilla != null) {
-            contratado.setNombre(plantilla.getNombre());
             contratado.setCompania(plantilla.getCompania());
             contratado.setCoberturaGastos(plantilla.getCoberturaGastos());
             contratado.setDescripcion(plantilla.getDescripcion());
         } else {
-            contratado.setNombre("Seguro Anual");
             contratado.setCompania("MouroSub Seguros");
             contratado.setCoberturaGastos(120.00);
             contratado.setDescripcion("Cobertura basica anual para buceo.");
@@ -147,6 +166,54 @@ public class ServiciosCatalogoController {
 
         flash.addFlashAttribute("ok", "Seguro contratado correctamente. Tienes el detalle en tu cuenta.");
         return "redirect:/servicios/seguros";
+    }
+
+    @GetMapping("/seguros/mis-seguros-json")
+    @ResponseBody
+    public List<Map<String, Object>> misSegurosJson(@RequestParam(required = false) String supabaseUserId) {
+        List<Map<String, Object>> response = new ArrayList<>();
+        if (supabaseUserId == null || supabaseUserId.isBlank()) {
+            return response;
+        }
+        try {
+            Usuario usuario = usuarioRepository.findBySupabaseUserId(UUID.fromString(supabaseUserId)).orElse(null);
+            if (usuario == null) {
+                return response;
+            }
+            List<Seguros> seguros = segurosService.listarPorUsuario(usuario.getidUsuario());
+            for (Seguros s : seguros) {
+                Map<String, Object> item = new LinkedHashMap<>();
+                item.put("idSeguro", s.getIdSeguro());
+                item.put("nombre", s.getNombre());
+                item.put("compania", s.getCompania());
+                item.put("coberturaGastos", s.getCoberturaGastos());
+                item.put("descripcion", s.getDescripcion());
+                item.put("activo", s.getActivo());
+                response.add(item);
+            }
+        } catch (IllegalArgumentException ignored) {
+            return response;
+        }
+        return response;
+    }
+
+    // Lista los seguros que el usuario logueado ya tiene contratados.
+    // Cierra el flujo: contratar -> aparece aqui. Se accede desde "Mi cuenta".
+    @GetMapping("/mis-seguros")
+    public String misSeguros(@RequestParam(required = false) String supabaseUserId, Model model) {
+        List<Seguros> seguros = new java.util.ArrayList<>();
+        if (supabaseUserId != null && !supabaseUserId.isBlank()) {
+            try {
+                Usuario usuario = usuarioRepository.findBySupabaseUserId(UUID.fromString(supabaseUserId)).orElse(null);
+                if (usuario != null) {
+                    seguros = segurosService.listarPorUsuario(usuario.getidUsuario());
+                }
+            } catch (IllegalArgumentException ignored) {
+                // id invalido: dejamos la lista vacia y la vista mostrara el aviso de login
+            }
+        }
+        model.addAttribute("seguros", seguros);
+        return "servicios/mis-seguros";
     }
 
     @GetMapping("/material")

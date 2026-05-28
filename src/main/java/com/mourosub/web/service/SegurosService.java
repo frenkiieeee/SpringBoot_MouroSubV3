@@ -1,5 +1,7 @@
 package com.mourosub.web.service;
 
+/* comentario: servicio de seguros modificado para gestionar plantillas y reservas de usuarios */
+
 import com.mourosub.web.model.Seguros;
 import com.mourosub.web.repository.SegurosRepository;
 
@@ -37,6 +39,21 @@ public class SegurosService {
     // obtener todos los seguros
     public List<Seguros> listarTodos() {
         return segurosRepo.findAll();
+    }
+
+    // seguros plantilla del catalogo (no asociados a ningun usuario)
+    public List<Seguros> listarPlantillas() {
+        return segurosRepo.findByUsuarioIsNull();
+    }
+
+    // seguros que un usuario tiene contratados
+    public List<Seguros> listarPorUsuario(Long idUsuario) {
+        return segurosRepo.findByUsuario_IdUsuario(idUsuario);
+    }
+
+    // true si el usuario ya tiene contratado un seguro con ese nombre
+    public boolean yaContratado(Long idUsuario, String nombre) {
+        return segurosRepo.existsByUsuario_IdUsuarioAndNombre(idUsuario, nombre);
     }
 
     // buscar un seguro especifico por su id

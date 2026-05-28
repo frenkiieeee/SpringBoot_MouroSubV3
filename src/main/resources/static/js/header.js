@@ -1,3 +1,4 @@
+// comentario: script del header ajustado por mi para manejo de session local y UI
 (function () {
   function initHeaderSession() {
     // Gestion simple de UI en modo estatico.
@@ -36,22 +37,23 @@
     }
 
     function toggleSessionUi(logged) {
+      // El boton de "Iniciar sesion" y el menu de usuario solo aparecen en escritorio
+      // (>=768px). En movil ambos viven dentro del menu hamburguesa, por eso mantenemos
+      // siempre d-none y solo togglemos d-md-inline-flex para que aparezcan en escritorio.
       if (loginLink) {
+        loginLink.classList.add("d-none");
         if (logged) {
-          loginLink.classList.add("d-none");
           loginLink.classList.remove("d-md-inline-flex");
         } else {
-          loginLink.classList.remove("d-none");
           loginLink.classList.add("d-md-inline-flex");
         }
       }
       if (userMenu) {
         userMenu.hidden = !logged;
+        userMenu.classList.add("d-none");
         if (logged) {
-          userMenu.classList.remove("d-none");
           userMenu.classList.add("d-md-inline-flex");
         } else {
-          userMenu.classList.add("d-none");
           userMenu.classList.remove("d-md-inline-flex");
         }
       }
@@ -85,6 +87,18 @@
 
     if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
     if (logoutBtnMobile) logoutBtnMobile.addEventListener("click", handleLogout);
+
+    // Cerrar el menu hamburguesa cuando el usuario pulsa cualquier enlace dentro de el.
+    // Sin esto el menu se queda abierto encima del contenido al volver a la pagina.
+    const menuMovil = document.getElementById("menuMovil");
+    if (menuMovil && window.bootstrap && window.bootstrap.Collapse) {
+      menuMovil.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () {
+          const inst = window.bootstrap.Collapse.getInstance(menuMovil);
+          if (inst) inst.hide();
+        });
+      });
+    }
   }
 
   window.initHeaderSession = initHeaderSession;
