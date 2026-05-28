@@ -1,22 +1,23 @@
 #!/bin/bash
 set -e
 
+# Este script se encarga de generar el archivo .env a partir de .env.example en la primera ejecucion
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$SCRIPT_DIR/.env"
 ENV_EXAMPLE="$SCRIPT_DIR/.env.example"
 
-# Generate random 32-char alphanumeric string for passwords/secrets
+# Genera una cadena aleatoria de 32 caracteres para contraseñas y secretos
 generate_secret() {
     openssl rand -base64 32 | tr -d '/+' | cut -c1-32
 }
 
-# Detect primary LAN IP (excluding docker0, lo, etc.)
+# Detecta la IP local principal (excluye docker0, lo, etc)
 detect_ip() {
     local ip=""
-    # Try to get the IP of the default route interface
+    # Intentar obtener la IP de la interfaz de la ruta por defecto
     ip=$(ip route get 1.1.1.1 2>/dev/null | grep -oP 'src \K\S+' | head -1)
     if [ -z "$ip" ]; then
-        # Fallback: first non-loopback IP
+        # Alternativa: primera IP no-loopback
         ip=$(hostname -I | awk '{print $1}')
     fi
     if [ -z "$ip" ]; then
@@ -25,7 +26,7 @@ detect_ip() {
     echo "$ip"
 }
 
-# Generate .env from .env.example if it doesn't exist
+# Crea .env a partir de .env.example si no existe
 if [ ! -f "$ENV_FILE" ]; then
     echo "First run detected. Generating .env from template..."
 
@@ -36,11 +37,11 @@ if [ ! -f "$ENV_FILE" ]; then
 
     cp "$ENV_EXAMPLE" "$ENV_FILE"
 
-    # Auto-detect IP
+    # Detectar IP automaticamente
     DETECTED_IP=$(detect_ip)
     echo "Detected LAN IP: $DETECTED_IP"
 
-    # Replace placeholders with generated values
+    # Sustituye marcadores por valores generados
     sed -i "s/YOUR_LAN_IP/$DETECTED_IP/g" "$ENV_FILE"
     sed -i "s/JWT_SECRET_PLACEHOLDER/$(generate_secret)/g" "$ENV_FILE"
     sed -i "s/POSTGRES_PASSWORD_PLACEHOLDER/$(generate_secret)/g" "$ENV_FILE"
