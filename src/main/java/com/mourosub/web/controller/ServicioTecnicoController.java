@@ -49,12 +49,18 @@ public class ServicioTecnicoController {
     public String crearSolicitud(@ModelAttribute("ticket") TicketServicioTecnico ticket,
             @RequestParam(value = "supabaseUserId", required = false) String supabaseUserId,
             Model model) {
+        if (supabaseUserId == null || supabaseUserId.isBlank()) {
+            model.addAttribute("servicios", servicioTecnicoService.listarActivos());
+            model.addAttribute("error", "Necesitas iniciar sesion");
+            model.addAttribute("supabaseUserId", supabaseUserId);
+            return "servicios/tecnico";
+        }
         try {
             // Intentamos crear el ticket; el servicio valida los datos y lo guarda.
             ticketServicioTecnicoService.crearTicket(ticket, supabaseUserId);
             // Si fue bien, redirigimos con ?ok para mostrar el mensaje de exito.
             return "redirect:/servicios/tecnico?ok";
-        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
             // Si el servicio lanza un error de validacion, volvemos a mostrar la pagina
             // con el mensaje de error, sin perder lo que escribio el usuario.
             model.addAttribute("servicios", servicioTecnicoService.listarActivos());

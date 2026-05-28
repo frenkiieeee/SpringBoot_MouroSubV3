@@ -43,53 +43,54 @@
 
   <form th:action="@{/servicios/tecnico/solicitud}" th:object="${ticket}" method="post" id="ticketForm">
     <input type="hidden" name="supabaseUserId" th:value="${supabaseUserId}" id="supabaseUserId">
-
-    <div class="form-group">
-      <label for="tec-nombre">Nombre</label>
-      <input type="text" id="tec-nombre" th:field="*{nombre}" placeholder="Tu nombre" required>
-    </div>
-
-    <div class="form-row">
+    <fieldset id="ticketFieldset">
       <div class="form-group">
-        <label for="tec-email">Email</label>
-        <input type="email" id="tec-email" th:field="*{email}" placeholder="correo@ejemplo.com" required>
+        <label for="tec-nombre">Nombre</label>
+        <input type="text" id="tec-nombre" th:field="*{nombre}" placeholder="Tu nombre" required>
       </div>
-      <div class="form-group">
-        <label for="tec-telefono">Teléfono</label>
-        <input type="text" id="tec-telefono" th:field="*{telefono}" placeholder="612 345 678">
-      </div>
-    </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="tec-equipo">Equipo</label>
-        <input type="text" id="tec-equipo" th:field="*{equipo}" placeholder="Tipo de equipo">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tec-email">Email</label>
+          <input type="email" id="tec-email" th:field="*{email}" placeholder="correo@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="tec-telefono">Teléfono</label>
+          <input type="text" id="tec-telefono" th:field="*{telefono}" placeholder="612 345 678">
+        </div>
       </div>
-      <div class="form-group">
-        <label for="tec-marca">Marca</label>
-        <input type="text" id="tec-marca" th:field="*{marca}" placeholder="Marca del equipo">
-      </div>
-    </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="tec-modelo">Modelo</label>
-        <input type="text" id="tec-modelo" th:field="*{modelo}" placeholder="Modelo">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tec-equipo">Equipo</label>
+          <input type="text" id="tec-equipo" th:field="*{equipo}" placeholder="Tipo de equipo">
+        </div>
+        <div class="form-group">
+          <label for="tec-marca">Marca</label>
+          <input type="text" id="tec-marca" th:field="*{marca}" placeholder="Marca del equipo">
+        </div>
       </div>
-      <div class="form-group">
-        <label for="tec-serie">Número de serie</label>
-        <input type="text" id="tec-serie" th:field="*{numeroSerie}" placeholder="Número de serie">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tec-modelo">Modelo</label>
+          <input type="text" id="tec-modelo" th:field="*{modelo}" placeholder="Modelo">
+        </div>
+        <div class="form-group">
+          <label for="tec-serie">Número de serie</label>
+          <input type="text" id="tec-serie" th:field="*{numeroSerie}" placeholder="Número de serie">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="tec-problema">Descripción del problema</label>
-      <textarea id="tec-problema" th:field="*{descripcionProblema}" rows="5" placeholder="Describe el problema..." required></textarea>
-    </div>
+      <div class="form-group">
+        <label for="tec-problema">Descripción del problema</label>
+        <textarea id="tec-problema" th:field="*{descripcionProblema}" rows="5" placeholder="Describe el problema..." required></textarea>
+      </div>
 
-    <button type="submit" class="btn-submit">
-      <i class="bi bi-send"></i> Enviar solicitud
-    </button>
+      <button type="submit" class="btn-submit">
+        <i class="bi bi-send"></i> Enviar solicitud
+      </button>
+    </fieldset>
   </form>
 </div>
 </main>
@@ -104,6 +105,16 @@
   const storedUserId = localStorage.getItem("supabaseUserId") || "";
   const supabaseInput = document.getElementById("supabaseUserId");
   const form = document.getElementById("ticketForm");
+  const fieldset = document.getElementById("ticketFieldset");
+
+  if (!storedUserId) {
+    if (fieldset) fieldset.disabled = true;
+    if (window.requireLogin) {
+      setTimeout(function () {
+        window.requireLogin();
+      }, 100);
+    }
+  }
 
   // Si hay sesion precargamos los datos en readonly; si no, dejamos el form vacio.
   if (storedUserId && supabaseInput) {
