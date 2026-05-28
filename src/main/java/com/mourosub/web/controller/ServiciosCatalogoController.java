@@ -113,7 +113,7 @@ public class ServiciosCatalogoController {
     // Contratacion de un seguro por parte del usuario logueado.
     // Buscamos el seguro plantilla, hacemos una copia asociada al usuario y la guardamos.
     @PostMapping("/seguros/reservar")
-    public String reservarSeguro(@RequestParam Long seguroId,
+    public String reservarSeguro(@RequestParam(required = false) Long seguroId,
                                  @RequestParam(required = false) String supabaseUserId,
                                  RedirectAttributes flash) {
         // Sin sesion no se puede contratar; el popup de la vista cubre este caso pero
@@ -136,9 +136,19 @@ public class ServiciosCatalogoController {
 
         // Buscamos el seguro plantilla. Si llega el id 0 (la opcion fija que añade el listado)
         // creamos los datos a mano sin tocar la BD.
-        Seguros plantilla = seguroId != null && seguroId > 0
-                ? segurosService.buscarPorId(seguroId)
-                : null;
+        Seguros plantilla = null;
+        if (seguroId == null) {
+            flash.addFlashAttribute("error", "Selecciona un seguro valido antes de continuar.");
+            return "redirect:/servicios/seguros";
+        }
+        if (seguroId > 0) {
+            try {
+                plantilla = segurosService.buscarPorId(seguroId);
+            } catch (RuntimeException ex) {
+                flash.addFlashAttribute("error", "El seguro seleccionado ya no esta disponible.");
+                return "redirect:/servicios/seguros";
+            }
+        }
 
         String nombre = plantilla != null ? plantilla.getNombre() : "Seguro Anual";
 

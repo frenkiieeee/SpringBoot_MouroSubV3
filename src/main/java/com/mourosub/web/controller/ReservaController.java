@@ -174,46 +174,51 @@ public class ReservaController {
         @RequestParam(required = false) String supabaseUserId,
         RedirectAttributes ra
     ) {
+        String redirectBack = "redirect:/reservas";
+        if (idActividad != null) {
+            redirectBack = "redirect:/reservas/actividades?id=" + idActividad;
+        } else if (idCurso != null) {
+            redirectBack = "redirect:/reservas/cursos?id=" + idCurso;
+        } else if (idInmersion != null) {
+            redirectBack = "redirect:/reservas/inmersiones?id=" + idInmersion;
+        }
+
         // Buscamos al usuario logueado por su id de Supabase. Si no llega o no existe
         // mandamos al login (los formularios solo se pueden enviar con sesion iniciada).
         if (supabaseUserId == null || supabaseUserId.isBlank()) {
             ra.addFlashAttribute("error", "Necesitas iniciar sesion para reservar.");
-            return "redirect:/login";
+            return redirectBack;
         }
         UUID id;
         try {
             id = UUID.fromString(supabaseUserId);
         } catch (IllegalArgumentException ex) {
             ra.addFlashAttribute("error", "Sesion no valida. Vuelve a iniciar sesion.");
-            return "redirect:/login";
+            return redirectBack;
         }
         Usuario usuario = usuarioRepository.findBySupabaseUserId(id).orElse(null);
         if (usuario == null) {
             ra.addFlashAttribute("error", "No existe tu usuario interno. Vuelve a iniciar sesion.");
-            return "redirect:/login";
+            return redirectBack;
         }
 
         // buscamos la entidad correspondiente y montamos la reserva
         Reserva reserva = new Reserva();
         reserva.setNumParticipantes(numParticipantes);
 
-        String redirectBack = "redirect:/reservas";
         try {
             if (idActividad != null) {
                 Actividad actividad = actividadRepository.findById(idActividad)
                     .orElseThrow(() -> new ActividadNotFoundException("Actividad no encontrada"));
                 reserva.setActividad(actividad);
-                redirectBack = "redirect:/reservas/actividades?id=" + idActividad;
             } else if (idCurso != null) {
                 Curso curso = cursoRepository.findById(idCurso)
                     .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
                 reserva.setCurso(curso);
-                redirectBack = "redirect:/reservas/cursos?id=" + idCurso;
             } else if (idInmersion != null) {
                 Inmersiones inmersion = inmersionRepository.findById(idInmersion)
                     .orElseThrow(() -> new RuntimeException("Inmersion no encontrada"));
                 reserva.setInmersion(inmersion);
-                redirectBack = "redirect:/reservas/inmersiones?id=" + idInmersion;
             } else {
                 ra.addFlashAttribute("error", "Debes seleccionar una opcion antes de reservar.");
                 return "redirect:/reservas";
