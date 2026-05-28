@@ -61,7 +61,7 @@ public class ReservaController {
         if (inmersionId != null) return "redirect:/reservas/inmersiones?id=" + inmersionId;
 
         model.addAttribute("seccion","inicio");
-        return "fragments/reservas/index";
+        return "Fragments/reservas/index";
     }
 
     // prepara el formulario para reservar una actividad en concreto pasandole la id por url
@@ -80,7 +80,7 @@ public class ReservaController {
         model.addAttribute("actividades", List.of(actividad));
         model.addAttribute("usuarios", usuarioRepository.findAll());
 
-        return "fragments/reservas/index";
+        return "Fragments/reservas/index";
     }
 
     // GET /reservas/cursos -> formulario de reserva para cursos. Si llega ?id=X pre-seleccionamos ese curso.
@@ -125,7 +125,7 @@ public class ReservaController {
             });
         }
 
-        return "fragments/reservas/index";
+        return "Fragments/reservas/index";
     }
 
     // prepara el formulario filtrando lo puramente de ocio como inmersiones o paseos
@@ -144,7 +144,7 @@ public class ReservaController {
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("actividadesPorCategoria", actividadesPorCategoria);
         model.addAttribute("seleccionadoId", id);
-        return "fragments/reservas/index";
+        return "Fragments/reservas/index";
     }
 
     // formulario de reserva para inmersiones
@@ -155,7 +155,7 @@ public class ReservaController {
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("inmersiones", inmersionRepository.findByActivoTrue());
         model.addAttribute("seleccionadoId", id);
-        return "fragments/reservas/index";
+        return "Fragments/reservas/index";
     }
 
     // aqui llega el formulario relleno con metodo post para que lo guardemos
@@ -239,7 +239,7 @@ public class ReservaController {
     @GetMapping("/mis-reservas/{idUsuario}")
     public String misReservas(@PathVariable Long idUsuario, Model model){
         model.addAttribute("reservas", reservaRepository.findByUsuarios_IdUsuario(idUsuario));
-        return "fragments/reservas/mis-reservas";
+        return "Fragments/reservas/mis-reservas";
     }
 
     // Atajo desde el menu del header: el usuario solo necesita su id de Supabase, que
@@ -250,7 +250,7 @@ public class ReservaController {
         if (supabaseUserId == null || supabaseUserId.isBlank()) {
             // sin id no hay nada que listar; el JS de la vista mostrara el aviso de login
             model.addAttribute("reservas", new ArrayList<>());
-            return "fragments/reservas/mis-reservas";
+            return "Fragments/reservas/mis-reservas";
         }
         try {
             UUID supaId = UUID.fromString(supabaseUserId);
@@ -263,7 +263,7 @@ public class ReservaController {
         } catch (IllegalArgumentException ex) {
             model.addAttribute("reservas", new ArrayList<>());
         }
-        return "fragments/reservas/mis-reservas";
+        return "Fragments/reservas/mis-reservas";
     }
 
     // ruta tonta que coge la id y se la manda al servicio para que ejecute la cancelacion
